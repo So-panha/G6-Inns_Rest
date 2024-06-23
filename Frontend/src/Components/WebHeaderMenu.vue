@@ -6,7 +6,7 @@ import { Icon } from '@iconify/vue'
     <!-- Logo -->
     <div class="flex items-center space-x-2">
       <Icon icon="skill-icons:devto-dark" style="font-size: 45px" />
-      <span class="text-xl font-bold">I-KNOW</span>
+      <span class="text-xl font-bold">I-I</span>
     </div>
 
     <!-- Menu Items -->

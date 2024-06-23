@@ -12,11 +12,10 @@
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "serve": "vue-cli-service serve"
+    "serve": "vite preview"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
-    "@vue/cli-service": "^5.0.8",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "element-plus": "^2.7.4",
@@ -47,6 +46,7 @@
     "jsdom": "^24.0.0",
     "npm-run-all2": "^6.1.2",
     "prettier": "^3.2.5",
+    "serve": "^14.2.3",
     "typescript": "~5.4.0",
     "unocss": "^0.60.4",
     "vite": "^5.2.8",
