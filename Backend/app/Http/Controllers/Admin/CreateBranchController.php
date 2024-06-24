@@ -16,10 +16,10 @@ class CreateBranchController extends Controller
      */
     function __construct()
     {
-        $this->middleware('role_or_permission:CreateBranch access|CreateBranch create|CreateBranch edit|CreateBranch delete', ['only' => ['index','show']]);
-        $this->middleware('role_or_permission:CreateBranch create', ['only' => ['create','store']]);
-        $this->middleware('role_or_permission:CreateBranch edit', ['only' => ['edit','update']]);
-        $this->middleware('role_or_permission:CreateBranch delete', ['only' => ['destroy']]);
+        // $this->middleware('role_or_permission:CreateBranch access|CreateBranch create|CreateBranch edit|CreateBranch delete', ['only' => ['index','show']]);
+        // $this->middleware('role_or_permission:CreateBranch create', ['only' => ['create','store']]);
+        // $this->middleware('role_or_permission:CreateBranch edit', ['only' => ['edit','update']]);
+        // $this->middleware('role_or_permission:CreateBranch delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -27,9 +27,11 @@ class CreateBranchController extends Controller
      */
     public function index()
     {
-        $branches = CreateBranch::paginate(4);
+        // $branches = CreateBranch::paginate(4);
 
-        return view('branch.index', compact('branches'));
+        // return view('branchs.index', compact('branchs'));
+
+        return view('branch.index');
     }
 
     /**
