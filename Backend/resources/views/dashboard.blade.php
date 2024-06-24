@@ -27,41 +27,37 @@
                 </div> -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
                     <!-- Card 1 -->
-                    <div class="bg-white rounded-lg border border-gray-200 shadow-md">
+                    <div class="card-1  rounded-lg border border-gray-200 shadow-md">
                         <div class="p-5">
-                            <span class="text-gray-700 text-base mb-4">
+                            <span class="text-white text-base mb-4">
                                  $6.200 (+12.80%)
 </span>
-                            <p class="text-gray-700 text-base mb-4">
+                            <p class="text-white text-base mb-4">
                                 Total
                             </p>
 
                         </div>
                     </div>
                     <!-- Card 1 -->
-                    <div class="bg-white rounded-lg border border-gray-200 shadow-md">
+                    <div class="card-2  rounded-lg border border-gray-200 shadow-md">
                         <div class="p-5">
-                            <span class="text-gray-700 text-base mb-4">
+                            <span class="text-white text-base mb-4">
                                 26K (+15.5%)
                             </span>
-                            <p class="text-gray-700 text-base mb-4">
+                            <p class="text-white text-base mb-4">
                                 Users
                             </p>
-                            <div class="custom-shape-divider-top">
-                            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                                <path d="M0,0V7.23C0,65.52,268.63,112.77,600,112.77S1200,65.52,1200,7.23V0Z" class="shape-fill"></path>
-                            </svg>
-                            </div>
+                        
 
                         </div>
                     </div>
                     <!-- Card 1 -->
-                    <div class="bg-white rounded-lg border border-gray-200 shadow-md">
+                    <div class="card-3 rounded-lg border border-gray-200 shadow-md">
                         <div class="p-5">
-                            <span class="text-gray-700 text-base mb-4">
+                            <span class="text-white text-base mb-4">
                                 44K (+15.5%)
                             </span>
-                            <p class="text-gray-700 text-base mb-4">
+                            <p class="text-white text-base mb-4">
                             Owner
                             </p>
 
@@ -92,6 +88,18 @@
         }
         .custom-shape-divider-top .shape-fill {
             fill: #000000;
+        }
+        .card-1
+        {
+            background-color: #0017E3;
+        }
+        .card-2
+        {
+            background-color: #7500E0;
+        }
+        .card-3
+        {
+            background-color: #DA5D5B;
         }
 
 </style>
