@@ -17,32 +17,19 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
                     <!-- Card 1 -->
-<<<<<<< HEAD
-                    <div class="card-1  rounded-lg border border-gray-200 shadow-md">
-                        <div class="p-5">
-                            <span class="text-white text-base mb-4">
-                                 $6.200 (+12.80%)
-</span>
-=======
                     <div class="card1 rounded-lg border border-gray-200 shadow-md">
                         <div class="p-5">
                             <span class="text-white text-base mb-4">
                                 $6.200 (+12.80%)
                             </span>
->>>>>>> 9d8cefc9a3c0a80c766afdc9b7a8e4567488f778
                             <p class="text-white text-base mb-4">
                                 Total
                             </p>
 
                         </div>
                     </div>
-<<<<<<< HEAD
-                    <!-- Card 1 -->
-                    <div class="card-2  rounded-lg border border-gray-200 shadow-md">
-=======
                     <!-- Card 2 -->
                     <div class="card2 rounded-lg border border-gray-200 shadow-md">
->>>>>>> 9d8cefc9a3c0a80c766afdc9b7a8e4567488f778
                         <div class="p-5">
                             <span class="text-white text-base mb-4">
                                 26K (+15.5%)
@@ -50,29 +37,16 @@
                             <p class="text-white text-base mb-4">
                                 Users
                             </p>
-<<<<<<< HEAD
-                        
-
-                        </div>
-                    </div>
-                    <!-- Card 1 -->
-                    <div class="card-3 rounded-lg border border-gray-200 shadow-md">
-=======
                         </div>
                     </div>
                     <!-- Card 3 -->
                     <div class="card3 rounded-lg border border-gray-200 shadow-md">
->>>>>>> 9d8cefc9a3c0a80c766afdc9b7a8e4567488f778
                         <div class="p-5">
                             <span class="text-white text-base mb-4">
                                 44K (+15.5%)
                             </span>
                             <p class="text-white text-base mb-4">
-<<<<<<< HEAD
-                            Owner
-=======
                                 Owner
->>>>>>> 9d8cefc9a3c0a80c766afdc9b7a8e4567488f778
                             </p>
                         </div>
                     </div>
