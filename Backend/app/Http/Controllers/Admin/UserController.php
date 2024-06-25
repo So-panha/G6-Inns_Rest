@@ -68,7 +68,6 @@ class UserController extends Controller
             'password'=> bcrypt($request->password),
         ]);
         $user->syncRoles($request->roles);
-        dd($user);
         return redirect()->back()->withSuccess('User created !!!');
     }
 
