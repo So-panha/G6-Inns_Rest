@@ -28,9 +28,6 @@
 
 
 
-
-
-
             <a href="{{ route('admin.dashboard') }}">
                 <span class="text-white text-2xl mx-2 font-semibold">Dashboard</span>
             </a>
@@ -38,6 +35,7 @@
     </div>
 
     <nav class="mt-10">
+         @canany('Create_brance access','Create_brance  add','Create_brance  edit','Create_brance  delete')
         <a class="flex items-center mt-4 py-2 px-6 text-color hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.dashboard') ? 'active' : '' }} " href="{{ route('admin.dashboard')}}">
             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
@@ -46,6 +44,7 @@
 
             <span class="mx-3">Dashboard</span>
         </a>
+        @endcanany
 
         @canany('Role access','Role add','Role edit','Role delete')
         <a class="flex items-center mt-4 py-2 px-6 text-color hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.roles.index') ? 'active' : '' }}" href="{{ route('admin.roles.index') }}">
