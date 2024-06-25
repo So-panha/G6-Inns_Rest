@@ -13,7 +13,8 @@
                                     <div class="main_profile" x-data="imageData()">
                                         <div x-show="previewUrl == '' && imgurl == ''">
                                             <p class="text-center uppercase text-bold">
-                                                <label for="thumbnailprev" class="cursor-pointer bg-red-400 p-2 mb-5 rounded-lg">
+                                                <label for="thumbnailprev"
+                                                    class="cursor-pointer bg-red-400 p-2 mb-5 rounded-lg">
                                                     Upload a file
                                                 </label>
                                                 <input type="file" name="profile" id="thumbnailprev"
@@ -78,10 +79,10 @@
 
                                 <div class="flex justify-end mt-16 mb-16">
                                     <button type="submit"
-                                      class="bg-green-600 text-white font-bold px-5 py-2 rounded focus:outline-none shadow hover:bg-blue-500 transition-colors duration-300">
-                                      Update
+                                        class="bg-green-600 text-white font-bold px-5 py-2 rounded focus:outline-none shadow hover:bg-blue-500 transition-colors duration-300">
+                                        Update
                                     </button>
-                                  </div>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -148,12 +149,12 @@
             align-items: center;
         }
 
-        .h1_title{
+        .h1_title {
             font-size: 30px;
             font-weight: 600;
         }
 
-        .bg-input{
+        .bg-input {
             background-color: darkgray;
         }
     </style>
