@@ -13,13 +13,17 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.1/dist/tailwind.min.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
         <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-200">
             <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false" class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
-        
+
             @include('layouts.sidebar')
 
             <div class="flex-1 flex flex-col overflow-scroll">
@@ -33,7 +37,7 @@
                             </ul>
                         </div>
                     @endif
-                    
+
                     @if(\Session::has('error'))
                         <div class="text-green-600 pt-5 pl-5">
                             <ul>
@@ -53,7 +57,7 @@
                     @endif
 
                     {{ $slot }}
-                    
+
             </div>
         </div>
     </body>

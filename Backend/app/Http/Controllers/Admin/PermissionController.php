@@ -32,7 +32,6 @@ class PermissionController extends Controller
     public function index()
     {
         $permission= Permission::latest()->get();
-
         return view('setting.permission.index',['permissions'=>$permission]);
     }
 
@@ -54,7 +53,7 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        // validation 
+        // validation
         $request->validate([
             'name'=>'required',
         ]);

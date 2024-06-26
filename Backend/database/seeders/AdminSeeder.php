@@ -29,7 +29,7 @@ class AdminSeeder extends Seeder
             'email'=>'user@gmail.com',
             'password'=>bcrypt('password')
         ]);
-        
+
 
 
         $admin_role = Role::create(['name' => 'admin']);
@@ -55,14 +55,21 @@ class AdminSeeder extends Seeder
         $permission = Permission::create(['name' => 'Permission create']);
         $permission = Permission::create(['name' => 'Permission delete']);
 
+        $permission = Permission::create(['name' => 'Create_brance access']);
+        $permission = Permission::create(['name' => 'Create_brance edit']);
+        $permission = Permission::create(['name' => 'Create_brance create']);
+        $permission = Permission::create(['name' => 'Create_brance delete']);
+
+        $permission = Permission::create(['name' => 'Dashboard_admin access']);
+        $permission = Permission::create(['name' => 'Dashboard_admin edit']);
+        $permission = Permission::create(['name' => 'Dashboard_admin create']);
+        $permission = Permission::create(['name' => 'Dashboard_admin delete']);
+
         $permission = Permission::create(['name' => 'Mail access']);
         $permission = Permission::create(['name' => 'Mail edit']);
 
-
-
         $admin->assignRole($admin_role);
         $writer->assignRole($writer_role);
-
 
         $admin_role->givePermissionTo(Permission::all());
     }

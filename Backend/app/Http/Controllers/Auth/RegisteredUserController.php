@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -18,7 +19,7 @@ class RegisteredUserController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function index()
     {
         return view('auth.register');
     }
@@ -33,22 +34,33 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed'],
-        ]);
+        try {
+            $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'confirmed'],
+            ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'profile' => $request->profile,
+                'password' => Hash::make($request->password),
+            ]);
 
-        event(new Registered($user));
+            // Set role user
+            $roles = Role::all();
+            $user->syncRoles($roles[1]->id);
 
-        Auth::login($user);
+            // Set specific permissions to the user
+            $user->givePermissionTo(['Role access', 'Role edit', 'Role create', 'Role delete']);
 
-        return redirect(RouteServiceProvider::ADMIN_HOME);
+            // Switch to the account auto
+            event(new Registered($user));
+            Auth::login($user);
+            return redirect(RouteServiceProvider::ADMIN_HOME);
+        } catch (\Throwable $th) {
+            return back()->with('message', 'Your password is not match please try again');
+        }
     }
 }

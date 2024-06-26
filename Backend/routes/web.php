@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
+    CreateBranchController,
     ProfileController,
     MailSettingController,
 };
@@ -22,23 +23,23 @@ Route::get('/', function () {
 });
 
 
-Route::get('/test-mail',function(){
+// Route::get('/test-mail',function(){
 
-    $message = "Testing mail";
+//     $message = "Testing mail";
 
-    \Mail::raw('Hi, welcome!', function ($message) {
-      $message->to('ajayydavex@gmail.com')
-        ->subject('Testing mail');
-    });
+//     \Mail::raw('Hi, welcome!', function ($message) {
+//       $message->to('ajayydavex@gmail.com')
+//         ->subject('Testing mail');
+//     });
 
-    dd('sent');
+//     dd('sent');
 
-});
+// });
 
 
-Route::get('/dashboard', function () {
-    return view('front.dashboard');
-})->middleware(['front'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('front.dashboard');
+// })->middleware(['front'])->name('dashboard');
 
 
 require __DIR__.'/front_auth.php';
@@ -52,16 +53,27 @@ require __DIR__.'/auth.php';
 
 
 
-
 Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
     ->group(function(){
         Route::resource('roles','RoleController');
         Route::resource('permissions','PermissionController');
         Route::resource('users','UserController');
         Route::resource('posts','PostController');
+        Route::resource('branchs','CreateBranchController');
+        Route::resource('dashboard-room','DashboardRoomController');
+        Route::resource('check-booking','CheckBookingController');
+        Route::resource('history','HistoryController');
+        Route::resource('checking-room','CheckingRoomController');
+
 
         Route::get('/profile',[ProfileController::class,'index'])->name('profile');
         Route::put('/profile-update',[ProfileController::class,'update'])->name('profile.update');
         Route::get('/mail',[MailSettingController::class,'index'])->name('mail.index');
         Route::put('/mail-update/{mailsetting}',[MailSettingController::class,'update'])->name('mail.update');
+
+});
+
+Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
+->group(function(){
+    Route::resource('register','RegisteredUserController');
 });
