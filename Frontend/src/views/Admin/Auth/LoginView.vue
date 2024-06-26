@@ -1,101 +1,67 @@
 <template>
-  <section class="flex flex-col md:flex-row h-screen items-center">
-    <div class="bg-indigo-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
-      <img
-        src="https://photos.ips-cambodia.com/photos/property/13696/2208050854040103-AptForRentppPicasso-3-850x567.tab.jpg"
-        alt="" class="w-full h-full object-cover">
-    </div>
+  <!-- Container -->
+  <div class="flex flex-wrap min-h-screen w-full content-center justify-center bg-gray-200 py-10">
 
-    <div
-      class="bg-white w-full md:max-w-md lg:max-w-full md:mx-auto md:mx-0 md:w-1/2 xl:w-1/3 h-screen px-6 lg:px-16 xl:px-12 flex items-center justify-center">
-      <div class="w-full h-100">
-        <h1 class="text-xl md:text-2xl font-bold leading-tight mt-12">Log in to your account</h1>
+    <!-- Login component -->
+    <div class="flex shadow-md">
+      <!-- Login form -->
+      <div class="flex flex-wrap content-center justify-center rounded-l-md bg-white"
+        style="width: 24rem; height: 32rem;">
+        <div class="w-72">
+          <!-- Heading -->
+          <h1 class="text-xl font-semibold">Log in account</h1>
+          <small class="text-gray-400">Welcome back! Please enter your details</small>
 
-        <!-- <form @submit="onSubmit" class="mt-6">
-          <div>
-            <label class="block text-gray-700">Email Address</label>
-            <el-input v-model="email" type="email" placeholder="Enter Email Address"
-              class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-              autofocus autocomplete required />
-            <span v-if="emailError" class="text-red-600">{{ emailError }}</span>
+          <!-- Form -->
+          <form class="mt-4" @submit.prevent="onSubmit">
+            <div class="mb-3">
+              <label class="mb-2 block text-xs font-semibold">Email</label>
+              <input type="email" v-model="email" placeholder="Enter your email"
+                class="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500" />
+              <span class="text-red-600 text-xs">{{ emailError }}</span>
+            </div>
+
+            <div class="mb-3">
+              <label class="mb-2 block text-xs font-semibold">Password</label>
+              <input type="password" v-model="password" placeholder="*****"
+                class="block w-full rounded-md border border-gray-300 focus:border-purple-700 focus:outline-none focus:ring-1 focus:ring-purple-700 py-1 px-1.5 text-gray-500" />
+              <span class="text-red-600 text-xs">{{ passwordError }}</span>
+            </div>
+
+            <div class="mb-3 flex flex-wrap content-center">
+              <input id="remember" type="checkbox" class="mr-1 checked:bg-purple-700" /> <label for="remember"
+                class="mr-auto text-xs font-semibold">Remember for 30 days</label>
+              <a href="#" class="text-xs font-semibold text-purple-700">Forgot password?</a>
+            </div>
+
+            <div class="mb-3">
+              <button :disabled="isSubmitting"
+                class="mb-1.5 block w-full text-center text-white bg-purple-700 hover:bg-purple-900 px-2 py-1.5 rounded-md">Sign
+                in</button>
+              <button
+                class="flex flex-wrap justify-center w-full border border-gray-300 hover:border-gray-500 px-2 py-1.5 rounded-md">
+                <img class="w-5 mr-2"
+                  src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA">
+                Sign in with Google
+              </button>
+            </div>
+          </form>
+
+          <!-- Footer -->
+          <div class="text-center">
+            <span class="text-xs text-gray-400 font-semibold">Don't have account?</span>
+            <a href="#" class="text-xs font-semibold text-purple-700">Register account</a>
           </div>
+        </div>
+      </div>
 
-          <div class="mt-4">
-            <label class="block text-gray-700">Password</label>
-            <el-input v-model="password" type="password" placeholder="Enter Password" minlength="6"
-              class="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-              required />
-            <span v-if="passwordError" class="text-red-600">{{ passwordError }}</span>
-          </div>
-
-          <div class="text-right mt-2">
-            <a href="#" class="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700">Forgot
-              Password?</a>
-          </div>
-
-          <button type="submit"
-            class="w-full block bg-indigo-500 hover:bg-indigo-400 focus:bg-indigo-400 text-white font-semibold rounded-lg px-4 py-3 mt-6">
-            Log In
-          </button>
-        </form> -->
-
-        <el-form @submit="onSubmit">
-          <el-form-item :error="emailError">
-            <el-input placeholder="Email Address" v-model="email" size="large" />
-          </el-form-item>
-  
-          <el-form-item :error="passwordError" class="mt-8">
-            <el-input placeholder="Password" v-model="password" size="large" type="password" />
-          </el-form-item>
-
-          <div class="text-right mt-2">
-            <a href="#" class="text-sm font-semibold text-gray-700 hover:text-blue-700 focus:text-blue-700">Forgot
-              Password?</a>
-          </div>
-          
-          <div>
-            <el-button
-              size="large"
-              class="mt-3 w-full"
-              :disabled="isSubmitting"
-              type="primary"
-              native-type="submit"
-              >Submit</el-button
-            >
-          </div>
-        </el-form>
-
-
-        <hr class="my-6 border-gray-300 w-full">
-
-        <button type="button"
-          class="w-full block bg-white hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 border border-gray-300">
-          <div class="flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="w-6 h-6"
-              viewBox="0 0 48 48">
-              <defs>
-                <path id="a"
-                  d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z" />
-              </defs>
-              <clipPath id="b">
-                <use xlink:href="#a" overflow="visible" />
-              </clipPath>
-              <path clip-path="url(#b)" fill="#FBBC05" d="M0 37V11l17 13z" />
-              <path clip-path="url(#b)" fill="#EA4335" d="M0 11l17 13 7-6.1L48 14V0H0z" />
-              <path clip-path="url(#b)" fill="#34A853" d="M0 37l30-23 7.9 1L48 0v48H0z" />
-              <path clip-path="url(#b)" fill="#4285F4" d="M48 48L17 24l-4-3 35-10z" />
-            </svg>
-            <span class="ml-4">
-              Log in with Google
-            </span>
-          </div>
-        </button>
-
-        <p class="mt-8">Need an account? <a href="#" class="text-blue-500 hover:text-blue-700 font-semibold">Create an
-            account</a></p>
+      <!-- Login banner -->
+      <div class="flex flex-wrap content-center justify-center rounded-r-md" style="width: 24rem; height: 32rem;">
+        <img class="w-full h-full bg-center bg-no-repeat bg-cover rounded-r-md"
+          src="https://img.freepik.com/photos-premium/epingle-dessus-carte-qui-dit-epingle_1029974-7295.jpg">
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script setup lang="ts">
