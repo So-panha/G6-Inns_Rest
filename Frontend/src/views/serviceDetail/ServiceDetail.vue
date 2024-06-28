@@ -28,6 +28,7 @@
       
       <!-- Card Detail Component -->
       <ListRoom />
+      <UserComment/>
     </div>
 
     <!-- Footer Layout -->
@@ -38,12 +39,14 @@
 <script>
 import FooterLayout from "../../Components/Layouts/FooterLayout.vue";
 import ListRoom from "./ListRoom.vue";
+import UserComment from './UserComment.vue';
 
 export default {
   name: "ServiceDetail",
   components: {
-    FooterLayout,
-    ListRoom
+    ListRoom,
+    UserComment,
+    FooterLayout
   }
 };
 </script>
