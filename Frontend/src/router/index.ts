@@ -22,6 +22,11 @@ const router = createRouter({
       component: () => import('../views/Admin/Auth/LoginView.vue')
     },
     {
+      path: '/qrCode',
+      name: 'qrCode',
+      component: () => import('../views/Admin/User/QRCodeGeneratorView.vue')
+    },
+    {
       path: '/ticket',
       name: '/ticket',
       component: () => import('../views/Admin/User/TicketView.vue')
