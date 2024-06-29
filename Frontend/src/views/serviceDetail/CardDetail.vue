@@ -39,7 +39,7 @@
                 <span class="wifi material-symbols-outlined" style="font-size: 30px"> wifi </span>
                 <p class="card-text mt-1 ml-4">WiFi</p>
               </div>
-              <p class="card-text mb-0">$25 USD total</p>
+              <h5 class="card-text mb-0">$25 USD total</h5>
             </div>
             <div class="d-flex justify-content-end mt-5">
               <button class="btn btn-danger mr-2">Booked</button>

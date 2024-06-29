@@ -12,7 +12,7 @@
     
     <!-- Header -->
     <header class="bg-image mr-2 ml-2">
-      <h4 class="text-white pt-120 pl-5">Paradise Cozy Guesthouse Sihanoukville</h4>
+      <h2 class="text-white pt-120 pl-5">Paradise Cozy Guesthouse Sihanoukville</h2>
     </header>
 
     <!-- Container -->
