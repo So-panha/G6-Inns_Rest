@@ -3,7 +3,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-light bg-white">
       <div class="flex mt-2 mb-2 ml-2">
-        <router-link to="/user-service">
+        <router-link to="/">
           <span class="material-symbols-outlined" style="font-size: 40px"> arrow_back </span>
         </router-link>
         <h4 class="pt-2 pl-1">Back</h4>
@@ -32,12 +32,12 @@
     </div>
 
     <!-- Footer Layout -->
-    <FooterLayout />
+    <FooterView />
   </div>
 </template>
 
 <script>
-import FooterLayout from "../../Components/Layouts/FooterLayout.vue";
+import FooterView from "../Web/Post/FooterView.vue";
 import ListRoom from "./ListRoom.vue";
 import UserComment from './UserComment.vue';
 
@@ -46,7 +46,7 @@ export default {
   components: {
     ListRoom,
     UserComment,
-    FooterLayout
+    FooterView
   }
 };
 </script>
