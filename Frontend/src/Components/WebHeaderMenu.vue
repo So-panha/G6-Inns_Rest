@@ -5,7 +5,6 @@ import LogoInn from '@/assets/LogoInn.svg'
 import UserIcon from '@/assets/UserIcon.svg'
 import CardService from '../Components/Layouts/CardService.vue'
 import FooterLayout from '../Components/Layouts/FooterLayout.vue'
-
 const showPopup = ref(false)
 
 </script>
