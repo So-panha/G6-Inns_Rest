@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import LogoInn from '@/assets/LogoInn.svg'
-// import UserIcon from '@/assets/UserIcon.svg'
+import UserIcon from '@/assets/UserIcon.svg'
 
 import ListCardView from './Post/ListCardView.vue'
 import FooterView from './Post/FooterView.vue'
@@ -24,10 +24,8 @@ const authStore = useAuthStore() // Initialize the auth store
       <div class="flex mt-3">
         <span class="material-symbols-outlined mr-6" style="font-size:40px"> shopping_cart </span>
         <div @click="showPopup = true" class="cursor-pointer">
-          <img
-            src="https://i.pinimg.com/564x/17/dd/c2/17ddc2f538307c63a2e92707886d9234.jpg"
-            class="rounded-circle mr-3 h-10 w-10"
-          />
+          <img src="https://i.pinimg.com/564x/17/dd/c2/17ddc2f538307c63a2e92707886d9234.jpg"
+            class="rounded-circle mr-3 h-10 w-10" />
         </div>
       </div>
     </div>
@@ -38,10 +36,7 @@ const authStore = useAuthStore() // Initialize the auth store
   <ListCardView />
 
   <!-- Popup ------------------------------------->
-  <div
-    v-show="showPopup"
-    class="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50"
-  >
+  <div v-show="showPopup" class="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
     <div class="bg-white p-10 rounded-sm shadow-sm relative w-1/2 max-w-2xl">
       <button @click="showPopup = false" class="absolute top-2 right-2 text-black">
         <span @click="showPopup = false" class="material-symbols-outlined"> close </span>
@@ -51,7 +46,8 @@ const authStore = useAuthStore() // Initialize the auth store
         <h5>info</h5>
       </div>
       <div class="text-center">
-        <img class="w-40 h-40 mx-auto rounded-full" src="https://i.pinimg.com/564x/17/dd/c2/17ddc2f538307c63a2e92707886d9234.jpg" />
+        <img class="w-40 h-40 mx-auto rounded-full"
+          src="https://i.pinimg.com/564x/17/dd/c2/17ddc2f538307c63a2e92707886d9234.jpg" />
         <h3 class="mt-4">{{ authStore.user.name }}</h3>
       </div>
       <div class="mt-4">
