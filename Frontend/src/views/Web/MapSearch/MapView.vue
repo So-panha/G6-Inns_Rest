@@ -3,7 +3,10 @@
     <div class="jumbotron">
       <div class="container-fluid">
         <div class="map-container">
-          <div id="googleMap" style="height: 450px; width: 100%; border: 1px solid #ccc"></div>
+          <div
+            id="googleMap"
+            style="height: 500px; width: 89.5%; border: 1px solid #ccc; margin-left: 180px"
+          ></div>
           <form class="map-form" :class="{ expanded: formExpanded }">
             <div class="form-group" style="display: flex; align-items: center; margin-top: 5px">
               <span class="map-label">
