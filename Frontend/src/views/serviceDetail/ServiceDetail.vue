@@ -3,7 +3,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-light bg-white">
       <div class="flex mt-2 mb-2 ml-2">
-        <router-link to="/user-service">
+        <router-link to="/">
           <span class="material-symbols-outlined" style="font-size: 40px"> arrow_back </span>
         </router-link>
         <h4 class="pt-2 pl-1">Back</h4>
@@ -12,7 +12,7 @@
     
     <!-- Header -->
     <header class="bg-image mr-2 ml-2">
-      <h4 class="text-white pt-120 pl-5">Paradise Cozy Guesthouse Sihanoukville</h4>
+      <h2 class="text-white pt-120 pl-5">Paradise Cozy Guesthouse Sihanoukville</h2>
     </header>
 
     <!-- Container -->
@@ -28,22 +28,25 @@
       
       <!-- Card Detail Component -->
       <ListRoom />
+      <UserComment/>
     </div>
 
     <!-- Footer Layout -->
-    <FooterLayout />
+    <FooterView />
   </div>
 </template>
 
 <script>
-import FooterLayout from "../../Components/Layouts/FooterLayout.vue";
+import FooterView from "../Web/Post/FooterView.vue";
 import ListRoom from "./ListRoom.vue";
+import UserComment from './UserComment.vue';
 
 export default {
   name: "ServiceDetail",
   components: {
-    FooterLayout,
-    ListRoom
+    ListRoom,
+    UserComment,
+    FooterView
   }
 };
 </script>

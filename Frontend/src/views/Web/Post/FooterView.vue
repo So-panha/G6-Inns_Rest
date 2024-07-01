@@ -23,17 +23,17 @@
           </h4>
           <div class="socialmedai">
             <button type="button" class="btn btn-outline-light">
-                <img src="../../Image/Twitter.png" alt="" width="40" height="40"/>
+                <img src="../../../Image/Twitter.png" alt="" width="40" height="40"/>
   
             </button>
             <button type="button" class="btn btn-outline-light">
-                <img src="../../Image/Facebook.png" alt="" width="40" height="40" />
+                <img src="../../../Image/Facebook.png" alt="" width="40" height="40" />
             </button>
             <button type="button" class="btn btn-outline-light">
-                <img src="../../Image/Instagram.png" alt="" width="40" height="40" />
+                <img src="../../../Image/Instagram.png" alt="" width="40" height="40" />
             </button>
             <button type="button" class="btn btn-outline-light">
-                <img src="../../Image/Youtube.png" alt="" width="40" height="40" />
+                <img src="../../../Image/Youtube.png" alt="" width="40" height="40" />
             </button>
          
           </div>
@@ -41,14 +41,18 @@
       </div>
     </div>
   </footer>
-  <div class="footer-copyright text-center py-3">@Copyright: Group 6</div>
+  <div class="footer-copyright text-center py-3">
+    @Copyright: Group 6
+  </div>
 </template>
 
 <script>
-
+export default {
+  name: "FooterView"
+}
 </script>
 
-<style>
+<style scoped>
 .footer {
   background: linear-gradient(1deg, #7606ff 0%, #40008f 52%);
 }

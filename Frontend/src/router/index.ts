@@ -57,11 +57,7 @@ const router = createRouter({
       name: 'service-detail',
       component: () => import('../views/serviceDetail/ServiceDetail.vue')
     },
-    {
-      path: '/user-service',
-      name: 'user-service',
-      component: () => import('../Components/WebHeaderMenu.vue')
-    },
+  
   ]
 })
 
