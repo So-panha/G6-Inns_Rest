@@ -1,12 +1,3 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import LogoInn from '@/assets/LogoInn.svg'
-import UserIcon from '@/assets/UserIcon.svg'
-
-import ListCardView from './Post/ListCardView.vue'
-import FooterView from './Post/FooterView.vue'
-const showPopup = ref(false)
-</script>
 <template>
   <navbar class="flex justify-between px-20 py-3 bg-white">
     <div class="flex items-start space-x-1">
@@ -18,12 +9,18 @@ const showPopup = ref(false)
         <h6>Find your rest house here</h6>
       </div>
       <div @click="showPopup = true" class="cursor-pointer">
-        <img src="https://i.pinimg.com/564x/17/dd/c2/17ddc2f538307c63a2e92707886d9234.jpg" class="rounded-circle mr-3 h-15 w-15">
+        <img
+          src="https://i.pinimg.com/564x/17/dd/c2/17ddc2f538307c63a2e92707886d9234.jpg"
+          class="rounded-circle mr-3 h-15 w-15"
+        />
       </div>
     </div>
   </navbar>
-  <!-- ------------------------------------------------ -->
-  <ListCardView/>
+  <!--------------------------------Maps Views------------------------------------------------ -->
+  <MapViewVue />
+  <!-- List card guesthouse------------------------------------------------ -->
+  <ListCardView />
+
   <!-- Popup ------------------------------------->
   <div
     v-show="showPopup"
@@ -38,7 +35,11 @@ const showPopup = ref(false)
         <h5>info</h5>
       </div>
       <div class="text-center">
-        <img class="w-40 h-40 mx-auto rounded-full" src="https://i.pinimg.com/564x/17/dd/c2/17ddc2f538307c63a2e92707886d9234.jpg" alt="User Profile" />
+        <img
+          class="w-40 h-40 mx-auto rounded-full"
+          src="https://i.pinimg.com/564x/17/dd/c2/17ddc2f538307c63a2e92707886d9234.jpg"
+          alt="User Profile"
+        />
         <h3 class="mt-4">Srey Ny (2024_A)</h3>
       </div>
       <div class="mt-4">
@@ -67,19 +68,24 @@ const showPopup = ref(false)
       </div>
     </div>
   </div>
-  <FooterView/>
+  <FooterView />
 </template>
 
 
-<script setup lang="ts">
 
+<script setup lang="ts">
+import { ref } from 'vue'
+import LogoInn from '@/assets/LogoInn.svg'
+import UserIcon from '@/assets/UserIcon.svg'
+
+import ListCardView from './Post/ListCardView.vue'
+import FooterView from './Post/FooterView.vue'
+import MapViewVue from './MapSearch/MapView.vue'
+const showPopup = ref(false)
 </script>
 
-
-
-<style>
+<style scoped>
 .flex-shrink-0 {
   flex-shrink: 0;
 }
 </style>
-
