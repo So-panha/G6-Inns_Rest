@@ -16,7 +16,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'email'     => 'required|string|max:255',
             'password'  => 'required|string'
-          ]);
+        ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors());
@@ -39,7 +39,7 @@ class AuthController extends Controller
             'token_type'    => 'Bearer'
         ]);
     }
-    
+
     public function index(Request $request)
     {
         $user = $request->user();
@@ -47,7 +47,33 @@ class AuthController extends Controller
         // $roles = $user->getRoleNames();
         return response()->json([
             'message' => 'Login success',
-            'data' =>$user,
+            'data' => $user,
+        ]);
+    }
+
+
+    public function registerUser(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'name'        => 'required|string|max:255',
+            'email'       => 'required|string|email|max:255|unique:users,email',
+            'password'    => 'required|string|min:8',
+            'phoneNumber' => 'required|string|unique:users,phoneNumber',
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+        $user = User::create([
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'password'  =>  Hash::make($request->password),
+            'phoneNumber' => $request->phoneNumber
+        ]);
+        $token = $user->createToken('auth_token')->plainTextToken;
+        return response()->json([
+            'message'       => 'Register success',
+            'access_token'  => $token,
+            'token_type'    => 'Bearer'
         ]);
     }
 }

@@ -12,19 +12,24 @@
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "serve": "vite preview" 
+    "serve": "vite preview"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
+    "@fortawesome/fontawesome-free": "^6.5.2",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "element-plus": "^2.7.4",
+    "google-maps-api-loader": "^1.1.1",
+    "leaflet": "^1.9.4",
+    "markerwithlabel": "^2.0.2",
     "pinia": "^2.1.7",
-    "vee-validate": "^4.12.8",
+    "vee-validate": "^4.13.1",
     "vue": "^3.4.21",
     "vue-gates": "^2.1.2",
     "vue-router": "^4.3.0",
     "vue-simple-acl": "^2.0.2",
+    "vue2-google-maps": "^0.10.7",
     "yup": "^1.4.0"
   },
   "devDependencies": {
