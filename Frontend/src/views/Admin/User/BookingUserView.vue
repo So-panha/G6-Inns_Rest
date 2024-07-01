@@ -41,7 +41,7 @@
         </div>
         <div class="text-right">
             <button class="btn btn-danger mr-2">Cancel</button>
-            <button class="btn btn-primary">Payment</button>
+            <router-link  to="/qrCode"><button class="btn btn-primary">Payment</button></router-link>
         </div>
     </div>
 </template>
