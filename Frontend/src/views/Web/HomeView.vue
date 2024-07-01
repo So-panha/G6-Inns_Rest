@@ -8,10 +8,17 @@ import FooterView from './Post/FooterView.vue'
 import MapViewVue from './MapSearch/MapView.vue'
 const showPopup = ref(false)
 import { useAuthStore } from '@/stores/auth-store' // Import the auth store
+import { useRouter } from 'vue-router'
 const authStore = useAuthStore() // Initialize the auth store
+const router = useRouter()
+
+const logout = () => {
+  localStorage.removeItem('access_token')
+  router.push('/login')
+}
 </script>
 <template>
-  {{ authStore }}
+
   <navbar class="flex justify-between px-20 py-3 bg-white">
     <div class="flex items-start space-x-1">
       <img :src="LogoInn" alt="LogoInn Logo" class="h-20" />
@@ -61,7 +68,7 @@ const authStore = useAuthStore() // Initialize the auth store
         <div class="flex items-center mb-4">
           <span class="material-symbols-outlined mr-2 ml-3" style="font-size: 40px"> call </span>
           <h6>Phone:</h6>
-          <h6 class="ml-80">088 35 73 945</h6>
+          <h6 class="ml-80">{{authStore.user.phoneNumber}}</h6>
         </div>
         <div class="flex items-center mb-4">
           <span class="material-symbols-outlined mr-2 ml-3" style="font-size: 40px"> id_card </span>
@@ -70,6 +77,12 @@ const authStore = useAuthStore() // Initialize the auth store
         </div>
       </div>
       <div class="mt-4 flex justify-end">
+            <!-- Logout button -->
+            <button @click="logout"
+          class="middle none center rounded-lg bg-teal-500 py-2 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          data-ripple-light="true" id="logout">
+          Logout
+        </button>
         <button @click="showPopup = false" class="bg-red-500 text-white px-4 py-2 rounded">
           Cancel
         </button>
@@ -81,10 +94,16 @@ const authStore = useAuthStore() // Initialize the auth store
 
 
 <script setup lang="ts">
+
 </script>
 
 <style scoped>
 .flex-shrink-0 {
   flex-shrink: 0;
 }
+
+#logout {
+  margin-right: 10px;
+}
+
 </style>

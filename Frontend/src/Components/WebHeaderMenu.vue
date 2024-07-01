@@ -51,12 +51,7 @@
         </div>
       </div>
       <div class="mt-4 flex justify-end">
-        <!-- Logout button -->
-        <button @click="logout"
-          class="middle none center rounded-lg bg-teal-500 py-2 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          data-ripple-light="true" id="logout">
-          Logout
-        </button>
+    
         <!-- Cancel button -->
         <button @click="showPopup = false"
           class="middle none center rounded-lg bg-red-500 py-2 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -92,9 +87,6 @@ const logout = () => {
   flex-shrink: 0;
 }
 
-#logout {
-  margin-right: 10px;
-}
 
 #back {
   margin-right: 34px;
