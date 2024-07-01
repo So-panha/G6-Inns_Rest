@@ -35,7 +35,12 @@ const router = createRouter({
     {
       path: '/ticketNoti',
       name: '/ticketNoti',
-      component: () => import('../views/Admin/User/TicketNotiView.vue')
+     component: () => import('../views/Admin/User/TicketNotiView.vue')
+    },
+    {
+      path: '/bookingUser',
+      name: 'bookingUser',
+      component: () => import('../views/Admin/User/BookingUserView.vue')
     },
     {
       path: '/',
