@@ -38,10 +38,6 @@
             </div>
 
             <div class="mb-3 flex flex-wrap content-center">
-              <input id="remember" type="checkbox" class="mr-1 checked:bg-purple-700" />
-              <label for="remember" class="mr-auto text-xs font-semibold"
-                >Remember for 30 days</label
-              >
               <a href="#" class="text-xs font-semibold text-purple-700">Forgot password?</a>
             </div>
 
@@ -65,11 +61,15 @@
           </form>
 
           <!-- Footer -->
-          <div class="text-center">
-            <span class="text-xs text-gray-400 font-semibold">Don't have account?</span>
-            <router-link class="nav-link active" aria-current="page" to="/rigister"
-              >Rigister</router-link
+          <div class="text-center flex-grow">
+            <span class="text-xs text-gray-400 font-semibold">Don't have an account?</span>
+            <router-link
+              class="nav-link active inline-flex items-center text-xs font-semibold text-purple-700"
+              aria-current="page"
+              to="/rigister"
             >
+              Register
+            </router-link>
           </div>
         </div>
       </div>

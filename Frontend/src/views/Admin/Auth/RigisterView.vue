@@ -71,7 +71,7 @@
         <div class="flex items-center justify-between">
           <div class="border-b border-2 border-gray-300 flex-grow"></div>
           <span class="text-sm text-gray-600 mx-4">Already have an account?</span>
-          <router-link class="text-sm text-gray-600 hover:text-gray-800 font-bold" to="/login"
+          <router-link class="text-sm text-gray-600 hover:text-gray-800 font-bold ext-xs font-semibold text-purple-700" to="/login"
             >Sign in</router-link
           >
           <div class="border-b border-2 border-gray-300 flex-grow"></div>
@@ -90,7 +90,6 @@
 <script>
 import * as Yup from 'yup'
 import axios from 'axios'
-
 
 export default {
   data() {
