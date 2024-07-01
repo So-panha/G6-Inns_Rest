@@ -11,6 +11,7 @@ import { useAuthStore } from '@/stores/auth-store' // Import the auth store
 const authStore = useAuthStore() // Initialize the auth store
 </script>
 <template>
+<<<<<<< HEAD
   {{ authStore }}
   <navbar class="flex justify-between px-20 py-3 bg-white">
     <div class="flex items-start space-x-1">
@@ -81,6 +82,11 @@ const authStore = useAuthStore() // Initialize the auth store
     </div>
   </div>
   <FooterView />
+=======
+  <WebLayout
+    >
+  </WebLayout>
+>>>>>>> Social_login
 </template>
 
 

@@ -38,7 +38,10 @@
                                             <p>15-01-2024</p>
                                         </div>
                                     </div>
+<<<<<<< HEAD
                                     
+=======
+>>>>>>> Social_login
                                 </div>
                             </div>
                         </div>
