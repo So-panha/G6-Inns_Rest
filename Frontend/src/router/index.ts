@@ -22,9 +22,14 @@ const router = createRouter({
       component: () => import('../views/Admin/Auth/LoginView.vue')
     },
     {
-      path: '/bookingUser',
-      name: 'bookingUser',
-      component: () => import('../views/Admin/User/BookingUserView.vue')
+      path: '/ticket',
+      name: '/ticket',
+      component: () => import('../views/Admin/User/TicketView.vue')
+    },
+    {
+      path: '/ticketNoti',
+      name: '/ticketNoti',
+      component: () => import('../views/Admin/User/TicketNotiView.vue')
     },
     {
       path: '/',
