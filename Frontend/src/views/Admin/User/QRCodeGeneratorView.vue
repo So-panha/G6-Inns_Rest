@@ -12,32 +12,53 @@
         </div>
         <div v-if="qrCodeSrc" class="qr-code-container text-center mt-4">
           <qrcode-vue :value="qrCodeSrc" :size="200" level="H" />
+          <div class="text-center mt-3">
+            <button @click="showSuccessAlert" class="btn btn-success mt-3">Ok</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
 import QrcodeVue from 'qrcode.vue';
+import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
 
-export default {
-  name: 'App',
+export default defineComponent({
+  name: 'qrCode',
   components: {
     QrcodeVue
   },
-  data() {
+  setup() {
+    const data = ref('');
+    const qrCodeSrc = ref('');
+    const router = useRouter();
+
+    const generateQRCode = () => {
+      qrCodeSrc.value = data.value;
+    };
+
+    const showSuccessAlert = () => {
+      Swal.fire({
+        icon: 'success',
+        title: 'QR Code Generated Successfully!',
+        text: 'You can now proceed with your payment.',
+      }).then(() => {
+        router.push('/qrCode');
+      });
+    };
+
     return {
-      data: '',
-      qrCodeSrc: ''
-    }
-  },
-  methods: {
-    generateQRCode() {
-      this.qrCodeSrc = this.data;
-    }
+      data,
+      qrCodeSrc,
+      generateQRCode,
+      showSuccessAlert
+    };
   }
-}
+});
 </script>
 
 <style scoped>

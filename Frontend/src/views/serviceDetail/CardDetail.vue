@@ -43,7 +43,7 @@
             </div>
             <div class="d-flex justify-content-end mt-5">
               <button class="btn btn-danger mr-2">Booked</button>
-              <button class="btn btn-primary">Booking</button>
+              <router-link class="nav-link active" aria-current="page" to="/bookingUser"><button class="btn btn-primary">Booking</button></router-link>
             </div>
           </div>
         </div>

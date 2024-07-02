@@ -3,11 +3,13 @@
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Front\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| APIRoutes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
@@ -24,3 +26,4 @@ Route::post('/rigister',[AuthController::class, "registerUser"]);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
 Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');

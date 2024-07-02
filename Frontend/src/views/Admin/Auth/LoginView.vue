@@ -38,7 +38,13 @@
             </div>
 
             <div class="mb-3 flex flex-wrap content-center">
-              <a href="#" class="text-xs font-semibold text-purple-700">Forgot password?</a>
+              <router-link
+                class="nav-link active inline-flex items-center text-xs font-semibold text-purple-700"
+                aria-current="page"
+                to="/reset"
+              >
+                Forgot password?
+              </router-link>
             </div>
 
             <div class="mb-3">

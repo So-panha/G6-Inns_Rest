@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import LogoInn from '@/assets/LogoInn.svg'
-// import UserIcon from '@/assets/UserIcon.svg'
+import UserIcon from '@/assets/UserIcon.svg'
 
 import ListCardView from './Post/ListCardView.vue'
 import FooterView from './Post/FooterView.vue'
 import MapViewVue from './MapSearch/MapView.vue'
 const showPopup = ref(false)
 import { useAuthStore } from '@/stores/auth-store' // Import the auth store
+import { useRouter } from 'vue-router'
 const authStore = useAuthStore() // Initialize the auth store
+const router = useRouter()
+
+const logout = () => {
+  localStorage.removeItem('access_token')
+  router.push('/login')
+}
 </script>
 <template>
   <navbar class="flex justify-between px-20 py-3 bg-white">
@@ -23,10 +30,8 @@ const authStore = useAuthStore() // Initialize the auth store
       <div class="flex mt-3">
         <span class="material-symbols-outlined mr-6" style="font-size:40px"> shopping_cart </span>
         <div @click="showPopup = true" class="cursor-pointer">
-          <img
-            src="https://i.pinimg.com/564x/17/dd/c2/17ddc2f538307c63a2e92707886d9234.jpg"
-            class="rounded-circle mr-3 h-10 w-10"
-          />
+          <img src="https://i.pinimg.com/564x/17/dd/c2/17ddc2f538307c63a2e92707886d9234.jpg"
+            class="rounded-circle mr-3 h-10 w-10" />
         </div>
       </div>
     </div>
@@ -37,10 +42,7 @@ const authStore = useAuthStore() // Initialize the auth store
   <ListCardView />
 
   <!-- Popup ------------------------------------->
-  <div
-    v-show="showPopup"
-    class="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50"
-  >
+  <div v-show="showPopup" class="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
     <div class="bg-white p-10 rounded-sm shadow-sm relative w-1/2 max-w-2xl">
       <button @click="showPopup = false" class="absolute top-2 right-2 text-black">
         <span @click="showPopup = false" class="material-symbols-outlined"> close </span>
@@ -50,7 +52,8 @@ const authStore = useAuthStore() // Initialize the auth store
         <h5>info</h5>
       </div>
       <div class="text-center">
-        <img class="w-40 h-40 mx-auto rounded-full" src="https://i.pinimg.com/564x/17/dd/c2/17ddc2f538307c63a2e92707886d9234.jpg" />
+        <img class="w-40 h-40 mx-auto rounded-full"
+          src="https://i.pinimg.com/564x/17/dd/c2/17ddc2f538307c63a2e92707886d9234.jpg" />
         <h3 class="mt-4">{{ authStore.user.name }}</h3>
       </div>
       <div class="mt-4">
@@ -64,7 +67,7 @@ const authStore = useAuthStore() // Initialize the auth store
         <div class="flex items-center mb-4">
           <span class="material-symbols-outlined mr-2 ml-3" style="font-size: 40px"> call </span>
           <h6>Phone:</h6>
-          <h6 class="ml-80">088 35 73 945</h6>
+          <h6 class="ml-80">{{authStore.user.phoneNumber}}</h6>
         </div>
         <div class="flex items-center mb-4">
           <span class="material-symbols-outlined mr-2 ml-3" style="font-size: 40px"> id_card </span>
@@ -73,6 +76,12 @@ const authStore = useAuthStore() // Initialize the auth store
         </div>
       </div>
       <div class="mt-4 flex justify-end">
+            <!-- Logout button -->
+            <button @click="logout"
+          class="middle none center rounded-lg bg-teal-500 py-2 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          data-ripple-light="true" id="logout">
+          Logout
+        </button>
         <button @click="showPopup = false" class="bg-red-500 text-white px-4 py-2 rounded">
           Cancel
         </button>
@@ -84,10 +93,16 @@ const authStore = useAuthStore() // Initialize the auth store
 
 
 <script setup lang="ts">
+
 </script>
 
 <style scoped>
 .flex-shrink-0 {
   flex-shrink: 0;
 }
+
+#logout {
+  margin-right: 10px;
+}
+
 </style>

@@ -12,3 +12,4 @@ import AdminLayout from '@/Components/Layouts/AdminLayout.vue'
     </div>
   </AdminLayout>
 </template>
+
