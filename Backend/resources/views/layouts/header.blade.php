@@ -27,8 +27,11 @@
 
     <div class="flex items-center">
         <div x-data="{ dropdownOpen: false }" class="relative">
-            <button @click="dropdownOpen = ! dropdownOpen" class="relative block h-8 w-8 rounded-full overflow-hidden shadow focus:outline-none">
-                <img class="h-full w-full object-cover" src="/images/{{ auth()->user()->profile }}" alt="Your avatar">
+            <button @click="dropdownOpen = ! dropdownOpen"
+                class="relative block h-8 w-8 rounded-full overflow-hidden shadow focus:outline-none">
+                <img class="h-full w-full object-cover"
+                    src="/images/{{ asset(auth()->user()->profile) }}"
+                    alt="Your avatar">
             </button>
 
             <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10" style="display: none;"></div>
