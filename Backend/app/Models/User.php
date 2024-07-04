@@ -43,4 +43,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Relationships with user 
+    public function guestHouses()
+    {
+        return $this->hasMany(GuestHouse::class, 'created_by_id', 'id');
+    }
 }
