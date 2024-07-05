@@ -66,23 +66,23 @@ class GuestHouse extends Model implements HasMedia
     });
 }
 
-    public function created_by()
-    {
-        return $this->belongsTo(User::class, 'created_by_id');
-    }
+    // public function created_by()
+    // {
+    //     return $this->belongsTo(User::class, 'created_by_id');
+    // }
 
-    public function getWorkingHoursAttribute()
-    {
-        $hours = $this->days
-            ->pluck('pivot', 'name')
-            ->map(function($pivot) {
-                return [
-                    $pivot['from_hours'].':'.$pivot['from_minutes'].'-'.$pivot['to_hours'].':'.$pivot['to_minutes']
-                ];
-            });
+    // public function getWorkingHoursAttribute()
+    // {
+    //     $hours = $this->days
+    //         ->pluck('pivot', 'name')
+    //         ->map(function($pivot) {
+    //             return [
+    //                 $pivot['from_hours'].':'.$pivot['from_minutes'].'-'.$pivot['to_hours'].':'.$pivot['to_minutes']
+    //             ];
+    //         });
 
-        return OpeningHours::create($hours->toArray());
-    }
+    //     return OpeningHours::create($hours->toArray());
+    // }
 
     public function getThumbnailAttribute()
     {

@@ -6,8 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Day;
 use App\Models\GuestHouse;
+use App\Models\User;
 use Gate;
+use Google\Rpc\Context\AttributeContext\Auth;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class GuestHousesController extends Controller
@@ -74,7 +78,7 @@ class GuestHousesController extends Controller
         $file->move($path, $name);
 
         return response()->json([
-            'name'          => $name,
+            'name' => $name,
             'original_name' => $file->getClientOriginalName(),
         ]);
     }
@@ -105,83 +109,90 @@ class GuestHousesController extends Controller
         return redirect()->back();
     }
 
-    // public function edit(GuestHouse $shop)
-    // {
-    //     abort_if(Gate::denies('shop_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-    //     $categories = Category::all()->pluck('name', 'id');
-    //     $days = Day::all();
-
-    //     $shop->load('categories', 'created_by', 'days');
-
-    //     return view('admin.shops.edit', compact('categories', 'shop', 'days'));
-    // }
-
-    // public function update(UpdateShopRequest $request, GuestHouse $guestHouse)
-    // {
-    //     if(!$request->active){
-    //         $request->merge([
-    //             'active' => 0
-    //         ]);
-    //     }
-    //     $guestHouse->update($request->all());
-    //     $guestHouse->categories()->sync($request->input('categories', []));
-
-    //     $hours = collect($request->input('from_hours'))->mapWithKeys(function($value, $id) use ($request) {
-    //         return $value ? [
-    //                 $id => [
-    //                     'from_hours'    => $value,
-    //                     'from_minutes'  => $request->input('from_minutes.'.$id),
-    //                     'to_hours'      => $request->input('to_hours.'.$id),
-    //                     'to_minutes'    => $request->input('to_minutes.'.$id)
-    //                 ]
-    //             ]
-    //             : [];
-    //     });
-    //     $guestHouse->days()->sync($hours);
-
-    //     if (count($guestHouse->photos) > 0) {
-    //         foreach ($guestHouse->photos as $media) {
-    //             if (!in_array($media->file_name, $request->input('photos', []))) {
-    //                 $media->delete();
-    //             }
-    //         }
-    //     }
-
-    //     $media = $guestHouse->photos->pluck('file_name')->toArray();
-
-    //     foreach ($request->input('photos', []) as $file) {
-    //         if (count($media) === 0 || !in_array($file, $media)) {
-    //             $guestHouse->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('photos');
-    //         }
-    //     }
-
-    //     return redirect()->route('admin.shops.index');
-    // }
-
-    public function show(GuestHouse $guestHouse)
+    public function edit(GuestHouse $shop)
     {
-        abort_if(Gate::denies('shop_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('shop_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $categories = Category::all()->pluck('name', 'id');
         $days = Day::all();
-        $guestHouse->load('categories', 'created_by');
 
-        return view('admin.shops.show', compact('shop', 'days'));
+        $shop->load('categories', 'created_by', 'days');
+
+        return view('admin.shops.edit', compact('categories', 'shop', 'days'));
     }
 
-    public function destroy(GuestHouse $guestHouse)
+    public function update(UpdateShopRequest $request, GuestHouse $guestHouse)
     {
-        abort_if(Gate::denies('shop_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        if (!$request->active) {
+            $request->merge([
+                'active' => 0
+            ]);
+        }
+        $guestHouse->update($request->all());
+        $guestHouse->categories()->sync($request->input('categories', []));
 
-        $guestHouse->delete();
+        $hours = collect($request->input('from_hours'))->mapWithKeys(function ($value, $id) use ($request) {
+            return $value ? [
+                $id => [
+                    'from_hours' => $value,
+                    'from_minutes' => $request->input('from_minutes.' . $id),
+                    'to_hours' => $request->input('to_hours.' . $id),
+                    'to_minutes' => $request->input('to_minutes.' . $id)
+                ]
+            ]
+                : [];
+        });
+        $guestHouse->days()->sync($hours);
 
-        return back();
+        if (count($guestHouse->photos) > 0) {
+            foreach ($guestHouse->photos as $media) {
+                if (!in_array($media->file_name, $request->input('photos', []))) {
+                    $media->delete();
+                }
+            }
+        }
+
+        $media = $guestHouse->photos->pluck('file_name')->toArray();
+
+        foreach ($request->input('photos', []) as $file) {
+            if (count($media) === 0 || !in_array($file, $media)) {
+                $guestHouse->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('photos');
+            }
+        }
+
+        return redirect()->route('admin.shops.index');
     }
 
-    // public function massDestroy(MassDestroyShopRequest $request)
-    // {
-    //     GuestHouse::whereIn('id', request('ids'))->delete();
 
-    //     return response(null, Response::HTTP_NO_CONTENT);
-    // }
+    public function show(Request $request)
+    {
+
+    }
+
+    public function destroy(Request $request, string $id)
+    {
+        try {
+            $validator = $request->validate([
+                'password' => 'required|string|min:8',
+            ]);
+            $userId = Auth()->user()->id;
+            $user = User::findOrFail($userId);
+            if (Hash::check($request->password, $user->password)) {
+                GuestHouse::find($id)->delete();
+                return redirect()->back()->with('message', 'Delete succussfully');
+            } else {
+                return redirect()->back()->with('error', 'Your password is incorrect');
+            }
+
+        } catch (\Exception) {
+            return redirect()->back()->with('error', 'Your password is incorrect');
+        }
+    }
+
+
+    public function massDestroy(Request $request)
+    {
+
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
 }
