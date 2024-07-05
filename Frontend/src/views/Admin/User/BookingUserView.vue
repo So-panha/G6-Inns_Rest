@@ -4,7 +4,6 @@
         <h1>Booking <br> Room</h1>
     </div>
     <div class="content">
-
         <div class="row">
             <div class="col-md-4 mb-3">
                 <label for="firstname">First Name *</label>
@@ -41,7 +40,7 @@
         </div>
         <div class="text-right">
             <button class="btn btn-danger mr-2">Cancel</button>
-            <router-link  to="/qrCode"><button class="btn btn-primary">Payment</button></router-link>
+            <router-link to="/qrCode"><button class="btn btn-primary">Payment</button></router-link>
         </div>
     </div>
 </template>
@@ -61,12 +60,14 @@ html {
     height: 100%;
     overflow: hidden;
 }
-h1{
+
+h1 {
     margin-top: 20%;
     text-align: left;
     color: white;
     font-size: 70px;
 }
+
 .container {
     margin-top: 10px;
     position: relative;
