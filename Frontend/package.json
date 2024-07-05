@@ -24,6 +24,7 @@
     "leaflet": "^1.9.4",
     "markerwithlabel": "^2.0.2",
     "pinia": "^2.1.7",
+    "qrcode.vue": "^3.4.1",
     "sweetalert2": "^11.12.1",
     "vee-validate": "^4.13.1",
     "vue": "^3.4.21",
