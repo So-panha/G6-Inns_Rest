@@ -3,12 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\{
+    CreateBranchController,
     ProfileController,
     MailSettingController,
-    GuestHousesController
 };
-// use App\Http\Controllers\Traits\MediaUploadingTrait;
-
 
 // Social Login with google
 use App\Http\Controllers\Auth\LoginController;
@@ -58,31 +56,34 @@ Route::get('/admin/dashboard', function () {
 require __DIR__ . '/auth.php';
 
 
-Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
-    ->group(function(){
-        Route::resource('roles','RoleController');
-        Route::resource('permissions','PermissionController');
-        Route::resource('users','UserController');
-        Route::resource('posts','PostController');
-        Route::resource('branchs','CreateBranchController');
-        Route::resource('dashboard-room','DashboardRoomController');
-        Route::resource('check-booking','CheckBookingController');
-        Route::resource('history','HistoryController');
-        Route::resource('checking-room','CheckingRoomController');
-        Route::resource('guest-houses','GuestHousesController');
 
-        Route::post('shops/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
+Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
+    ->group(function () {
+        Route::resource('roles', 'RoleController');
+        Route::resource('permissions', 'PermissionController');
+        Route::resource('users', 'UserController');
+        Route::resource('posts', 'PostController');
+        Route::resource('branchs', 'CreateBranchController');
+        Route::resource('dashboard-room', 'DashboardRoomController');
+        Route::resource('check-booking', 'CheckBookingController');
+        Route::resource('history', 'HistoryController');
+        Route::resource('checking-room', 'CheckingRoomController');
+
+
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
         Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
         Route::get('/mail', [MailSettingController::class, 'index'])->name('mail.index');
         Route::put('/mail-update/{mailsetting}', [MailSettingController::class, 'update'])->name('mail.update');
         // Route Payment(http://127.0.0.1:8000/admin/payment)
         Route::get('/payment', [PaymentController::class, 'show']);
+        
     });
 
 Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
-->group(function(){
-    Route::resource('register','RegisteredUserController');
-});
+    ->group(function () {
+        Route::resource('register', 'RegisteredUserController');
+    });
 
-
+// Social Login with google
+Route::get('login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('login/google/callback', [LoginController::class, 'redirectToGoogleCallback']);
