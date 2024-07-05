@@ -42,28 +42,30 @@
                         <div class="px-4 py-2 bg-blue-300 flex justify-end">
                             <a href="{{ route('admin.guest-houses.destroy', $guestHouse) }}"
                                 class="inline-block bg-green-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1">Edit</a>
+                            <div x-data="{ showPopup: false }">
+                                <button
+                                    class="inline-block bg-red-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1"
+                                    @click="showPopup = true">Delete</button>
 
-                            <button id="openPopup"
-                                class="inline-block bg-red-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1">Delete</button>
+                                <div x-show="showPopup"
+                                    class="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
+                                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                                        <h2 class="text-2xl font-bold mb-4">Are you sour to delete your branch</h2>
+                                        <p class="mb-4">Please confirm your password</p>
 
-                            <div id="popup"
-                                class="popup fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50 hidden">
-                                <div class="bg-white shadow-lg rounded-lg p-6 max-w-md w-full">
-                                    <span
-                                        class="close-button text-gray-400 float-right text-2xl font-bold hover:text-gray-700 cursor-pointer">&times;</span>
-                                    <h2 class="text-2xl font-bold mb-4">Are you sure to delete your branch</h2>
-                                    <p class="mb-4">Please fill your password</p>
-                                    <form class="grid justify-items-stretch" action="{{ route('admin.guest-houses.destroy', $guestHouse->id) }}"
-                                        method="POST" class="inline">
-                                        <input type="password" placeholder="Your password" name="password"
-                                            class="w-full" value="{{ old('password') }}" required>
-                                        @csrf
-                                        @method('delete')
-                                        <button
-                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 justify-self-end">
-                                            Yes
-                                        </button>
-                                    </form>
+                                        <form class="grid justify-items-stretch"
+                                            action="{{ route('admin.guest-houses.destroy', $guestHouse->id) }}"
+                                            method="POST" class="inline">
+                                            <input type="password" placeholder="Your password" name="password"
+                                                class="w-full" value="{{ old('password') }}" required>
+                                            @csrf
+                                            @method('delete')
+                                            <button
+                                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 justify-self-end">
+                                                Yes
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -260,6 +262,7 @@
         var popup = document.getElementById("popup");
         // Get the button that opens the popup
         var popupTrigger = document.getElementById("openPopup");
+
         // Get the elements that close the popup
         var closeButtons = document.getElementsByClassName("close-button");
         // When the user clicks the button, open the popup
