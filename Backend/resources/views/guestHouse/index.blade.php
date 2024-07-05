@@ -49,8 +49,14 @@
 
                                 <div x-show="showPopup"
                                     class="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
-                                    <div class="bg-white p-6 rounded-lg shadow-lg">
-                                        <h2 class="text-2xl font-bold mb-4">Are you sour to delete your branch</h2>
+                                    <div class="bg-white p-6 rounded-lg shadow-lg grid justify-items-stretch">
+                                        <button @click="showPopup = false" class="text-dark rounded justify-self-end py-4 px-1">
+                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                            </svg>
+                                            <span class="sr-only">Close modal</span>
+                                        </button>
+                                        <h2 class="text-2xl font-bold mb-4">Are you sure to delete your branch</h2>
                                         <p class="mb-4">Please confirm your password</p>
 
                                         <form class="grid justify-items-stretch"
