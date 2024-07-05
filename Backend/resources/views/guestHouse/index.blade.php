@@ -18,8 +18,10 @@
                                         <div class="swiper-slide">
                                             <div class="bg-indigo-50 rounded-2xl h-48 flex justify-center items-center">
                                                 <div class="swiper-slide">
-                                                    <div class="bg-indigo-50 rounded-2xl h-48 flex justify-center items-center">
-                                                        <img src="{{ substr($photo['url'], 16) }}" class="d-block w-100 h-60" alt="...">
+                                                    <div
+                                                        class="bg-indigo-50 rounded-2xl h-48 flex justify-center items-center">
+                                                        <img src="{{ substr($photo['url'], 16) }}"
+                                                            class="d-block w-100 h-60" alt="...">
                                                     </div>
                                                 </div>
                                             </div>
@@ -33,14 +35,37 @@
                         <div class="px-4 py-2">
                             <div class="font-bold text-lg mb-1">{{ $guestHouse->name }}</div>
                             <p class="text-gray-600 text-sm w-full pr-2">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis distinctio ipsum vitae deleniti praesentium veritatis sunt doloremque incidunt voluptate tempora!
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis distinctio ipsum
+                                vitae deleniti praesentium veritatis sunt doloremque incidunt voluptate tempora!
                             </p>
                         </div>
                         <div class="px-4 py-2 bg-blue-300 flex justify-end">
-                            <button
-                                class="inline-block bg-green-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1">Edit</button>
-                            <button
+                            <a href="{{ route('admin.guest-houses.destroy', $guestHouse) }}"
+                                class="inline-block bg-green-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1">Edit</a>
+
+                            <button id="openPopup"
                                 class="inline-block bg-red-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1">Delete</button>
+
+                            <div id="popup"
+                                class="popup fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50 hidden">
+                                <div class="bg-white shadow-lg rounded-lg p-6 max-w-md w-full">
+                                    <span
+                                        class="close-button text-gray-400 float-right text-2xl font-bold hover:text-gray-700 cursor-pointer">&times;</span>
+                                    <h2 class="text-2xl font-bold mb-4">Are you sure to delete your branch</h2>
+                                    <p class="mb-4">Please fill your password</p>
+                                    <form class="grid justify-items-stretch" action="{{ route('admin.guest-houses.destroy', $guestHouse->id) }}"
+                                        method="POST" class="inline">
+                                        <input type="password" placeholder="Your password" name="password"
+                                            class="w-full" value="{{ old('password') }}" required>
+                                        @csrf
+                                        @method('delete')
+                                        <button
+                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 justify-self-end">
+                                            Yes
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -134,6 +159,8 @@
     </div>
 
 
+
+
     <script type='text/javascript'
         src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize">
     </script>
@@ -192,7 +219,7 @@
                         this.options.addedfile.call(this, file)
                         this.options.thumbnail.call(this, file, file.url)
                         file.previewElement.classList.add('dz-complete')
-                        $('form').append('<input type="hidden" name="photos[]" value="' + file.file_name + '">')
+                        $('form').append('<input type="hidden" name="photos[]" value="' + file.file_name + '">');
                     }
                 @endif
             },
@@ -228,5 +255,49 @@
                 type: "progressbar",
             },
         });
+
+        // Get the popup element
+        var popup = document.getElementById("popup");
+        // Get the button that opens the popup
+        var popupTrigger = document.getElementById("openPopup");
+        // Get the elements that close the popup
+        var closeButtons = document.getElementsByClassName("close-button");
+        // When the user clicks the button, open the popup
+        popupTrigger.onclick = function() {
+            popup.style.display = "flex";
+        };
+        // When the user clicks on the close button, close the popup
+        for (var i = 0; i < closeButtons.length; i++) {
+            closeButtons[i].onclick = function() {
+                popup.style.display = "none";
+            };
+        }
+        // When the user clicks anywhere outside of the popup, close it
+        window.onclick = function(event) {
+            if (event.target == popup) {
+                popup.style.display = "none";
+            }
+        };
     </script>
+
+    {{-- alert when delete branch --}}
+    @if (Session::has('message'))
+        <script>
+            swal("Messages", "{{ Session::get('message') }}", 'success'), {
+                button: true,
+                button: "OK",
+                timer: 3000,
+                dangerMode: true,
+            };
+        </script>
+    @elseif (Session::has('error'))
+        <script>
+            swal("Messages", "{{ Session::get('error') }}", 'error'), {
+                button: true,
+                button: "OK",
+                timer: 3000,
+                dangerMode: true,
+            };
+        </script>
+    @endif
 </x-app-layout>
