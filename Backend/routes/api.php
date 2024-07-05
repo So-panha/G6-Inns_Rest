@@ -26,4 +26,24 @@ Route::post('/rigister',[AuthController::class, "registerUser"]);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
 Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');
+
+
+
+
+Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', 'middleware' => ['auth:api']], function () {
+    // Permissions
+    Route::apiResource('permissions', 'PermissionsApiController');
+
+    // Roles
+    Route::apiResource('roles', 'RolesApiController');
+
+    // Users
+    Route::apiResource('users', 'UsersApiController');
+
+    // Categories
+    Route::apiResource('categories', 'CategoriesApiController');
+
+    // Shops
+    Route::post('shops/media', 'ShopsApiController@storeMedia')->name('shops.storeMedia');
+    Route::apiResource('shops', 'ShopsApiController');
+});

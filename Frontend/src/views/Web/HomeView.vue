@@ -18,7 +18,6 @@ const logout = () => {
 }
 </script>
 <template>
-
   <navbar class="flex justify-between px-20 py-3 bg-white">
     <div class="flex items-start space-x-1">
       <img :src="LogoInn" alt="LogoInn Logo" class="h-20" />
