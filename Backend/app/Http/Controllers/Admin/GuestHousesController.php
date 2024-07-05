@@ -25,7 +25,6 @@ class GuestHousesController extends Controller
         $mapGuestHouses = $guestHouses->makeHidden(['active', 'created_at', 'updated_at', 'deleted_at', 'created_by_id', 'photos', 'media']);
         $latitude = $guestHouses->average('latitude');
         $longitude = $guestHouses->average('longitude');
-
         return view('guesthouse.index', compact('guestHouses', 'mapGuestHouses', 'latitude', 'longitude'));
     }
 
