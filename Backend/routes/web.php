@@ -6,6 +6,9 @@ use App\Http\Controllers\Admin\{
     ProfileController,
     MailSettingController,
 };
+use App\Http\Livewire\Chat\Chat;
+use App\Http\Livewire\Chat\Index;
+use App\Http\Livewire\Users;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,8 +54,6 @@ Route::get('/admin/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-
-
 Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
     ->group(function(){
         Route::resource('roles','RoleController');
@@ -72,6 +73,18 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::put('/mail-update/{mailsetting}',[MailSettingController::class,'update'])->name('mail.update');
 
 });
+
+
+
+Route::middleware('auth')->group(function (){
+
+    Route::get('/chat/{query}',Chat::class)->name('chat');
+    
+    Route::get('/users',Users::class)->name('users');
+    
+    Route::get('/chat',Index::class)->name('chat.index');
+});
+
 
 Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
 ->group(function(){

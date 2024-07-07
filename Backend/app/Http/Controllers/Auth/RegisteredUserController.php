@@ -54,6 +54,7 @@ class RegisteredUserController extends Controller
 
             // Set specific permissions to the user
             $user->givePermissionTo(['Role access', 'Role edit', 'Role create', 'Role delete']);
+            $user->givePermissionTo(['chat user']);
 
             // Switch to the account auto
             event(new Registered($user));
