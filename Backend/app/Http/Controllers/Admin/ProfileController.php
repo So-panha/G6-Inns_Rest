@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -7,6 +6,7 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Traits\UploadImage;
+use Illuminate\Support\Facades\Storage;
 
 
 class ProfileController extends Controller
@@ -18,7 +18,10 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    function __construct()
+
+
+
+     function __construct()
     {
 
     }
@@ -32,6 +35,13 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
         return view('setting.profile',['user'=>$user]);
+    }
+    public function saveImage($file)
+    {
+        $name = time() . '_' . $file->getClientOriginalName();
+        $filePath = 'profiles/' . $name;
+        Storage::disk('public')->put($filePath, file_get_contents($file));
+        return $filePath; // Return the saved file path
     }
 
 

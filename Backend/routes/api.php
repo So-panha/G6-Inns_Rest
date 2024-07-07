@@ -1,15 +1,16 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\API\PostController;
+use App\Http\Controllers\API\UserController as APIUserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Front\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 
-
 /*
 |--------------------------------------------------------------------------
-| APIRoutes
+| API Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register API routes for your application. These
@@ -22,8 +23,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/rigister',[AuthController::class, "registerUser"]);
+Route::post('/register', [AuthController::class, 'registerUser']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
 Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');
+
+
+// -------------Route-UserNormal----------------------------------
+Route::get('/user/list', [APIUserController::class, 'index'])->name('user.list');
+Route::post('/user/create', [APIUserController::class, 'store'])->name('user.create');
+Route::get('/user/show/{id}', [APIUserController::class, 'show'])->name('user.show');
+Route::put('/user/update/{id}', [APIUserController::class, 'update'])->name('user.update');
+Route::delete('/user/delete/{id}', [APIUserController::class, 'destroy'])->name('user.delete');

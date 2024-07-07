@@ -61,6 +61,7 @@ const router = createRouter({
       name: 'service-detail',
       component: () => import('../views/serviceDetail/ServiceDetail.vue')
     }
+
   ]
 })
 
