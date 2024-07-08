@@ -12,6 +12,9 @@ use App\Http\Controllers\Admin\{
 
 // Social Login with google
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Livewire\Chat\Chat;
+use App\Http\Livewire\Chat\Index;
+use App\Http\Livewire\Users;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,8 +58,7 @@ Route::get('/admin/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('admin.dashboard');
 
-require __DIR__ . '/auth.php';
-
+require __DIR__.'/auth.php';
 
 Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
     ->group(function(){
@@ -70,8 +72,11 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('history','HistoryController');
         Route::resource('checking-room','CheckingRoomController');
         Route::resource('guest-houses','GuestHousesController');
+        Route::resource('rooms','RoomController');
+
 
         Route::post('shops/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
+        Route::post('rooms/media', 'RoomController@storeMedia')->name('rooms.storeMedia');
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
         Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
         Route::get('/mail', [MailSettingController::class, 'index'])->name('mail.index');
@@ -79,6 +84,18 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         // Route Payment(http://127.0.0.1:8000/admin/payment)
         Route::get('/payment', [PaymentController::class, 'show']);
     });
+
+
+
+Route::middleware('auth')->group(function (){
+
+    Route::get('/chat/{query}',Chat::class)->name('chat');
+    
+    Route::get('/users',Users::class)->name('users');
+    
+    Route::get('/chat',Index::class)->name('chat.index');
+});
+
 
 Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
 ->group(function(){
