@@ -20,7 +20,6 @@
   <MapViewVue />
   <!-- List card guesthouse------------------------------------------------ -->
   <ListCardView />
-
   <!-- ShowPopup1 for show info profile ------------------------------------->
    <div v-show="showProfilePopup" class="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
     <div class="bg-white p-5 rounded-sm shadow-sm relative w-1/2 max-w-2xl">
@@ -66,6 +65,7 @@
       </div>
     </div>
   </div>
+
 
   <!-- ShowPopup2 for editing profile -->
   <div v-show="showEditPopup" class=" fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
@@ -193,6 +193,7 @@ const getUserProfile = async () => {
     console.error('Error fetching user data:', error);
   }
 };
+
 
 const updateUser = async () => {
   const formData = new FormData();
