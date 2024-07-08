@@ -31,4 +31,4 @@ Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:san
 
 
 Route::get('/guest_house/list', [GuestHouseApiController::class, 'index'])->name('guest_house');
-Route::get('/room/list', [RoomAPIController::class, 'index'])->name('rooms');
+Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->name('rooms');

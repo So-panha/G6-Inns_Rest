@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\GetAllGuestHouseApiResource;
+use App\Http\Resources\GetAllRoomsResoure;
 use App\Models\GuestHouse;
+use App\Models\Room;
 use Illuminate\Http\Request;
 
 class GuestHouseApiController extends Controller
@@ -34,6 +36,9 @@ class GuestHouseApiController extends Controller
     public function show(string $id)
     {
         //
+        $rooms = Room::where('guest_house_id',[$id])->get();
+        $rooms = GetAllRoomsResoure::collection($rooms);
+        return response()->json(['meeesager' => true, 'rooms' => $rooms]);
     }
 
     /**
