@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Admin\{
     CreateBranchController,
     ProfileController,
@@ -63,20 +64,24 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('permissions', 'PermissionController');
         Route::resource('users', 'UserController');
         Route::resource('posts', 'PostController');
-        Route::resource('branchs', 'CreateBranchController');
+        Route::resource('guest-houses', 'CreateBranchController');
         Route::resource('dashboard-room', 'DashboardRoomController');
         Route::resource('check-booking', 'CheckBookingController');
         Route::resource('history', 'HistoryController');
         Route::resource('checking-room', 'CheckingRoomController');
+        Route::resource('manage_owner', 'ManageOwnerController');
 
 
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
         Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
         Route::get('/mail', [MailSettingController::class, 'index'])->name('mail.index');
         Route::put('/mail-update/{mailsetting}', [MailSettingController::class, 'update'])->name('mail.update');
+
         // Route Payment(http://127.0.0.1:8000/admin/payment)
         Route::get('/payment', [PaymentController::class, 'show']);
-        
+
+        // Table Payment
+        Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
     });
 
 Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
