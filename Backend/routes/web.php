@@ -70,8 +70,11 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('history','HistoryController');
         Route::resource('checking-room','CheckingRoomController');
         Route::resource('guest-houses','GuestHousesController');
+        Route::resource('rooms','RoomController');
+
 
         Route::post('shops/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
+        Route::post('rooms/media', 'RoomController@storeMedia')->name('rooms.storeMedia');
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
         Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
         Route::get('/mail', [MailSettingController::class, 'index'])->name('mail.index');

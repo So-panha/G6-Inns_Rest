@@ -21,21 +21,10 @@ class GuestHousesController extends Controller
     public function index()
     {
         $guestHouses = GuestHouse::all();
-
         $mapGuestHouses = $guestHouses->makeHidden(['active', 'created_at', 'updated_at', 'deleted_at', 'created_by_id', 'photos', 'media']);
         $latitude = $guestHouses->average('latitude');
         $longitude = $guestHouses->average('longitude');
         return view('guesthouse.index', compact('guestHouses', 'mapGuestHouses', 'latitude', 'longitude'));
-    }
-
-    public function create()
-    {
-        abort_if(Gate::denies('guestHouses_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $categories = Category::all()->pluck('name', 'id');
-        $days = Day::all();
-
-        return view('admin.guestHouses.create', compact('categories', 'days'));
     }
 
 
@@ -163,11 +152,6 @@ class GuestHousesController extends Controller
     }
 
 
-    public function show(Request $request)
-    {
-
-    }
-
     public function destroy(Request $request, string $id)
     {
         try {
@@ -189,9 +173,4 @@ class GuestHousesController extends Controller
     }
 
 
-    public function massDestroy(Request $request)
-    {
-
-        return response(null, Response::HTTP_NO_CONTENT);
-    }
 }
