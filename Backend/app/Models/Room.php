@@ -31,6 +31,23 @@ class Room extends Model implements HasMedia
         });
     }
 
+    public function bedType(){
+        return $this->belongsTo(BedType::class,'id');
+    }
+
+    public function roomType(){
+        return $this->belongsTo(TypeOfRoom::class,'id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function guestHouse(){
+        return $this->belongsTo(GuestHouse::class);
+    }
+
+
 
 }
 

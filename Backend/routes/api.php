@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\GuestHouseApiController;
 use App\Http\Controllers\API\PostController;
+use App\Http\Controllers\API\RoomAPIController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Front\Auth\AuthenticatedSessionController;
@@ -29,4 +30,5 @@ Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
 Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:sanctum');
 
 
-Route::get('/Guest_House', [GuestHouseApiController::class, 'index'])->name('guest_house');
+Route::get('/guest_house/list', [GuestHouseApiController::class, 'index'])->name('guest_house');
+Route::get('/room/list', [RoomAPIController::class, 'index'])->name('rooms');
