@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\API\GuestHouseApiController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\UserController as APIUserController;
+use App\Http\Controllers\API\RoomAPIController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Front\Auth\AuthenticatedSessionController;
@@ -40,3 +40,5 @@ Route::post('/user/create', [APIUserController::class, 'store'])->name('user.cre
 Route::get('/user/show/{id}', [APIUserController::class, 'show'])->name('user.show');
 Route::put('/user/update/{id}', [APIUserController::class, 'update'])->name('user.update');
 Route::delete('/user/delete/{id}', [APIUserController::class, 'destroy'])->name('user.delete');
+Route::get('/guest_house/list', [GuestHouseApiController::class, 'index'])->name('guest_house');
+Route::get('/room/list', [RoomAPIController::class, 'index'])->name('rooms');

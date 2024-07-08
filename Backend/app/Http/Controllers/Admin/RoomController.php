@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateRoomRequest;
-use App\Models\BadType;
+use App\Models\BedType;
 use App\Models\Room;
 use App\Models\TypeOfRoom;
 use Illuminate\Http\Request;
@@ -90,7 +90,7 @@ class RoomController extends Controller
         $rooms = Room::getColumns()
             ->where('guest_house_id', $guest_house_id)
             ->where('user_id', $user_id)->get();
-        $bedTypes = BadType::all();
+        $bedTypes = BedType::all();
         $roomTypes = TypeOfRoom::all();
         return view('room.index',compact('bedTypes', 'roomTypes','rooms','guest_house_id','user_id'));
     }
