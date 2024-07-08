@@ -21,5 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ConversationSeeder::class);
         $this->call(MessageSeeder::class);
 
+        $this->call(BadTypeSeeder::class);
+        $this->call(TypeOfRoomSeeder::class);
     }
 }
