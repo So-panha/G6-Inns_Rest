@@ -41,4 +41,4 @@ Route::get('/user/show/{id}', [APIUserController::class, 'show'])->name('user.sh
 Route::put('/user/update/{id}', [APIUserController::class, 'update'])->name('user.update');
 Route::delete('/user/delete/{id}', [APIUserController::class, 'destroy'])->name('user.delete');
 Route::get('/guest_house/list', [GuestHouseApiController::class, 'index'])->name('guest_house');
-Route::get('/room/list', [RoomAPIController::class, 'index'])->name('rooms');
+Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->name('rooms');
