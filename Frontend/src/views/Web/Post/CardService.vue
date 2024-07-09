@@ -1,13 +1,32 @@
 <template>
   <div class="container mt-4 mb-15">
     <h2 class="mb-4">Popular Booking</h2>
+
     <div class="position-relative">
-      <div id="cards-container" class="d-flex overflow-auto" style="white-space: nowrap; scroll-behavior: smooth">
-        <div v-for="house in houses" :key="house.id" class="col-md-4 mb-4 mr-3 d-inline-block " style="width: 400px;">
+      <div
+        id="cards-container"
+        class="d-flex overflow-auto"
+        style="white-space: nowrap; scroll-behavior: smooth"
+      >
+        <div
+          v-for="house in houses"
+          :key="house.id"
+          class="col-md-4 mb-4 mr-3 d-inline-block"
+          style="width: 400px"
+        >
           <div class="card h-100 position-relative">
-            <div class="overflow-auto" :id="'scrollContainer-' + house.id" style="white-space: nowrap; scroll-behavior: smooth">
+            <div
+              class="overflow-auto"
+              :id="'scrollContainer-' + house.id"
+              style="white-space: nowrap; scroll-behavior: smooth"
+            >
               <div v-for="image in house.images" :key="image" class="d-inline-block">
-                <img :src="image" :alt="house.name" class="card-img-top" style="width: 400px; height: 200px; object-fit: cover" />
+                <img
+                  :src="image"
+                  :alt="house.name"
+                  class="card-img-top"
+                  style="width: 400px; height: 200px; object-fit: cover"
+                />
               </div>
             </div>
             <button
@@ -51,17 +70,22 @@
         </div>
       </div>
     </div>
+    <!-- {{ authStore }} -->
   </div>
 </template>
 
 <script>
+// import useAuthStore from '../../../stores/post-list'
+
 export default {
-  name: "CardService",
+  // name: 'PopularBooking',
+
+  name: 'CardService',
   props: {
     houses: {
       type: Array,
       required: true
-    }
+    },
   },
   methods: {
     scrollLeft(id) {

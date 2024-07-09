@@ -58,21 +58,21 @@ Route::get('/admin/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('admin.dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
-    ->group(function(){
-        Route::resource('roles','RoleController');
-        Route::resource('permissions','PermissionController');
-        Route::resource('users','UserController');
-        Route::resource('posts','PostController');
-        Route::resource('branchs','CreateBranchController');
-        Route::resource('dashboard-room','DashboardRoomController');
-        Route::resource('check-booking','CheckBookingController');
-        Route::resource('history','HistoryController');
-        Route::resource('checking-room','CheckingRoomController');
-        Route::resource('guest-houses','GuestHousesController');
-        Route::resource('rooms','RoomController');
+    ->group(function () {
+        Route::resource('roles', 'RoleController');
+        Route::resource('permissions', 'PermissionController');
+        Route::resource('users', 'UserController');
+        Route::resource('posts', 'PostController');
+        Route::resource('branchs', 'CreateBranchController');
+        Route::resource('dashboard-room', 'DashboardRoomController');
+        Route::resource('check-booking', 'CheckBookingController');
+        Route::resource('history', 'HistoryController');
+        Route::resource('checking-room', 'CheckingRoomController');
+        Route::resource('guest-houses', 'GuestHousesController');
+        Route::resource('rooms', 'RoomController');
 
 
         Route::post('shops/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
@@ -87,19 +87,20 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
 
 
 
-Route::middleware('auth')->group(function (){
+Route::middleware('auth')->group(function () {
 
-    Route::get('/chat/{query}',Chat::class)->name('chat');
-    
-    Route::get('/users',Users::class)->name('users');
-    
-    Route::get('/chat',Index::class)->name('chat.index');
+    Route::get('/chat/{query}', Chat::class)->name('chat');
+
+    Route::get('/users', Users::class)->name('users');
+
+    Route::get('/chat', Index::class)->name('chat.index');
 });
 
 
 Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
-->group(function(){
-    Route::resource('register','RegisteredUserController');
-});
+    ->group(function () {
+        Route::resource('register', 'RegisteredUserController');
+    });
 
 
+// Route::post('/emails-sendings', )
