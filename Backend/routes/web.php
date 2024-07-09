@@ -51,14 +51,14 @@ Route::get('/', function () {
 // })->middleware(['front'])->name('dashboard');
 
 
-require __DIR__ . '/front_auth.php';
+// require DIR . '/front_auth.php';
 
 // Admin routes
 Route::get('/admin/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('admin.dashboard');
 
-require __DIR__.'/auth.php';
+// require DIR.'/auth.php';
 
 Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
     ->group(function(){
@@ -90,9 +90,9 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
 Route::middleware('auth')->group(function (){
 
     Route::get('/chat/{query}',Chat::class)->name('chat');
-    
+
     Route::get('/users',Users::class)->name('users');
-    
+
     Route::get('/chat',Index::class)->name('chat.index');
 });
 
@@ -101,5 +101,3 @@ Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
 ->group(function(){
     Route::resource('register','RegisteredUserController');
 });
-
-
