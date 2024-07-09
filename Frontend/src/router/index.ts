@@ -29,22 +29,22 @@ const router = createRouter({
     {
       path: '/qrCode',
       name: 'qrCode',
-      component: () => import('../views/Admin/User/QRCodeGeneratorView.vue')
+      component: () => import('../views/Web/QrCode/QRCodeGeneratorView.vue')
     },
     {
       path: '/ticket',
       name: '/ticket',
-      component: () => import('../views/Admin/User/TicketView.vue')
+      component: () => import('../views/Web/Ticket/TicketView.vue')
     },
     {
       path: '/ticketNoti',
       name: '/ticketNoti',
-      component: () => import('../views/Admin/User/TicketNotiView.vue')
+      component: () => import('../views/Web/TicketNoti/TicketNotiView.vue')
     },
     {
       path: '/bookingUser',
       name: 'bookingUser',
-      component: () => import('../views/Admin/User/BookingUserView.vue')
+      component: () => import('../views/Web/Booking/BookingUserView.vue')
     },
     {
       path: '/',

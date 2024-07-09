@@ -9,7 +9,7 @@
         <h6>Find your rest house here</h6>
       </div>
       <div class="flex mt-3">
-        <span class="material-symbols-outlined mr-6" style="font-size: 40px"> shopping_cart </span>
+        <router-link to="/ticketNoti"><span class="material-symbols-outlined mr-6" style="font-size: 40px"> shopping_cart </span></router-link>
         <div @click="showProfilePopup = true">
           <img :src="profileImageUrl" class="profile-image rounded-full mr-3 h-10 w-10" />
         </div>
