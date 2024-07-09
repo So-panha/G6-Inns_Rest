@@ -30,6 +30,12 @@ class AdminSeeder extends Seeder
             'password'=>bcrypt('password')
         ]);
 
+        $writer1 = User::create([
+            'name'=>'Dany',
+            'email'=>'dany@gmail.com',
+            'password'=>bcrypt('password')
+        ]);
+
 
 
         $admin_role = Role::create(['name' => 'admin']);
@@ -68,8 +74,14 @@ class AdminSeeder extends Seeder
         $permission = Permission::create(['name' => 'Mail access']);
         $permission = Permission::create(['name' => 'Mail edit']);
 
+        $permission = Permission::create(['name' => 'Chat access']);
+        $permission = Permission::create(['name' => 'Chat admin']);
+        $permission = Permission::create(['name' => 'Chat user']);
+
+
         $admin->assignRole($admin_role);
         $writer->assignRole($writer_role);
+        $writer1->assignRole($writer_role);
 
         $admin_role->givePermissionTo(Permission::all());
     }

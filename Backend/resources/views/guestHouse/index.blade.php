@@ -50,9 +50,13 @@
                                 <div x-show="showPopup"
                                     class="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
                                     <div class="bg-white p-6 rounded-lg shadow-lg grid justify-items-stretch">
-                                        <button @click="showPopup = false" class="text-dark rounded justify-self-end py-4 px-1">
-                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                        <button @click="showPopup = false"
+                                            class="text-dark rounded justify-self-end py-4 px-1">
+                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="none" viewBox="0 0 14 14">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                                             </svg>
                                             <span class="sr-only">Close modal</span>
                                         </button>
@@ -74,6 +78,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <a href="{{ route('admin.rooms.show', $guestHouse->id) }}" class="inline-block bg-blue-500 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1">Create Room</a>
                         </div>
                     </div>
                 @endforeach
@@ -134,12 +139,14 @@
                                             {{ $errors->first('photos') }}
                                         </div>
                                     @endif
-                                    <span class="help-block">{{ trans('cruds.guestHouse.fields.photos_helper') }}</span>
+                                    <span
+                                        class="help-block">{{ trans('cruds.guestHouse.fields.photos_helper') }}</span>
                                 </div>
                             </div>
                             <div class="form-group mt-4">
                                 <label for="address">{{ trans('cruds.guestHouse.fields.address') }}</label>
-                                <input class="form-control map-input {{ $errors->has('address') ? 'is-invalid' : '' }}"
+                                <input
+                                    class="form-control map-input {{ $errors->has('address') ? 'is-invalid' : '' }}"
                                     type="text" name="address" id="address" value="{{ old('address') }}">
                                 <input type="hidden" name="latitude" id="address-latitude"
                                     value="{{ old('latitude') ?? '0' }}" />
