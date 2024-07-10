@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CommentFeedbackApiController;
 use App\Http\Controllers\API\GuestHouseApiController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\API\PostController;
@@ -40,3 +41,11 @@ Route::post('/user/create', [APIUserController::class, 'store'])->name('user.cre
 Route::get('/user/show/{id}', [APIUserController::class, 'show'])->name('user.show');
 Route::put('/user/update/{id}', [APIUserController::class, 'update'])->name('user.update');
 Route::delete('/user/delete/{id}', [APIUserController::class, 'destroy'])->name('user.delete');
+
+ //-------------Comment-Feedback-Routes----------------------------------------
+
+Route::post('/commentGuestHouse', [CommentFeedbackApiController::class, 'commentGuestHouse'])->name('commentGuestHouse');
+Route::put('/updateComment/{id}', [CommentFeedbackApiController::class, 'update'])->name('updateComment');
+Route::delete('/deleteComment/{id}', [CommentFeedbackApiController::class, 'destroy'])->name('destroy');
+Route::get('/commentOther', [CommentFeedbackApiController::class, 'index'])->name('commentOther');
+Route::get('/commentOther', [CommentFeedbackApiController::class, 'index'])->name('commentOther');

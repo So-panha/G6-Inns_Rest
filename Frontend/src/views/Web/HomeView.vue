@@ -155,13 +155,11 @@ import LogoInn from '@/assets/LogoInn.svg';
 import MapViewVue from './MapSearch/MapView.vue';
 import ListCardView from './Post/ListCardView.vue';
 import FooterView from './Post/FooterView.vue';
+import ServiceDetail from '../serviceDetail/ServiceDetail.vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/auth-store';
 
 const router = useRouter();
-const authStore = useAuthStore();
-
 const showProfilePopup = ref(false);
 const showEditPopup = ref(false);
 const fileInputRef = ref<HTMLInputElement | null>(null);
@@ -172,7 +170,6 @@ const inputs = reactive({
   email: '',
   phoneNumber: '',
   profile: '',
-  
 });
 
 const tempInputs = reactive({
@@ -180,13 +177,11 @@ const tempInputs = reactive({
   email: '',
   phoneNumber: '',
   profile: '',
-
- 
 });
 
 const getUserProfile = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/user/show/1}'); // Adjust URL and user ID as needed
+    const response = await axios.get('http://127.0.0.1:8000/api/user/show/1'); // Adjust URL and user ID as needed
     profileImageUrl.value = `http://127.0.0.1:8000/storage/${response.data.user.profile}`;
     Object.assign(inputs, response.data.user);
   } catch (error) {
@@ -266,19 +261,18 @@ onMounted(() => {
   border: 2px solid rgb(238, 40, 228);
   border-radius: 50%;
 }
-.btn-upload{
+.btn-upload {
   background: #8706ff;
   color: white;
 }
-.btn-purple{
-   background: #ab2cff;
+.btn-purple {
+  background: #ab2cff;
   color: white;
 }
-.text-edit{
+.text-edit {
   color: #8f06ff;
 }
-.popup2{
+.popup2 {
   border: 3px solid rgb(199, 13, 255);
-
 }
 </style>

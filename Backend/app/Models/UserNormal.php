@@ -21,4 +21,7 @@ class UserNormal extends Model
         'phoneNumber',
         'profile'
     ];
+    public function commentFeedback(){
+        return $this->hasMany(CommentFeedback::class);
+    }
 }
