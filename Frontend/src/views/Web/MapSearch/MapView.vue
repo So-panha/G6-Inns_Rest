@@ -3,18 +3,39 @@
     <div class="jumbotron">
       <div class="container-fluid">
         <div class="map-container">
-          <div id="googleMap" style="height: 500px; width: 89.5%; border: 1px solid #ccc; margin-left: 180px"></div>
+          <div
+            id="googleMap"
+            style="height: 500px; width: 89.5%; border: 1px solid #ccc; margin-left: 180px"
+          ></div>
           <form class="map-form" :class="{ expanded: formExpanded }">
             <div class="form-group" style="display: flex; align-items: center; margin-top: 5px">
               <span class="map-label">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                   <path
-                    d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
-                </svg></span>
-              <input v-model="from" type="text" id="from" placeholder="Enter origin" class="form-control map-input"
-                style="width: 200px; margin-right: 10px" aria-label="Origin" />
-              <input v-model="to" type="text" id="to" placeholder="Enter destination" class="form-control map-input"
-                style="width: 200px; margin-right: 10px" aria-label="Destination" />
+                    d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
+                  /></svg
+              ></span>
+              <input
+                v-model="from"
+                type="text"
+                id="from"
+                placeholder="Enter origin"
+                class="form-control map-input"
+                style="width: 200px; margin-right: 10px"
+                aria-label="Origin"
+              />
+              <input
+                v-model="to"
+                type="text"
+                id="to"
+                placeholder="Enter destination"
+                class="form-control map-input"
+                style="width: 200px; margin-right: 10px"
+                aria-label="Destination"
+              />
+              <button @click.prevent="calcRoute" class="btn btn-primary map-button">
+                Calculate Route
+              </button>
             </div>
           </form>
         </div>
@@ -25,8 +46,9 @@
 </template>
 
 <script>
-// import '@fortawesome/fontawesome-free/css/all.css'
-// import MarkerWithLabel from 'markerwithlabel'
+import axiosInstance from '@/plugins/axios'
+import pinHome from '@/assets/pinHome.png'
+import user from '@/assets/user.png'
 
 export default {
   data() {
@@ -39,11 +61,10 @@ export default {
       directionsDisplay: null,
       userLocationMarker: null,
       markers: [],
-      form: '',
-      to: '',
       formExpanded: false
     }
   },
+
   mounted() {
     this.loadGoogleMaps()
   },
@@ -63,8 +84,6 @@ export default {
     loadGoogleMaps() {
       const script = document.createElement('script')
       script.src = `https://maps.googleapis.com/maps/api/js?key=&libraries=places`
-      // key Api google
-      // AIzaSyBCo8-P-w_42crrvaFDr4bqd-XGASt2tzM
       script.defer = true
       script.async = true
       script.onload = () => {
@@ -91,7 +110,7 @@ export default {
     },
     initAutocomplete() {
       const options = {
-        types: ['geocode'] // Include all types of geographical locations
+        types: ['geocode']
       }
       this.autocompleteFrom = new google.maps.places.Autocomplete(
         document.getElementById('from'),
@@ -102,7 +121,6 @@ export default {
         options
       )
 
-      // Add event listeners to update v-model on place selection
       this.autocompleteFrom.addListener('place_changed', () => {
         const place = this.autocompleteFrom.getPlace()
         if (!place.geometry) {
@@ -121,7 +139,6 @@ export default {
         this.to = place.formatted_address
       })
     },
-
     getUserLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -138,7 +155,7 @@ export default {
                   this.from = formattedAddress
                   this.map.setCenter(latlng)
                   this.addUserLocationMarker(latlng)
-                  this.findNearbyGuesthouses(latlng)
+                  this.guestHouse()
                 } else {
                   console.error('No results found for the given coordinates.')
                   this.from = 'Your current location'
@@ -169,37 +186,108 @@ export default {
         position: latlng,
         map: this.map,
         title: 'Your Location',
-        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-      })
-    },
-    findNearbyGuesthouses(latlng) {
-      const request = {
-        location: latlng,
-        // in meters
-        radius: '1000',
-        // for guesthouses
-        type: 'lodging'
-      }
-      const service = new google.maps.places.PlacesService(this.map)
-      service.nearbySearch(request, (results, status) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          this.clearMarkers()
-          results.forEach((place) => {
-            this.createMarker(place)
-          })
-        } else {
-          console.error('Places service failed:', status)
+        icon: {
+          url: user,
+          scaledSize: new google.maps.Size(50, 50),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(25, 50)
         }
       })
     },
+    guestHouse() {
+      axiosInstance.get('/Guest_House').then((response) => {
+        const guesthouses = response.data.data
+        if (guesthouses.length === 0) {
+          this.output = `<div class='alert-warning'><i class='fas fa-exclamation-triangle'></i> No guesthouses found.</div>`
+          return
+        }
+        this.clearMarkers()
+        guesthouses.forEach((guesthouse) => {
+          const latitude = parseFloat(guesthouse.latitude)
+          const longitude = parseFloat(guesthouse.longitude)
+
+          if (!isNaN(latitude) && !isNaN(longitude) && latitude !== 0 && longitude !== 0) {
+            // Valid coordinates, create marker directly
+            const latlng = new google.maps.LatLng(latitude, longitude)
+            this.createMarker({
+              geometry: {
+                location: latlng
+              },
+              address: guesthouse.address,
+              name: guesthouse.name,
+              photos: guesthouse.photos
+            })
+          } else {
+            // Invalid or missing coordinates, use geocoding
+            this.geocodeAddress(guesthouse.address, (latlng) => {
+              if (latlng) {
+                this.createMarker({
+                  geometry: {
+                    location: latlng
+                  },
+                  address: guesthouse.address,
+                  name: guesthouse.name,
+                  photos: guesthouse.photos
+                })
+              } else {
+                console.warn('Geocoding failed for address:', guesthouse.address)
+              }
+            })
+          }
+        })
+      })
+    },
+
     createMarker(place) {
       const marker = new google.maps.Marker({
         position: place.geometry.location,
         map: this.map,
-        title: place.name
+        title: place.address,
+        label: {
+          text: place.name,
+          fontSize: '14px',
+          fontWeight: 'bold',
+          color: 'gray'
+        },
+        icon: {
+          url: pinHome,
+          scaledSize: new google.maps.Size(40, 40),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(20, 40),
+          labelOrigin: new google.maps.Point(-20, 15)
+        }
       })
+
       this.markers.push(marker)
+
+      let imageUrl = ''
+      if (place.photos && place.photos.length > 0) {
+        imageUrl = `http://127.0.0.1:8000${place.photos[0].url.slice(16)}`
+      }
+
+      const infowindowContent = `
+      <div>
+        <img
+          src="${imageUrl}"
+          class="card-img-top"
+          style="width:40%; height: auto;"
+        />
+        <div>
+          <strong>${place.name}</strong><br>
+          ${place.address}
+        </div>
+      </div>`
+
+      const infowindow = new google.maps.InfoWindow({
+        content: infowindowContent
+      })
+
+      marker.addListener('click', () => {
+        infowindow.open(this.map, marker)
+        this.calcRouteToGuesthouse(place.geometry.location)
+      })
     },
+
     clearMarkers() {
       this.markers.forEach((marker) => {
         marker.setMap(null)
@@ -233,27 +321,21 @@ export default {
                 totalDuration += leg.duration.value
               })
 
-              // Convert totalDistance from meters to kilometers
               const totalDistanceInKm = (totalDistance / 1000).toFixed(2)
-
-              // Convert totalDuration from seconds to minutes
               const totalDurationInMinutes = Math.floor(totalDuration / 60)
 
-              // Display directions on the map
               this.directionsDisplay.setDirections(result)
 
-              // Calculate midpoint of the route to place the custom overlay
               const path = result.routes[0].overview_path
               const midPointIndex = Math.floor(path.length / 2)
               const midPoint = path[midPointIndex]
 
-              // Create custom overlay to display the total distance and duration
               const overlay = new google.maps.OverlayView()
               overlay.draw = () => {
                 const marker = new google.maps.Marker({
                   position: midPoint,
                   map: this.map,
-                  visible: false // Hide the marker icon
+                  visible: false
                 })
 
                 const div = document.createElement('div')
@@ -268,7 +350,6 @@ export default {
               }
 
               overlay.setMap(this.map)
-
               return
             }
           }
@@ -280,10 +361,55 @@ export default {
         }
       })
     },
+    calcRouteToGuesthouse(destination) {
+      if (!this.from || !destination) {
+        this.output =
+          "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Please fill in the required fields.</div>"
+        return
+      }
+
+      const routeRequest = {
+        origin: this.from,
+        destination: destination,
+        travelMode: google.maps.TravelMode.DRIVING,
+        unitSystem: google.maps.UnitSystem.METRIC
+      }
+
+      this.directionsService.route(routeRequest, (result, status) => {
+        if (status === google.maps.DirectionsStatus.OK) {
+          this.directionsDisplay.setDirections(result)
+        } else {
+          this.output =
+            "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> No route found.</div>"
+        }
+      })
+    },
     apiError() {
       console.error('Google Maps API script loading failed.')
       this.output =
         "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Failed to load Google Maps API.</div>"
+    },
+    createMarkerFromData(markerData) {
+      // Use the markerData to create a new marker on the map
+      const latitude = parseFloat(markerData.latitude)
+      const longitude = parseFloat(markerData.longitude)
+      const latlng = new google.maps.LatLng(latitude, longitude)
+
+      this.createMarker({
+        geometry: {
+          location: latlng
+        },
+        address: markerData.address,
+        name: markerData.name,
+        photos: markerData.photos
+      })
+    }
+  },
+  watch: {
+    markerData(newMarkerData) {
+      if (newMarkerData) {
+        this.createMarkerFromData(newMarkerData)
+      }
     }
   }
 }
@@ -297,7 +423,6 @@ export default {
 .map-container {
   position: relative;
   margin-left: -190px;
-  /* width: 142%; */
 }
 
 .map-form {
@@ -327,7 +452,6 @@ export default {
 .map-input {
   border: none;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  /* padding: 10px 15px; */
   font-size: 16px;
   border-radius: 3px;
 }
