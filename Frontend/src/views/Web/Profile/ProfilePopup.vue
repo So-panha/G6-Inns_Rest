@@ -75,7 +75,7 @@ const inputs = ref({
 const logout = () => {
   localStorage.removeItem('access_token')
   emit('toggleProfilePopup')
-  window.location.href = '/login'
+  window.location.href = '/'
 }
 
 const closeProfilePopup = () => {
