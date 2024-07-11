@@ -47,26 +47,18 @@
                                     class="inline-block bg-red-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1"
                                     @click="showPopup = true">Delete</button>
 
-                            <button id="openPopup"
-                                class="inline-block bg-red-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1">Delete</button>
-
-                            <div id="popup"
-                                class="popup fixed inset-0 flex items-center justify-center z-50 bg-gray-500 bg-opacity-50 hidden">
-                                <div class="bg-white shadow-lg rounded-lg p-6 max-w-md w-full">
-                                    <span
-                                        class="close-button text-gray-400 float-right text-2xl font-bold hover:text-gray-700 cursor-pointer">&times;</span>
-                                    <h2 class="text-2xl font-bold mb-4">Are you sure to delete your branch</h2>
-                                    <p class="mb-4">Please fill your password</p>
-                                    <form class="grid justify-items-stretch"
-                                        action="{{ route('admin.guest-houses.destroy', $guestHouse->id) }}"
-                                        method="POST" class="inline">
-                                        <input type="password" placeholder="Your password" name="password"
-                                            class="w-full" value="{{ old('password') }}" required>
-                                        @csrf
-                                        @method('delete')
-                                        <button
-                                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 justify-self-end">
-                                            Yes
+                                <div x-show="showPopup"
+                                    class="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
+                                    <div class="bg-white p-6 rounded-lg shadow-lg grid justify-items-stretch">
+                                        <button @click="showPopup = false"
+                                            class="text-dark rounded justify-self-end py-4 px-1">
+                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                fill="none" viewBox="0 0 14 14">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                            </svg>
+                                            <span class="sr-only">Close modal</span>
                                         </button>
                                         <h2 class="text-2xl font-bold mb-4">Are you sure to delete your branch</h2>
                                         <p class="mb-4">Please confirm your password</p>
