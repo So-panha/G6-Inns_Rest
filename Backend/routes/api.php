@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+    
 });
 
 Route::post('/register', [RegisteredUserController::class, 'registerUser']);
@@ -42,4 +43,4 @@ Route::put('/user/update/{id}', [APIUserController::class, 'update'])->name('use
 Route::delete('/user/delete/{id}', [APIUserController::class, 'destroy'])->name('user.delete');
 
 Route::get('/guest_house/list', [GuestHouseApiController::class, 'index'])->name('guest_house');
-Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->name('rooms');
+Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->name('guest_house.id');

@@ -6,8 +6,7 @@
         <div
           id="cards-container"
           class="d-flex overflow-auto"
-          style="white-space: nowrap; scroll-behavior: smooth"
-        >
+          style="white-space: nowrap; scroll-behavior: smooth">
           <div
             v-for="house in houses"
             :key="house.id"
@@ -70,9 +69,8 @@
                     <span class="material-symbols-outlined me-2">wifi</span>
                     <span class="material-symbols-outlined">restaurant</span>
                   </div>
-                  <router-link to="/service-detail">
-                    <button type="button" class="btn btn-outline-success">Detail</button>
-                  </router-link>
+                  <router-link :to="{ name: 'show-room', params: { id: house.id } }" class="btn btn-info btn-sm">Show Room</router-link>
+
                 </div>
               </div>
             </div>

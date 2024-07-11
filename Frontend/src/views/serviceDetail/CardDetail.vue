@@ -1,62 +1,51 @@
 <template>
-
-  <div>
+   <div class="container">
     <div class="card mb-3 m-8" v-for="(listImage, index) in ListImages" :key="listImage.id">
-      
       <div class="row p-5">
         <div class="col-md-4">
-          <div :id="'carouselExampleControls' + index" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-              <div
-                class="carousel-item"
-                v-for="(image, imageIndex) in listImage.images"
-                :key="image.id"
-                :class="{ active: imageIndex === currentImageIndex }"
-              >
+          <div class="card h-100 position-relative">
+            <div
+              class="overflow-auto"
+              :id="'scrollContainer-' + listImage.id"
+              style="white-space: nowrap; scroll-behavior: smooth"
+            >
+              <div v-for="image in listImage.images" :key="image.url" class="d-inline-block">
                 <img
                   :src="getImage(image.url)"
-                  class="card-img d-block w-100"
-                  alt="Room Image"
-                  id="roomImage"
-                  @click="showImage(index, imageIndex)"
+                  class="card-img"
+                  alt="Room Image" 
+                  style="width: 430px; height: 320px; object-fit: cover"
+                  @click="showImage(index)"
                 />
                 <button
                   class="position-absolute top-20 start-15 translate-middle-y heart-button"
                   :class="{
-                    'btn-outline-light': !image.isFavorite,
-                    'btn-danger': image.isFavorite
+                    'btn-outline-light': !listImage.isFavorite,
+                    'btn-danger': listImage.isFavorite
                   }"
-                  @click="toggleFavorite(index, imageIndex)"
+                  @click="toggleFavorite(index)"
                 ></button>
               </div>
+              <button
+                @click="scrollLeft(listImage.id)"
+                class="position-absolute top-50 start-0 translate-middle-y btn btn-outline-dark border-0"
+              >
+                <span class="material-symbols-outlined">chevron_left</span>
+              </button>
+              <button
+                @click="scrollRight(listImage.id)"
+                class="position-absolute top-50 end-0 translate-middle-y btn btn-outline-dark border-0"
+              >
+                <span class="material-symbols-outlined">chevron_right</span>
+              </button>
             </div>
-            <a
-              class="carousel-control-prev"
-              :href="'#carouselExampleControls' + index"
-              role="button"
-              data-slide="prev"
-              @click="prevImage(index)"
-            >
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a
-              class="carousel-control-next"
-              :href="'#carouselExampleControls' + index"
-              role="button"
-              data-slide="next"
-              @click="nextImage(index)"
-            >
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
           </div>
         </div>
 
         <div class="col-md-7">
           <div class="card-body">
             <h5 class="card-title">{{ listImage.name }}</h5>
-            <p class="card-text">{{ listImage.type_of_room.name }}</p>
+            <p class="card-text">Type Room :</p>
             <p class="card-text">
               <span class="locate material-symbols-outlined" style="font-size: 40px">
                 home_pin
@@ -66,7 +55,7 @@
             <div class="d-flex justify-content-between align-items-center ml-1">
               <div class="flex">
                 <span class="home material-symbols-outlined" style="font-size: 30px"> home </span>
-                <p class="card-text mt-1 ml-4">{{ listImage.bed_type.name }}</p>
+                <p class="card-text mt-1 ml-4"></p>
               </div>
               <div class="flex">
                 <span class="wifi material-symbols-outlined" style="font-size: 30px"> wifi </span>
@@ -149,7 +138,7 @@ export default {
   computed: {
     currentImage() {
       if (this.selectedIndex !== null) {
-        return this.ListImages[this.selectedIndex].images[this.currentImageIndex]
+        return this.urlImage + this.ListImages[this.selectedIndex].images[this.currentImageIndex].url.slice(16)
       }
       return null
     }
@@ -179,11 +168,21 @@ export default {
     },
     getImage(image) {
       return this.urlImage + image.slice(16)
+    },
+    scrollLeft(imageId) {
+      const scrollContainer = document.getElementById(`scrollContainer-${imageId}`)
+      scrollContainer.scrollBy(-400, 0)
+    },
+    scrollRight(imageId) {
+      const scrollContainer = document.getElementById(`scrollContainer-${imageId}`)
+      scrollContainer.scrollBy(400, 0)
+    },
+    emitMarkerData(image) {
+      this.$emit('markerData', image)
     }
   }
 }
 </script>
-
 <style>
 /* Add necessary styles for modal */
 .modal {
