@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\API\GuestHouseApiController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\UserController as APIUserController;
@@ -42,3 +43,4 @@ Route::put('/user/update/{id}', [APIUserController::class, 'update'])->name('use
 Route::delete('/user/delete/{id}', [APIUserController::class, 'destroy'])->name('user.delete');
 Route::get('/guest_house/list', [GuestHouseApiController::class, 'index'])->name('guest_house');
 Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->name('rooms');
+

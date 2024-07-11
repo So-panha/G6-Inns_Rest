@@ -8,8 +8,6 @@ use App\Models\Day;
 use App\Models\GuestHouse;
 use App\Models\User;
 use Gate;
-use Google\Rpc\Context\AttributeContext\Auth;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;

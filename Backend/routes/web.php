@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\{
     ProfileController,
     MailSettingController,
-    GuestHousesController
+    GuestHousesController,
+    PaymentController
 };
 // use App\Http\Controllers\Traits\MediaUploadingTrait;
 
@@ -74,7 +74,6 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('guest-houses','GuestHousesController');
         Route::resource('rooms','RoomController');
 
-
         Route::post('shops/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
         Route::post('rooms/media', 'RoomController@storeMedia')->name('rooms.storeMedia');
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
@@ -82,17 +81,16 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::get('/mail', [MailSettingController::class, 'index'])->name('mail.index');
         Route::put('/mail-update/{mailsetting}', [MailSettingController::class, 'update'])->name('mail.update');
         // Route Payment(http://127.0.0.1:8000/admin/payment)
-        Route::get('/payment', [PaymentController::class, 'show']);
+        Route::get('/payment', [PaymentController::class, 'showPaymentForm']);
+        // Route::post('/payment', 'PaymentController@createStripePaymentIntent')->name('stripe.paymentIntent.create');
+        Route::post('/process-payment',[PaymentController::class,'createStripePaymentIntent'])->name('stripe.paymentIntent.create');
     });
 
 
 
 Route::middleware('auth')->group(function (){
-
     Route::get('/chat/{query}',Chat::class)->name('chat');
-    
     Route::get('/users',Users::class)->name('users');
-    
     Route::get('/chat',Index::class)->name('chat.index');
 });
 
