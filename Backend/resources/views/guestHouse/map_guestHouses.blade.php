@@ -1,6 +1,6 @@
-<div class="fullwidth-sidebar-container">
-    <div class="sidebar top-sidebar">
-        <div id="map-canvas" style="height: 425px; width: 100%; position: relative; overflow: hidden;">
+<div class="fullwidth-sidebar-container h-96">
+    <div class="sidebar top-sidebar h-96">
+        <div id="map-canvas" style="height: 100%; width: 100%; position: relative; overflow: hidden;">
         </div>
     </div>
 </div>
