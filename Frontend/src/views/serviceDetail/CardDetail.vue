@@ -43,7 +43,9 @@
             </div>
             <div class="d-flex justify-content-end mt-5">
               <button class="btn btn-danger mr-2">Booked</button>
-              <router-link to="/bookingUser"><button class="btn btn-primary">Booking</button></router-link>
+              <!-- pop up user booking -->
+              
+              <button class="btn btn-primary">Booking</button>
             </div>
           </div>
         </div>

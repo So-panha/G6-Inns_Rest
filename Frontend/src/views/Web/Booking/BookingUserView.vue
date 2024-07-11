@@ -4,77 +4,78 @@
   </div>
   <div class="content">
     <div class="row">
-      <div class="col-md-4 mb-3">
-        <label for="firstname">First Name *</label>
-        <input type="text" class="form-control" id="firstname" placeholder="First name">
-      </div>
-      <div class="col-md-4 mb-3">
-        <label for="lastname">Last Name *</label>
-        <input type="text" class="form-control" id="lastname" placeholder="Last name">
-      </div>
-      <div class="col-md-4 mb-3">
-        <label for="phone">Phone Number *</label>
-        <input type="tel" class="form-control" id="phone" placeholder="Phone number">
+      <div class="col-md-12 mb-3 mt-3">
+        <input type="number" class="form-control" id="numRooms" v-model="form.numRooms" placeholder="Number Of Room">
+        <span v-if="errors.numRooms" class="error">{{ errors.numRooms }}</span>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-4 mb-3">
-        <label for="email">Email *</label>
-        <input type="email" class="form-control" id="email" placeholder="Email">
+      <div class="col-md-6 mb-3 mt-3">
+        <input type="date" class="form-control" id="departuredate" v-model="form.departuredate"
+          placeholder="Departure Date">
+        <span v-if="errors.departuredate" class="error">{{ errors.departuredate }}</span>
       </div>
-      <div class="col-md-4 mb-3">
-        <label for="price">Price *</label>
-        <input type="text" class="form-control" id="price" placeholder="Price Auto">
-      </div>
-      <div class="col-md-4 mb-3">
-        <label for="rooms">Number Of Rooms</label>
-        <input type="number" class="form-control" id="rooms" placeholder="Number Of Rooms">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6 mb-3">
-        <label for="departuredate">Departure Date *</label>
-        <input type="date" class="form-control" id="departuredate" placeholder="Form">
-      </div>
-      <div class="col-md-6 mb-3">
-        <label for="arrivaldate">Arrival Date *</label>
-        <input type="date" class="form-control" id="arrivaldate" placeholder="To">
+      <div class="col-md-6 mb-3 mt-3">
+        <input type="date" class="form-control" id="arrivaldate" v-model="form.arrivaldate" placeholder="Arrival Date">
+        <span v-if="errors.arrivaldate" class="error">{{ errors.arrivaldate }}</span>
       </div>
     </div>
     <div class="text-right">
-      <button class="btn btn-danger mr-2">Cancel</button>
-      <router-link to="ticket"><button class="btn btn-primary">Submit</button></router-link>
+      <button class="btn btn-danger mr-2" @click="cancelForm">Cancel</button>
+      <button class="btn btn-primary" @click="submitForm">Submit</button>
     </div>
   </div>
-  {{ form }}
 </template>
 
-<script>
-import axiosInstance from '@/plugins/axios'
-import axios from 'axios';
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import * as yup from 'yup';
 
-export default {
-  name: 'BookingUser',
-  data() {
-    return {
-      form: []
-    };
-  },
-  methods: {
-    mounted() {
-      this.fetchBooking()
-    },
-    async fetchBooking() {
-      try {
-        const response = await axios.post('/booking-user-rooms')
-        this.form = response.data.data
-        console.log(response.data.data);
-      } catch (error) {
-        console.error('Error submitting form:', error);
-      }
-    },
+const form = ref({
+  numRooms: '',
+  departuredate: '',
+  arrivaldate: ''
+});
+const errors = ref({});
+
+const router = useRouter();
+
+const schema = yup.object().shape({
+  numRooms: yup.number().integer().min(1, 'At least one room is required').required('Number of rooms is required'),
+  departuredate: yup.date().required('Departure Date is required').min(new Date(), 'Departure Date cannot be in the past'),
+  arrivaldate: yup.date().required('Arrival Date is required').min(yup.ref('departuredate'), 'Arrival Date cannot be before Departure Date'),
+});
+
+const validateForm = async () => {
+  errors.value = {};
+  try {
+    await schema.validate(form.value, { abortEarly: false });
+    return true;
+  } catch (err) {
+    if (err.inner) {
+      errors.value = err.inner.reduce((acc, error) => {
+        acc[error.path] = error.message;
+        return acc;
+      }, {});
+    }
+    return false;
   }
 };
+
+const submitForm = async () => {
+  if (await validateForm()) {
+    console.log('Form is valid!', form.value); 
+    router.push('/qrCode');
+  }
+};
+
+const cancelForm = ()=>{
+  router.push('/ListRoom')
+  
+
+}
+
 </script>
 
 <style scoped>
@@ -91,13 +92,13 @@ h1 {
   margin-top: 20%;
   text-align: left;
   color: white;
-  font-size: 70px;
+  font-size: 50px; /* Adjusted font size */
 }
 
 .container {
   margin-top: 10px;
   position: relative;
-  width: 81%;
+  width: 100%; /* Adjusted width */
   min-height: 50vh;
   display: flex;
   align-items: center;
@@ -111,15 +112,33 @@ h1 {
   position: relative;
   background: rgba(255, 255, 255, 0.9);
   padding: 20px;
-  width: 81%;
+  width: 100%; /* Adjusted width */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin-left: 9.5%;
+  margin: 0 auto; /* Center the content horizontally */
 }
 
-.room-image {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto 20px auto;
+.error {
+  color: red;
+  font-size: 12px; /* Adjusted font size */
+}
+
+.text-right {
+  text-align: right;
+}
+
+.btn {
+  font-size: 14px; /* Adjusted font size */
+  padding: 8px 16px;
+  margin-top: 10px;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
 }
 </style>
