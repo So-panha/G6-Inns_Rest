@@ -1,8 +1,6 @@
 <template>
   <Navbar :profileImageUrl="profileImageUrl" @toggleProfilePopup="toggleProfilePopup" />
   <MapViewVue />
-  <ListCardView />
-  <!-- <ProfilePopup /> -->
   <ProfilePopup
     v-if="showProfilePopup"
     :showProfilePopup="showProfilePopup"
@@ -20,13 +18,11 @@
     @saveChanges="saveChanges"
   />
   <FooterView />
-  <!-- {{authStore}} -->
 </template>
 
 <script setup lang="ts">
 import Navbar from './Post/Navbar.vue'
 import MapViewVue from './MapSearch/MapView.vue'
-import ListCardView from './Post/ListCardView.vue'
 import ProfilePopup from './Profile/ProfilePopup.vue'
 import EditProfilePopup from './Profile/EditProfilePopup.vue'
 import FooterView from './Post/FooterView.vue'
