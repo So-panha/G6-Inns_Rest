@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\API\GuestHouseApiController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\UserController as APIUserController;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-    
+
 });
 
 Route::post('/register', [RegisteredUserController::class, 'registerUser']);
@@ -44,3 +45,5 @@ Route::delete('/user/delete/{id}', [APIUserController::class, 'destroy'])->name(
 
 Route::get('/guest_house/list', [GuestHouseApiController::class, 'index'])->name('guest_house');
 Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->name('guest_house.id');
+Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->name('rooms');
+
