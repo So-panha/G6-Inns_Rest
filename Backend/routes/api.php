@@ -59,3 +59,4 @@ Route::put('/booking_user_rooms/{id}', [BookingUserRoomAPIController::class, 'up
 
 // Delete a specific booking user room
 Route::delete('/booking_user_rooms/{id}', [BookingUserRoomAPIController::class, 'destroy'])->name('booking_user_rooms.delete');
+Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->name('rooms');
