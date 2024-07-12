@@ -86,7 +86,6 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
     });
 
 
-
 Route::middleware('auth')->group(function () {
 
     Route::get('/chat/{query}', Chat::class)->name('chat');
@@ -94,6 +93,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/users', Users::class)->name('users');
 
     Route::get('/chat', Index::class)->name('chat.index');
+
 });
 
 
@@ -104,3 +104,4 @@ Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
 
 
 // Route::post('/emails-sendings', )
+
