@@ -17,7 +17,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/login',
+      path: '/',
       name: 'login',
       component: () => import('../views/Admin/Auth/LoginView.vue')
     },
@@ -47,7 +47,7 @@ const router = createRouter({
       component: () => import('../views/Admin/User/BookingUserView.vue')
     },
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: () => import('../views/Web/HomeView.vue')
     },
@@ -57,11 +57,12 @@ const router = createRouter({
       component: () => import('../views/Web/Post/ListView.vue')
     },
     {
-      path: '/service-detail',
-      name: 'service-detail',
-      component: () => import('../views/serviceDetail/ServiceDetail.vue')
-    }
+      path: '/service-detail/:id',
+      name: 'show-room',
+      component: () => import('../views/serviceDetail/ServiceDetail.vue'),
+      props: true
 
+    }
   ]
 })
 

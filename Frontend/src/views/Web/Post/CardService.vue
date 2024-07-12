@@ -1,50 +1,71 @@
 <template>
-  <div class="container mt-4 mb-15">
-    <h2 class="mb-4">Popular Booking</h2>
-    <div class="position-relative">
-      <div id="cards-container" class="d-flex overflow-auto" style="white-space: nowrap; scroll-behavior: smooth">
-        <div v-for="house in houses" :key="house.id" class="col-md-4 mb-4 mr-3 d-inline-block " style="width: 400px;">
-          <div class="card h-100 position-relative">
-            <div class="overflow-auto" :id="'scrollContainer-' + house.id" style="white-space: nowrap; scroll-behavior: smooth">
-              <div v-for="image in house.images" :key="image" class="d-inline-block">
-                <img :src="image" :alt="house.name" class="card-img-top" style="width: 400px; height: 200px; object-fit: cover" />
-              </div>
-            </div>
-            <button
-              @click="scrollLeft(house.id)"
-              class="position-absolute top-50 start-0 translate-middle-y btn btn-outline-dark"
-            >
-              <span class="material-symbols-outlined">arrow_back</span>
-            </button>
-            <button
-              @click="scrollRight(house.id)"
-              class="position-absolute top-50 end-0 translate-middle-y btn btn-outline-dark"
-            >
-              <span class="material-symbols-outlined">arrow_forward</span>
-            </button>
-            <div class="card-body">
-              <div class="flex">
-                <h6 class="card-title">{{ house.name }}</h6>
-                <div class="flex ml-40">
-                  <span class="material-symbols-outlined">star</span>
-                  <span class="material-symbols-outlined">star</span>
-                  <span class="material-symbols-outlined">star</span>
-                  <span class="material-symbols-outlined">star</span>
-                  <span class="material-symbols-outlined">star</span>
+  <div>
+    <div class="container mt-4 mb-15">
+      <h2 class="mb-4">Popular Booking</h2>
+      <div class="position-relative">
+        <div
+          id="cards-container"
+          class="d-flex overflow-auto"
+          style="white-space: nowrap; scroll-behavior: smooth">
+          <div
+            v-for="house in housesWithMapAddress"
+            :key="house.id"
+            class="col-md-4 mb-4 d-inline-block"
+            style="width: 400px"
+          >
+            <div class="card h-100 position-relative border-0">
+              <div
+                class="overflow-auto"
+                :id="'scrollContainer-' + house.id"
+                style="white-space: nowrap; scroll-behavior: smooth"
+              >
+                <!-- Display images here -->
+                <div v-for="image in house.photos" :key="image.url" class="d-inline-block">
+                  <img
+                    :src="getImageUrl(image.url)"
+                    class="card-img-top"
+                    style="width: 400px; height: 200px; object-fit: cover"
+                  />
                 </div>
               </div>
-              <div class="location flex">
-                <span class="material-symbols-outlined">home_pin</span>
-                <p class="card-text">Some quick example text to build on</p>
-              </div>
-              <div class="mt-4 flex">
-                <div class="mr-60">
-                  <span class="material-symbols-outlined mr-4">wifi</span>
-                  <span class="material-symbols-outlined">restaurant</span>
+              <!-- Buttons for scrolling images -->
+              <button
+                @click="scrollLeft(house.id)"
+                class="position-absolute top-50 start-0 translate-middle-y btn btn-outline-dark border-0"
+              >
+                <span class="material-symbols-outlined">chevron_left</span>
+              </button>
+              <button
+                @click="scrollRight(house.id)"
+                class="position-absolute top-50 end-0 translate-middle-y btn btn-outline-dark border-0"
+              >
+                <span class="material-symbols-outlined">chevron_right</span>
+              </button>
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h6 class="card-title">{{ house.name }}</h6>
+                  <div class="d-flex">
+                    <!-- Star ratings -->
+                    <span v-for="n in 5" :key="n" class="material-symbols-outlined">star</span>
+                  </div>
                 </div>
-                <router-link to="/service-detail">
-                  <button type="button" class="btn btn-outline-success">Detail</button>
-                </router-link>
+                <!-- Guest house address with link -->
+                <div class="d-flex align-items-center">
+                  <span class="material-symbols-outlined">home_pin</span>
+                  <a href="#" class="text-decoration-none" @click.prevent="showOnMap(house)">
+                    <p class="card-text mb-0 ms-2 text-truncate" :title="house.address">
+                      {{ house.address }}
+                    </p>
+                  </a>
+                </div>
+                <!-- Icons and button -->
+                <div class="d-flex align-items-center justify-content-between mt-4">
+                  <div class="d-flex">
+                    <span class="material-symbols-outlined me-2">wifi</span>
+                    <span class="material-symbols-outlined">restaurant</span>
+                  </div>
+                  <router-link :to="{ name: 'show-room', params: { id: house.id } }" class="btn btn-info btn-sm">Show Room</router-link>
+                </div>
               </div>
             </div>
           </div>
@@ -55,37 +76,78 @@
 </template>
 
 <script>
+import axiosInstance from '@/plugins/axios'
+
 export default {
-  name: "CardService",
-  props: {
-    houses: {
-      type: Array,
-      required: true
+  data() {
+    return {
+      houses: []
     }
   },
+
+  computed: {
+    housesWithMapAddress() {
+      return this.houses.filter((house) => house.latitude && house.longitude)
+    }
+  },
+
+  mounted() {
+    this.fetchHouses()
+  },
+
   methods: {
-    scrollLeft(id) {
-      const container = document.getElementById(`scrollContainer-${id}`)
-      if (container) {
-        container.scrollBy({
-          left: -400, // Adjust the value to control the scroll amount
-          behavior: 'smooth'
-        })
+    async fetchHouses() {
+      try {
+        const response = await axiosInstance.get('/guest_house/list')
+        this.houses = response.data.data.filter((house) => house.active !== 0)
+      } catch (error) {
+        console.error(error)
       }
     },
-    scrollRight(id) {
-      const container = document.getElementById(`scrollContainer-${id}`)
-      if (container) {
-        container.scrollBy({
-          left: 400, // Adjust the value to control the scroll amount
-          behavior: 'smooth'
-        })
-      }
+
+    getImageUrl(url) {
+      return `http://127.0.0.1:8000${url.slice(16)}`
+    },
+
+    scrollLeft(houseId) {
+      const scrollContainer = document.getElementById(`scrollContainer-${houseId}`)
+      scrollContainer.scrollBy(-400, 0)
+    },
+
+    scrollRight(houseId) {
+      const scrollContainer = document.getElementById(`scrollContainer-${houseId}`)
+      scrollContainer.scrollBy(400, 0)
+    },
+
+    showOnMap(house) {
+      this.$emit('showOnMap', house)
     }
   }
 }
 </script>
 
 <style scoped>
-/* Add your styles here if necessary */
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+#cards-container {
+  display: none;
+  transition: display 0.3s ease-in-out;
+  width: 100%;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+.col-md-4 {
+  display: inline-block;
+}
+
+.card {
+  margin-right: 10px;
+}
 </style>

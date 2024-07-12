@@ -71,7 +71,9 @@
         <div class="flex items-center justify-between">
           <div class="border-b border-2 border-gray-300 flex-grow"></div>
           <span class="text-sm text-gray-600 mx-4">Already have an account?</span>
-          <router-link class="text-sm text-gray-600 hover:text-gray-800 font-bold ext-xs font-semibold text-purple-700" to="/login"
+          <router-link
+            class="text-sm text-gray-600 hover:text-gray-800 font-bold ext-xs font-semibold text-purple-700"
+            to="/"
             >Sign in</router-link
           >
           <div class="border-b border-2 border-gray-300 flex-grow"></div>
@@ -120,7 +122,7 @@ export default {
         await schema.validate(this.users, { abortEarly: false })
 
         // If validation succeeds, proceed with registration
-        const response = await axios.post('http://127.0.0.1:8000/api/rigister', {
+        const response = await axios.post('http://127.0.0.1:8000/api/register', {
           name: this.users.name,
           email: this.users.email,
           password: this.users.password,
@@ -128,7 +130,7 @@ export default {
         })
 
         console.log(response.data)
-        this.$router.push('/login')
+        this.$router.push('/')
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           let yupErrors = {}
