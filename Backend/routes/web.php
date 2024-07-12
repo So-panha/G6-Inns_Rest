@@ -73,6 +73,8 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('checking-room','CheckingRoomController');
         Route::resource('guest-houses','GuestHousesController');
         Route::resource('rooms','RoomController');
+        
+        
 
 
         Route::post('shops/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
