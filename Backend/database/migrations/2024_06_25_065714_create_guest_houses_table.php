@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->boolean('active')->default(0);
+            $table->integer('amount')->default(10);
+            $table->integer('day_has')->default(0);
+            $table->integer('real_day')->default(0);
+            $table->integer('spend_day')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

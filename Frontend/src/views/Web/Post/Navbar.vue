@@ -2,7 +2,7 @@
   <div class="flex justify-between px-20 py-3 bg-white" style="box-shadow: 0 4px 2px -2px rgba(0,0,0,.25);">
     <div class="flex items-start space-x-1">
       <img :src="LogoInn" alt="LogoInn Logo" class="h-20" />
-    </div>
+    </div>  
 
     <div class="mt-8 mb-3 ml-3">
       <h5 style="font-weight: bold;">Free </h5>
@@ -26,7 +26,6 @@
         </div>
       </div>
     </div>
-    <!-- {{ authStore }} -->
   </div>
 </template>
 
