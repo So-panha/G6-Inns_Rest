@@ -12,7 +12,6 @@
                         <h6>Name: Dany</p>
                         <p>Gmail: dany@gmail.com</p>
                         <p>House booking name: Homestack Room</p>
-                     
                     </div>
                     <div>
                         <button type="button" class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-6 rounded ml-auto" onclick="userDetail(this)">Detail</button>

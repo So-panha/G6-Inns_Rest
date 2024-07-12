@@ -1,8 +1,14 @@
 <template>
   <div>
-    <div class="container mt-4 mb-15">
-      <div class="group_text flex items-center justify-between">
-        <h2 class="mb-4">Popular Booking</h2>
+    <div class="container mt-2 mb-10 group_text flex items-center justify-between"> 
+      <div>
+
+        <h2 class=" ml-3">Popular Booking</h2>
+        <p class="mb-13 ml-3">Find the Gest House that near your here</p>
+      </div>
+  
+      <!-- <div class="group_text flex items-center justify-between"> -->
+      
         <div class="flex items-center">
           <!-- Search Input -->
           <div
@@ -45,7 +51,7 @@
           <div
             v-for="house in filteredHouses"
             :key="house.id"
-            class="col-md-4 mb-4 d-inline-block"
+            class="col-md-4 mb-15 ml-3 d-inline-block"
             style="width: 400px"
           >
             <div class="card h-100 position-relative border-0">
@@ -111,11 +117,7 @@
                     <span class="material-symbols-outlined me-2">wifi</span>
                     <span class="material-symbols-outlined">restaurant</span>
                   </div>
-                  <router-link
-                    :to="{ name: 'show-room', params: { id: house.id } }"
-                    class="btn btn-info btn-sm"
-                    >Show Room</router-link
-                  >
+                  <router-link :to="{ name: 'show-room', params: { id: house.id } }" class="btn btn-info btn-sm showroom">Explore Room</router-link>
                 </div>
               </div>
             </div>
@@ -123,7 +125,7 @@
         </div>
       </div>
     </div>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -263,7 +265,13 @@ export default {
 .card {
   margin-right: 10px;
 }
-
+.showroom{
+  background-color: #124400;
+  color: white;
+  padding: 7px;
+  border-radius: 6px;
+  border: none;
+}
 #input {
   /* border-radius: 20px; */
   padding: 10px;
