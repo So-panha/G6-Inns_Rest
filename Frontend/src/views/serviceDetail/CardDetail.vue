@@ -1,6 +1,6 @@
 <template>
    <div class="container">
-    <div class="card mb-3 m-8" v-for="(listImage, index) in ListImages" :key="listImage.id">
+    <div class="card mb-3 m-8" v-for="(listImage, index) in ListImages" :key="listImage.id" style="width: 98%;">
       <div class="row p-5">
         <div class="col-md-4">
           <div class="card h-100 position-relative">
@@ -64,9 +64,9 @@
               <h5 class="card-text mb-0">${{ listImage.price }} USD total</h5>
             </div>
             <div class="d-flex justify-content-end mt-5">
-              <button class="btn btn-danger mr-2">Booked</button>
+              <button class="btn btn-danger mr-2 bookorganize">Booked</button>
               <router-link class="nav-link active" aria-current="page" to="/bookingUser"
-                ><button class="btn btn-primary">Booking</button></router-link
+                ><button class="btn btn-primary booking">Booking</button></router-link
               >
             </div>
           </div>
@@ -250,5 +250,11 @@ export default {
 .btn-danger::before,
 .btn-danger::after {
   background: #ff0000;
+}
+.booking{
+  background-color: #06166E;
+}
+.bookorganize{
+  background-color: #97004A;
 }
 </style>
