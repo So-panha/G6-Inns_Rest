@@ -84,6 +84,8 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::get('/payment', [PaymentController::class, 'showPaymentForm']);
         // Route::post('/payment', 'PaymentController@createStripePaymentIntent')->name('stripe.paymentIntent.create');
         Route::post('/process-payment',[PaymentController::class,'createStripePaymentIntent'])->name('stripe.paymentIntent.create');
+        Route::post('/paid-guestHouse',[PaymentController::class,'paid'])->name('paid.guestHouse');
+        Route::post('/update-real-time-guestHouse',[PaymentController::class, 'update'])->name('update-time-guestHouse');
     });
 
 
