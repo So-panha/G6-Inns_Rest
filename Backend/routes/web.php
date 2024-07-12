@@ -2,13 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
+    CreateBranchController,
     ProfileController,
     MailSettingController,
     GuestHousesController,
-    PaymentController
+    PaymentController,
+    TransactionController
 };
-// use App\Http\Controllers\Traits\MediaUploadingTrait;
-
 
 // Social Login with google
 use App\Http\Controllers\Auth\LoginController;
@@ -80,12 +80,17 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
         Route::get('/mail', [MailSettingController::class, 'index'])->name('mail.index');
         Route::put('/mail-update/{mailsetting}', [MailSettingController::class, 'update'])->name('mail.update');
+
         // Route Payment(http://127.0.0.1:8000/admin/payment)
         Route::get('/payment', [PaymentController::class, 'showPaymentForm']);
         // Route::post('/payment', 'PaymentController@createStripePaymentIntent')->name('stripe.paymentIntent.create');
         Route::post('/process-payment',[PaymentController::class,'createStripePaymentIntent'])->name('stripe.paymentIntent.create');
         Route::post('/paid-guestHouse',[PaymentController::class,'paid'])->name('paid.guestHouse');
         Route::post('/update-real-time-guestHouse',[PaymentController::class, 'update'])->name('update-time-guestHouse');
+        Route::get('/payment', [PaymentController::class, 'show']);
+
+        // Table Payment
+        // Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
     });
 
 
@@ -94,6 +99,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function (){
     Route::get('/chat/{query}',Chat::class)->name('chat');
     Route::get('/users',Users::class)->name('users');
+
+    Route::get('/users',Users::class)->name('users');
+
     Route::get('/chat',Index::class)->name('chat.index');
 });
 
@@ -106,3 +114,7 @@ Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
 
 // Route::post('/emails-sendings', )
 
+// Social Login with google
+Route::get('login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
+Route::get('login/google/callback', [LoginController::class, 'redirectToGoogleCallback']);
+;

@@ -143,6 +143,7 @@
         </a>
         @endcanany
 
+    
 
         @canany('Post access','Post add','Post edit','Post delete')
         <a class="flex items-center mt-4 py-2 px-6 text-color hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.history.index') ? 'active' : '' }}" href="{{ route('admin.checking-room.index')}}">
