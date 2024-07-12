@@ -5,7 +5,10 @@
 	jQuery.mmenu panels CSS
 */
 .mm-menu.mm-horizontal > .mm-panel {
+  -webkit-transition: -webkit-transform 0.4s ease;
+  transition: -webkit-transform 0.4s ease;
   transition: transform 0.4s ease;
+  transition: transform 0.4s ease, -webkit-transform 0.4s ease;
 }
 
 .mm-menu .mm-hidden {
@@ -40,16 +43,20 @@
   overflow: scroll;
   overflow-x: hidden;
   overflow-y: auto;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   padding: 20px;
+  -webkit-transform: translate(100%, 0);
   transform: translate(100%, 0);
 }
 
 .mm-menu > .mm-panel.mm-opened {
+  -webkit-transform: translate(0%, 0);
   transform: translate(0%, 0);
 }
 
 .mm-menu > .mm-panel.mm-subopened {
+  -webkit-transform: translate(-30%, 0);
   transform: translate(-30%, 0);
 }
 
@@ -210,6 +217,7 @@
   display: inline-block;
   width: 7px;
   height: 7px;
+  -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
   margin-bottom: -5px;
   position: absolute;
@@ -252,6 +260,7 @@
 }
 
 .mm-menu.mm-vertical .mm-list > li.mm-opened > a.mm-subopen:after {
+  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
 
@@ -260,7 +269,8 @@
 }
 
 html.mm-opened .mm-page {
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .mm-menu {
@@ -303,12 +313,16 @@ html.mm-opened .mm-page {
 	jQuery.mmenu offcanvas addon CSS
 */
 .mm-page {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   position: relative;
 }
 
 .mm-slideout {
+  -webkit-transition: -webkit-transform 0.4s ease;
+  transition: -webkit-transform 0.4s ease;
   transition: transform 0.4s ease;
+  transition: transform 0.4s ease, -webkit-transform 0.4s ease;
 }
 
 html.mm-opened {
@@ -356,16 +370,19 @@ html.mm-blocking #mm-blocker {
 }
 
 html.mm-opening .mm-slideout {
+  -webkit-transform: translate(80%, 0);
   transform: translate(80%, 0);
 }
 
 @media all and (max-width: 175px) {
   html.mm-opening .mm-slideout {
+    -webkit-transform: translate(140px, 0);
     transform: translate(140px, 0);
   }
 }
 @media all and (min-width: 550px) {
   html.mm-opening .mm-slideout {
+    -webkit-transform: translate(440px, 0);
     transform: translate(440px, 0);
   }
 }
@@ -390,16 +407,19 @@ html.mm-opening .mm-slideout {
 }
 
 html.mm-right.mm-opening .mm-slideout {
+  -webkit-transform: translate(-80%, 0);
   transform: translate(-80%, 0);
 }
 
 @media all and (max-width: 175px) {
   html.mm-right.mm-opening .mm-slideout {
+    -webkit-transform: translate(-140px, 0);
     transform: translate(-140px, 0);
   }
 }
 @media all and (min-width: 550px) {
   html.mm-right.mm-opening .mm-slideout {
+    -webkit-transform: translate(-440px, 0);
     transform: translate(-440px, 0);
   }
-}/*# sourceMappingURL=jquery.mmenu.css.map */
+}
