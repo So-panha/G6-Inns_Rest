@@ -1,41 +1,25 @@
 <template>
-   <div class="container">
+  <div class="container">
     <div class="card mb-3 m-8" v-for="(listImage, index) in ListImages" :key="listImage.id" style="width: 98%;">
       <div class="row p-5">
         <div class="col-md-4">
           <div class="card h-100 position-relative">
-            <div
-              class="overflow-auto"
-              :id="'scrollContainer-' + listImage.id"
-              style="white-space: nowrap; scroll-behavior: smooth"
-            >
+            <div class="overflow-auto" :id="'scrollContainer-' + listImage.id"
+              style="white-space: nowrap; scroll-behavior: smooth">
               <div v-for="image in listImage.images" :key="image.url" class="d-inline-block">
-                <img
-                  :src="getImage(image.url)"
-                  class="card-img"
-                  alt="Room Image" 
-                  style="width: 430px; height: 320px; object-fit: cover"
-                  @click="showImage(index)"
-                />
-                <button
-                  class="position-absolute top-20 start-15 translate-middle-y heart-button"
-                  :class="{
-                    'btn-outline-light': !listImage.isFavorite,
-                    'btn-danger': listImage.isFavorite
-                  }"
-                  @click="toggleFavorite(index)"
-                ></button>
+                <img :src="getImage(image.url)" class="card-img" alt="Room Image"
+                  style="width: 430px; height: 320px; object-fit: cover" @click="showImage(index)" />
+                <button class="position-absolute top-20 start-15 translate-middle-y heart-button" :class="{
+                  'btn-outline-light': !listImage.isFavorite,
+                  'btn-danger': listImage.isFavorite
+                }" @click="toggleFavorite(index)"></button>
               </div>
-              <button
-                @click="scrollLeft(listImage.id)"
-                class="position-absolute top-50 start-0 translate-middle-y btn btn-outline-dark border-0"
-              >
+              <button @click="scrollLeft(listImage.id)"
+                class="position-absolute top-50 start-0 translate-middle-y btn btn-outline-dark border-0">
                 <span class="material-symbols-outlined">chevron_left</span>
               </button>
-              <button
-                @click="scrollRight(listImage.id)"
-                class="position-absolute top-50 end-0 translate-middle-y btn btn-outline-dark border-0"
-              >
+              <button @click="scrollRight(listImage.id)"
+                class="position-absolute top-50 end-0 translate-middle-y btn btn-outline-dark border-0">
                 <span class="material-symbols-outlined">chevron_right</span>
               </button>
             </div>
@@ -65,9 +49,7 @@
             </div>
             <div class="d-flex justify-content-end mt-5">
               <button class="btn btn-danger mr-2 bookorganize">Booked</button>
-              <router-link class="nav-link active" aria-current="page" to="/bookingUser"
-                ><button class="btn btn-primary booking">Booking</button></router-link
-              >
+              <button class="btn btn-primary" @click="openBookingModal(index)">Booking</button>
             </div>
           </div>
         </div>
@@ -83,7 +65,7 @@
             <button type="button" class="btn-close" @click="closeBookingModal"></button>
           </div>
           <div class="modal-body">
-            <BookingUserView @close="closeBookingModal" @submit="handleFormSubmit" />
+            <BookingUserView @close="closeBookingModal" @submit="handleFormSubmit" :selectedImage="selectedImage" />
           </div>
         </div>
       </div>
@@ -109,7 +91,9 @@ export default {
     return {
       selectedIndex: null, // Index of the selected image set
       currentImageIndex: 0, // Index of the current image in the selected set
-      urlImage: 'http://127.0.0.1:8000'
+      urlImage: 'http://127.0.0.1:8000',
+      showBookingModal: false, // State for showing booking modal
+      selectedImage: null // Data for selected image
     }
   },
   computed: {
@@ -143,7 +127,8 @@ export default {
     toggleFavorite(index) {
       this.ListImages[index].isFavorite = !this.ListImages[index].isFavorite;
     },
-    openBookingModal() {
+    openBookingModal(index) {
+      this.selectedImage = this.ListImages[index];
       this.showBookingModal = true;
     },
     closeBookingModal() {
@@ -171,6 +156,7 @@ export default {
   }
 };
 </script>
+
 <style>
 /* Add necessary styles for modal */
 .modal {
@@ -185,25 +171,32 @@ export default {
   justify-content: center;
   z-index: 1050;
 }
+
 .modal-dialog {
   max-width: 50%;
   margin: 0 auto;
 }
+
 .img-fluid {
   align-items: center;
   height: 70vh;
 }
+
 .wifi {
   color: rgb(0, 149, 166);
 }
+
 .home,
 .locate {
   color: rgb(65, 0, 126);
 }
+
 .heart-button {
   position: relative;
-  width: 30px; /* Adjust size as needed */
-  height: 30px; /* Adjust size as needed */
+  width: 30px;
+  /* Adjust size as needed */
+  height: 30px;
+  /* Adjust size as needed */
   background: transparent;
   border: none;
   cursor: pointer;
@@ -215,10 +208,13 @@ export default {
   position: absolute;
   top: 0;
   left: 15px;
-  width: 15px; /* Adjust size as needed */
-  height: 24px; /* Adjust size as needed */
+  width: 15px;
+  /* Adjust size as needed */
+  height: 24px;
+  /* Adjust size as needed */
   border-radius: 15px 15px 0 0;
-  background: #ff0000; /* Default color for heart */
+  background: #ff0000;
+  /* Default color for heart */
   transform: rotate(-45deg);
   transform-origin: 0 100%;
 }
@@ -239,10 +235,12 @@ export default {
 .btn-danger::after {
   background: #ff0000;
 }
-.booking{
+
+.booking {
   background-color: #06166E;
 }
-.bookorganize{
+
+.bookorganize {
   background-color: #97004A;
 }
 </style>
