@@ -15,24 +15,21 @@
                   </div>
                   <div class="text-right">
                     <p>{{ notification.date }}</p>
-                    <button class="btn btn-success mr-3" @click="showTicketView = true; selectedNotification = notification">Detail</button>
+                    <button class="btn btn-success mr-3"
+                      @click="showTicketView = true; selectedNotification = notification">Detail</button>
                     <button class="btn btn-danger" @click="deleteNotification(index)">Cancel</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <button @click="$emit('close-popup')" class="absolute top-9 right-9 btn btn-danger">X</button>
         </div>
-        <button @click="$emit('close-popup')" class="absolute top-4 right-4 btn btn-danger">X</button>
       </div>
     </div>
 
     <!-- Ticket Detail Popup -->
-    <ticket-view
-      v-if="showTicketView"
-      :booking="selectedNotification"
-      @close-popup="closeTicketView"
-    ></ticket-view>
+    <ticket-view v-if="showTicketView" :booking="selectedNotification" @close-popup="closeTicketView"></ticket-view>
   </div>
 </template>
 
@@ -67,5 +64,37 @@ export default {
 </script>
 
 <style scoped>
-/* Your scoped styles */
+.fixed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.container {
+  width: 80%;
+  max-width: 600px;
+}
+
+.booking-card {
+  padding: 20px;
+  background-color: #f8f9fa;
+  /* Light background color */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* Soft shadow */
+}
+
+.btn-success {
+  background-color: green;
+  border-color: green;
+  color: white;
+  /* Text color */
+}
+
+.btn-success:hover {
+  background-color: darkgreen;
+  border-color: darkgreen;
+}
 </style>

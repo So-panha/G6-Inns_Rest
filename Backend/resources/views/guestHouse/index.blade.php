@@ -6,12 +6,26 @@
             Branch</button>
     </div>
 
-    <div class="w-full h-80 overflow-auto touch-auto scroll-smooth">
+    <div class="w-full h-96 overflow-auto touch-auto scroll-smooth">
         <div class="h-full w-full">
-            <div class="flex justify-start flex-wrap gap-8 pl-7 pr-7">
+            <div class="flex justify-start flex-wrap gap-10 pl-28 pr-7">
                 @foreach ($guestHouses as $guestHouse)
-                    <div class="max-w-xs rounded overflow-hidden shadow-md mt-6 w-72">
+                    <div class="max-w-xs rounded overflow-hidden shadow-md mt-6 w-80">
                         <div class="w-full relative">
+                            @if ($guestHouse->active === 1)
+                                <div class="absolute left-56 top-4 z-10">
+                                    <p data-dayhas="{{ $guestHouse->day_has }}"
+                                        data-realday="{{ $guestHouse->real_day }}"
+                                        data-guesthouseid="{{ $guestHouse->id }}"
+                                        data-dayspend="{{ $guestHouse->spend_day }}"
+                                        class="dateNeedToPaid flex items-center gap-1 inline-block bg-red-500 rounded-full px-2 py-1 text-xs font-semibold text-white mr-1 mb-1">
+                                        <span class="material-symbols-outlined">
+                                            alarm
+                                        </span>
+                                        {{ $guestHouse->day_has }} Days
+                                    </p>
+                                </div>
+                            @endif
                             <div class="swiper progress-slide-carousel swiper-container relative">
                                 <div class="swiper-wrapper">
                                     @foreach ($guestHouse->photos as $photo)
@@ -40,45 +54,55 @@
                             </p>
                         </div>
                         <div class="px-4 py-2 bg-blue-300 flex justify-end">
-                            <a href="{{ route('admin.guest-houses.destroy', $guestHouse) }}"
-                                class="inline-block bg-green-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1">Edit</a>
-                            <div x-data="{ showPopup: false }">
-                                <button
-                                    class="inline-block bg-red-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1"
-                                    @click="showPopup = true">Delete</button>
-
-                                <div x-show="showPopup"
-                                    class="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
-                                    <div class="bg-white p-6 rounded-lg shadow-lg grid justify-items-stretch">
-                                        <button @click="showPopup = false"
-                                            class="text-dark rounded justify-self-end py-4 px-1">
-                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                fill="none" viewBox="0 0 14 14">
-                                                <path stroke="currentColor" stroke-linecap="round"
-                                                    stroke-linejoin="round" stroke-width="2"
-                                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                            </svg>
-                                            <span class="sr-only">Close modal</span>
-                                        </button>
-                                        <h2 class="text-2xl font-bold mb-4">Are you sure to delete your branch</h2>
-                                        <p class="mb-4">Please confirm your password</p>
-
-                                        <form class="grid justify-items-stretch"
-                                            action="{{ route('admin.guest-houses.destroy', $guestHouse->id) }}"
-                                            method="POST" class="inline">
-                                            <input type="password" placeholder="Your password" name="password"
-                                                class="w-full" value="{{ old('password') }}" required>
-                                            @csrf
-                                            @method('delete')
-                                            <button
-                                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 justify-self-end">
-                                                Yes
+                            @if ($guestHouse->active == 1)
+                                {{-- Edit Post of Guest house --}}
+                                <a href="{{ route('admin.guest-houses.destroy', $guestHouse) }}"
+                                    class="inline-block bg-green-500 text-white rounded-full px-4 py-2 text-xs font-semibold mr-1 mb-1">Edit</a>
+                                {{-- Popup delete guest house --}}
+                                <div x-data="{ showPopup: false }">
+                                    <button
+                                        class="inline-block bg-red-500 text-white rounded-full px-4 py-2 text-xs font-semibold mr-1 mb-1"
+                                        @click="showPopup = true">Delete</button>
+                                    <div x-show="showPopup"
+                                        class="fixed inset-0 flex items-center justify-center z-50 bg-gray-900 bg-opacity-50">
+                                        <div class="bg-white p-6 rounded-lg shadow-lg grid justify-items-stretch">
+                                            <button @click="showPopup = false"
+                                                class="text-dark rounded justify-self-end py-4 px-1">
+                                                <svg class="w-3 h-3" aria-hidden="true"
+                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 14 14">
+                                                    <path stroke="currentColor" stroke-linecap="round"
+                                                        stroke-linejoin="round" stroke-width="2"
+                                                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                </svg>
+                                                <span class="sr-only">Close modal</span>
                                             </button>
-                                        </form>
+                                            <h2 class="text-2xl font-bold mb-4">Are you sure to delete your branch</h2>
+                                            <p class="mb-4">Please confirm your password</p>
+                                            {{-- Delete Post Guest house --}}
+                                            <form class="grid justify-items-stretch"
+                                                action="{{ route('admin.guest-houses.destroy', $guestHouse->id) }}"
+                                                method="POST" class="inline">
+                                                <input type="password" placeholder="Your password" name="password"
+                                                    class="w-full" value="{{ old('password') }}" required>
+                                                @csrf
+                                                @method('delete')
+                                                <button
+                                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 justify-self-end">
+                                                    Yes
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <a href="{{ route('admin.rooms.show', $guestHouse->id) }}" class="inline-block bg-blue-500 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-1 mb-1">Create Room</a>
+                                {{-- Show and create Room in guest house --}}
+                                <a href="{{ route('admin.rooms.show', $guestHouse->id) }}"
+                                    class="inline-block bg-blue-500 text-white rounded-full px-4 py-2 text-xs font-semibold mr-1 mb-1">Create
+                                    Room</a>
+                            @else
+                                <button data-payment="{{ $guestHouse->id }}" data-amount="{{ $guestHouse->amount }}"
+                                    class="payment inline-block bg-red-500 rounded-full px-4 py-2 text-xs font-semibold text-white mr-1 mb-1">Unlock</button>
+                            @endif
                         </div>
                     </div>
                 @endforeach
@@ -86,8 +110,9 @@
         </div>
     </div>
 
-    {{-- Modal --}}
-    <div style="z-index: 1" id="popup-modal"
+
+    {{-- Modal of create geust house --}}
+    <div style="z-index: 20" id="popup-modal"
         class="fixed left-0 top-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none">
         <div class="flex items-center justify-center min-h-screen text-center sm:block sm:p-0">
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
@@ -106,7 +131,7 @@
                         <span class="sr-only">Close modal</span>
                     </button>
                 </div>
-                <!-- Modal body -->
+                <!-- Modal create Guest House -->
                 <div>
                     <div class="w-full p-4 md:p-5">
                         <form class="space-y-4" method="POST" action="{{ route('admin.guest-houses.store') }}"
@@ -173,28 +198,18 @@
         </div>
     </div>
 
-
-
+    <!-- Modal -->
+    <div id="modal-payment" class="fixed z-10 inset-0 overflow-y-auto hidden">
+        <div class="flex items-center justify-center min-h-screen">
+            @include('payment.payment_guestHouse')
+        </div>
+    </div>
 
     <script type='text/javascript'
         src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize">
     </script>
     <script src="/js/mapInput.js"></script>
     <script>
-        // popup modal
-        const popupModal = document.getElementById('popup-modal');
-        const openPopupBtn = document.getElementById('open-popup-btn');
-        const closePopupBtn = document.getElementById('close-modal');
-        const closeCreateTap = document.getElementById('close-create');
-
-        openPopupBtn.addEventListener('click', () => {
-            popupModal.classList.remove('hidden');
-        });
-
-        closePopupBtn.addEventListener('click', () => {
-            popupModal.classList.add('hidden');
-        });
-
         // script of dropzone multipul image upload
         var uploadedPhotosMap = {}
         Dropzone.options.photosDropzone = {
@@ -271,29 +286,86 @@
             },
         });
 
-        // Get the popup element
-        var popup = document.getElementById("popup");
-        // Get the button that opens the popup
-        var popupTrigger = document.getElementById("openPopup");
+        // // Get the popup element
+        // var popup = document.getElementById("popup");
+        // // Get the button that opens the popup
+        // var popupTrigger = document.getElementById("openPopup");
 
-        // Get the elements that close the popup
-        var closeButtons = document.getElementsByClassName("close-button");
-        // When the user clicks the button, open the popup
-        popupTrigger.onclick = function() {
-            popup.style.display = "flex";
-        };
-        // When the user clicks on the close button, close the popup
-        for (var i = 0; i < closeButtons.length; i++) {
-            closeButtons[i].onclick = function() {
-                popup.style.display = "none";
-            };
-        }
-        // When the user clicks anywhere outside of the popup, close it
-        window.onclick = function(event) {
-            if (event.target == popup) {
-                popup.style.display = "none";
+        // // Get the elements that close the popup
+        // var closeButtons = document.getElementsByClassName("close-button");
+        // // When the user clicks the button, open the popup
+        // popupTrigger.onclick = function() {
+        //     popup.style.display = "flex";
+        // };
+        // // When the user clicks on the close button, close the popup
+        // for (var i = 0; i < closeButtons.length; i++) {
+        //     closeButtons[i].onclick = function() {
+        //         popup.style.display = "none";
+        //     };
+        // }
+        // // When the user clicks anywhere outside of the popup, close it
+        // window.onclick = function(event) {
+        //     if (event.target == popup) {
+        //         popup.style.display = "none";
+        //     }
+        // };
+
+        // Assuming you have a collection of elements with the class 'dateNeedToPaid'
+        const dateNeedToPaid = document.querySelectorAll('.dateNeedToPaid');
+
+        // Get the current date
+        const currentDate = new Date();
+        const currentDayOfMonth = currentDate.getDate();
+
+        dateNeedToPaid.forEach((date) => {
+            // Get the 'data-dayhas' and 'data-realday' attributes
+            const dayHas = parseInt(date.dataset.dayhas);
+            const realDay = parseInt(date.dataset.realday);
+            const daySpends = parseInt(date.dataset.dayspend);
+
+            // Get the guest house ID from the 'data-guesthouseid' attribute
+            const guestHouseId = parseInt(date.dataset.guesthouseid);
+
+            // Calculate the number of days spent and the total day
+            const daysSpent = currentDayOfMonth - realDay;
+            const totalDays = realDay + daysSpent;
+
+
+            // Set conditions for the guest house when calculating the to day that has been spent
+            if (daySpends + daysSpent > daySpends) {
+                // Update the day of the guest house has
+                let real_day_rest = dayHas - daysSpent;
+                // Call the updateDayInData function with the updated 'realDay' value
+                updateDayInData(totalDays, guestHouseId, daysSpent + 1, real_day_rest);
             }
-        };
+        });
+
+        function updateDayInData(realDay, guestHouseId, daysSpent, real_day_rest) {
+            // Retrieve the CSRF token from a meta tag in the HTML
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+            // Make the AJAX request
+            fetch('{{ route('admin.update-time-guestHouse') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                    body: JSON.stringify({
+                        guest_house_id: guestHouseId,
+                        dayHas: real_day_rest,
+                        real_day: realDay,
+                        spend_day: daysSpent
+                    }),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
     </script>
 
     {{-- alert when delete branch --}}
