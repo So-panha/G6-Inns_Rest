@@ -32,6 +32,9 @@
     {{-- sweet alert --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
+    {{-- link stripe js --}}
+    <script src="https://js.stripe.com/v3/"></script>
+
     <!-- Livewire Styles -->
     @livewireStyles
 </head>

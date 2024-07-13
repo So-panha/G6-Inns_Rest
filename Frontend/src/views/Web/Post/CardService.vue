@@ -1,16 +1,57 @@
 <template>
   <div>
-    <div class="container mt-4 mb-15">
-      <h2 class="mb-4">Popular Booking</h2>
+    <div class="container mt-2 mb-10 group_text flex items-center justify-between"> 
+      <div>
+
+        <h2 class=" ml-3">Popular Booking</h2>
+        <p class="mb-13 ml-3">Find the Gest House that near your here</p>
+      </div>
+  
+      <!-- <div class="group_text flex items-center justify-between"> -->
+      
+        <div class="flex items-center">
+          <!-- Search Input -->
+          <div
+            class="max-w-md mx-auto px-4 py-3 mb-5 rounded-md border border-blue-200 flex items-center shadow-md"
+            id="input"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 192.904 192.904"
+              width="20px"
+              class="fill-gray-600 mr-3"
+              style="transform: scaleX(-1)"
+            >
+              <path
+                d="m190.707 180.101-47.078-47.077c11.702-14.072 18.752-32.142 18.752-51.831C162.381 36.423 125.959 0 81.191 0 36.422 0 0 36.423 0 81.193c0 44.767 36.422 81.187 81.191 81.187 19.688 0 37.759-7.049 51.831-18.751l47.079 47.078a7.474 7.474 0 0 0 5.303 2.197 7.498 7.498 0 0 0 5.303-12.803zM15 81.193C15 44.694 44.693 15 81.191 15c36.497 0 66.189 29.694 66.189 66.193 0 36.496-29.692 66.187-66.189 66.187C44.693 147.38 15 117.689 15 81.193z"
+              ></path>
+            </svg>
+
+            <input
+              type="text"
+              placeholder="Search address and GuestHouse"
+              class="w-full pl-3 pr-10 py-2 rounded-md focus:outline-none bg-gray-100 text-gray-700 text-sm leading-tight shadow-sm"
+              v-model="searchQuery"
+            />
+          </div>
+        </div>
+
+        <button
+          class="absolute right-0 top-0 mt-1 mr-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded-md"
+        >
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
       <div class="position-relative">
         <div
           id="cards-container"
           class="d-flex overflow-auto"
-          style="white-space: nowrap; scroll-behavior: smooth">
+          style="white-space: nowrap; scroll-behavior: smooth"
+        >
           <div
-            v-for="house in housesWithMapAddress"
+            v-for="house in filteredHouses"
             :key="house.id"
-            class="col-md-4 mb-4 d-inline-block"
+            class="col-md-4 mb-15 ml-3 d-inline-block"
             style="width: 400px"
           >
             <div class="card h-100 position-relative border-0">
@@ -52,11 +93,23 @@
                 <!-- Guest house address with link -->
                 <div class="d-flex align-items-center">
                   <span class="material-symbols-outlined">home_pin</span>
-                  <a href="#" class="text-decoration-none" @click.prevent="showOnMap(house)">
+                  <a
+                    href="#"
+                    class="text-decoration-none"
+                    @click.prevent="showOnMap(house)"
+                    style="font-size: 13px"
+                  >
                     <p class="card-text mb-0 ms-2 text-truncate" :title="house.address">
                       {{ house.address }}
                     </p>
                   </a>
+                </div>
+
+                <!-- Guest house description-->
+                <div class="d-flex align-items-center">
+                  <p class="card-text mb-0 ms-2 text-truncate">
+                    {{ house.description }}
+                  </p>
                 </div>
                 <!-- Icons and button -->
                 <div class="d-flex align-items-center justify-content-between mt-4">
@@ -64,7 +117,7 @@
                     <span class="material-symbols-outlined me-2">wifi</span>
                     <span class="material-symbols-outlined">restaurant</span>
                   </div>
-                  <router-link :to="{ name: 'show-room', params: { id: house.id } }" class="btn btn-info btn-sm">Show Room</router-link>
+                  <router-link :to="{ name: 'show-room', params: { id: house.id } }" class="btn btn-info btn-sm showroom">Explore Room</router-link>
                 </div>
               </div>
             </div>
@@ -72,7 +125,7 @@
         </div>
       </div>
     </div>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -81,18 +134,32 @@ import axiosInstance from '@/plugins/axios'
 export default {
   data() {
     return {
-      houses: []
+      houses: [],
+      searchQuery: '',
+      userLocation: null
     }
   },
 
   computed: {
     housesWithMapAddress() {
       return this.houses.filter((house) => house.latitude && house.longitude)
+    },
+    filteredHouses() {
+      // Filter houses based on the search query and user's location
+      return this.housesWithMapAddress.filter((house) => {
+        const query = this.searchQuery.toLowerCase()
+        return (
+          (house.name.toLowerCase().includes(query) ||
+            house.address.toLowerCase().includes(query)) &&
+          this.isWithinRange(house)
+        )
+      })
     }
   },
 
   mounted() {
     this.fetchHouses()
+    this.getUserLocation()
   },
 
   methods: {
@@ -121,6 +188,54 @@ export default {
 
     showOnMap(house) {
       this.$emit('showOnMap', house)
+    },
+
+    getUserLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            this.userLocation = {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            }
+            console.log('User location:', this.userLocation)
+          },
+          (error) => {
+            console.error('Error getting user location:', error)
+          }
+        )
+      } else {
+        console.log('Geolocation is not supported by this browser.')
+      }
+    },
+
+    isWithinRange(house) {
+      if (!this.userLocation || !house.latitude || !house.longitude) return false
+
+      const userLat = this.userLocation.latitude
+      const userLng = this.userLocation.longitude
+      const houseLat = house.latitude
+      const houseLng = house.longitude
+
+      const distance = this.calculateDistance(userLat, userLng, houseLat, houseLng)
+
+      // Assuming a rough threshold of 10km for "same city"
+      return distance <= 10 // Adjust the distance threshold as per your requirement
+    },
+
+    calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371 // Radius of the Earth in kilometers
+      const dLat = ((lat2 - lat1) * Math.PI) / 180
+      const dLon = ((lon2 - lon1) * Math.PI) / 180
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos((lat1 * Math.PI) / 180) *
+          Math.cos((lat2 * Math.PI) / 180) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2)
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+      const distance = R * c // Distance in kilometers
+      return distance
     }
   }
 }
@@ -149,5 +264,19 @@ export default {
 
 .card {
   margin-right: 10px;
+}
+.showroom{
+  background-color: #124400;
+  color: white;
+  padding: 7px;
+  border-radius: 6px;
+  border: none;
+}
+#input {
+  /* border-radius: 20px; */
+  padding: 10px;
+  border: none;
+  width: 450px;
+  /* margin-left: -130px; */
 }
 </style>

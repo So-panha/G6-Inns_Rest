@@ -1,6 +1,6 @@
 <template>
    <div class="container">
-    <div class="card mb-3 m-8" v-for="(listImage, index) in ListImages" :key="listImage.id">
+    <div class="card mb-3 m-8" v-for="(listImage, index) in ListImages" :key="listImage.id" style="width: 98%;">
       <div class="row p-5">
         <div class="col-md-4">
           <div class="card h-100 position-relative">
@@ -64,54 +64,26 @@
               <h5 class="card-text mb-0">${{ listImage.price }} USD total</h5>
             </div>
             <div class="d-flex justify-content-end mt-5">
-              <button class="btn btn-danger mr-2">Booked</button>
+              <button class="btn btn-danger mr-2 bookorganize">Booked</button>
               <router-link class="nav-link active" aria-current="page" to="/bookingUser"
-                ><button class="btn btn-primary">Booking</button></router-link
+                ><button class="btn btn-primary booking">Booking</button></router-link
               >
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="row p-5 additional-details" style="display: none">
-        <div class="col-md-12">
-          <div class="card-body">
-            <h5 class="card-title">Additional Details</h5>
-            <p class="card-text">
-              This is where you can display the additional details like the image you provided.
-            </p>
-            <!-- Add more content here -->
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Modal for displaying image slideshow -->
-    <div v-if="selectedIndex !== null" class="modal" tabindex="-1" style="display: block">
+    <!-- Modal for booking user -->
+    <div v-if="showBookingModal" class="modal" tabindex="-1" style="display: block">
       <div class="modal-dialog">
-        <div class="modal-content modal-xl mt-10">
+        <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Bedroom</h5>
-            <button type="button" class="btn-close" @click="closeModal"></button>
+            <h5 class="modal-title">Booking Room</h5>
+            <button type="button" class="btn-close" @click="closeBookingModal"></button>
           </div>
           <div class="modal-body">
-            <img :src="currentImage" class="img-fluid" alt="Selected Room Image" />
-            <div class="text-center mt-3">
-              <button
-                class="position-absolute top-50 start-0 translate-middle-y btn btn-outline-dark"
-                @click="previousImage"
-              >
-                <span class="material-symbols-outlined">arrow_back</span>
-              </button>
-              <button
-                class="position-absolute top-50 end-0 translate-middle-y btn btn-outline-dark"
-                @click="nextImage"
-              >
-                <span class="material-symbols-outlined">arrow_forward</span>
-              </button>
-            </div>
-            <p class="text-center mt-2 mb-0">
-              {{ currentImageIndex + 1 }} / {{ ListImages[selectedIndex].images.length }}
-            </p>
+            <BookingUserView @close="closeBookingModal" @submit="handleFormSubmit" />
           </div>
         </div>
       </div>
@@ -120,6 +92,8 @@
 </template>
 
 <script>
+import BookingUserView from '@/views/Web/Booking/BookingUserView.vue';
+
 export default {
   name: 'CardDetail',
   props: {
@@ -127,6 +101,9 @@ export default {
       type: Array,
       required: true
     }
+  },
+  components: {
+    BookingUserView
   },
   data() {
     return {
@@ -140,30 +117,41 @@ export default {
       if (this.selectedIndex !== null) {
         return this.urlImage + this.ListImages[this.selectedIndex].images[this.currentImageIndex].url.slice(16)
       }
-      return null
+      return null;
     }
   },
   methods: {
     showImage(index) {
-      this.selectedIndex = index
-      this.currentImageIndex = 0
+      this.selectedIndex = index;
+      this.currentImageIndex = 0;
     },
     closeModal() {
-      this.selectedIndex = null
+      this.selectedIndex = null;
     },
     nextImage() {
       if (this.selectedIndex !== null) {
-        const images = this.ListImages[this.selectedIndex].images
-        this.currentImageIndex = (this.currentImageIndex + 1) % images.length
+        const images = this.ListImages[this.selectedIndex].images;
+        this.currentImageIndex = (this.currentImageIndex + 1) % images.length;
       }
     },
     previousImage() {
       if (this.selectedIndex !== null) {
-        const images = this.ListImages[this.selectedIndex].images
-        this.currentImageIndex = (this.currentImageIndex - 1 + images.length) % images.length
+        const images = this.ListImages[this.selectedIndex].images;
+        this.currentImageIndex = (this.currentImageIndex - 1 + images.length) % images.length;
       }
     },
     toggleFavorite(index) {
+      this.ListImages[index].isFavorite = !this.ListImages[index].isFavorite;
+    },
+    openBookingModal() {
+      this.showBookingModal = true;
+    },
+    closeBookingModal() {
+      this.showBookingModal = false;
+    },
+    handleFormSubmit(formData) {
+      console.log('Form submitted with data:', formData);
+      this.closeBookingModal();
       this.ListImages[index].isFavorite = !this.ListImages[index].isFavorite
     },
     getImage(image) {
@@ -181,7 +169,7 @@ export default {
       this.$emit('markerData', image)
     }
   }
-}
+};
 </script>
 <style>
 /* Add necessary styles for modal */
@@ -250,5 +238,11 @@ export default {
 .btn-danger::before,
 .btn-danger::after {
   background: #ff0000;
+}
+.booking{
+  background-color: #06166E;
+}
+.bookorganize{
+  background-color: #97004A;
 }
 </style>

@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\API\GuestHouseApiController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\UserController as APIUserController;
+use App\Http\Controllers\API\RoomAPIController;
+use App\Http\Controllers\API\BookingUserRoomAPIController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AuthController;
@@ -22,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-    
+
 });
 
 Route::post('/register', [RegisteredUserController::class, 'registerUser']);
@@ -43,4 +46,23 @@ Route::put('/user/update/{id}', [APIUserController::class, 'update'])->name('use
 Route::delete('/user/delete/{id}', [APIUserController::class, 'destroy'])->name('user.delete');
 
 Route::get('/guest_house/list', [GuestHouseApiController::class, 'index'])->name('guest_house');
+Route::get('/room/list', [RoomAPIController::class, 'index'])->name('rooms');
+
+
+
+
+
+// Create a new booking user room
+Route::post('/booking_user_rooms/create', [BookingUserRoomAPIController::class, 'create'])->name('booking_user_rooms.create');
+
+// Get a specific booking user room
+Route::get('/booking_user_rooms/{id}', [BookingUserRoomAPIController::class, 'show'])->name('booking_user_rooms.show');
+
+// Update a specific booking user room
+Route::put('/booking_user_rooms/{id}', [BookingUserRoomAPIController::class, 'update'])->name('booking_user_rooms.update');
+
+// Delete a specific booking user room
+Route::delete('/booking_user_rooms/{id}', [BookingUserRoomAPIController::class, 'destroy'])->name('booking_user_rooms.delete');
 Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->name('guest_house.id');
+Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->name('rooms');
+
