@@ -113,6 +113,7 @@ class UserController extends Controller
                 'message' => "User successfully updated.",
             ], 200);
         } catch (\Exception $e) {
+
             return response()->json([
                 'message' => "Something went wrong!",
                 'error' => $e->getMessage()

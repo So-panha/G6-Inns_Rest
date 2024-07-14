@@ -5,7 +5,7 @@
         <div class="map-container">
           <div
             id="googleMap"
-            style="height: 500px; width: 89.5%; border: 1px solid #ccc; margin-left: 180px"
+            style="height: 550px; width: 93%; border: 1px solid #ccc; margin-left: 150px"
           ></div>
           <form class="map-form" :class="{ expanded: formExpanded }">
             <div class="form-group" style="display: flex; align-items: center; margin-top: 5px">
@@ -13,8 +13,9 @@
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                   <path
                     d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"
-                  /></svg
-              ></span>
+                  />
+                </svg>
+              </span>
               <input
                 v-model="from"
                 type="text"
@@ -33,24 +34,31 @@
                 style="width: 200px; margin-right: 10px"
                 aria-label="Destination"
               />
-              <button @click.prevent="calcRoute" class="btn btn-primary map-button">
+              <button @click.prevent="calcRoute" class="btn btn-primary map-button" id="cal">
                 Calculate Route
               </button>
             </div>
           </form>
         </div>
-        <div id="output" v-html="output" style="margin-top: 20px"></div>
+        <!-- <div id="output" v-html="output" style="margin-top: 20px"></div> -->
       </div>
     </div>
+    <!-- Cards component -->
+    <card-service :houses="filteredHouses" @showOnMap="showHouseOnMap" />
   </div>
 </template>
 
 <script>
+import CardService from '../Post/CardService.vue'
 import axiosInstance from '@/plugins/axios'
 import pinHome from '@/assets/pinHome.png'
 import user from '@/assets/user.png'
 
 export default {
+  components: {
+    CardService
+  },
+
   data() {
     return {
       from: '',
@@ -61,41 +69,43 @@ export default {
       directionsDisplay: null,
       userLocationMarker: null,
       markers: [],
-      formExpanded: false
+      formExpanded: false,
+      houses: [],
+      filteredHouses: [] // To store filtered houses near the user
     }
   },
 
   mounted() {
     this.loadGoogleMaps()
   },
-  watch: {
-    from(newFrom, oldFrom) {
-      if (newFrom && this.to) {
-        this.calcRoute()
-      }
-    },
-    to(newTo, oldTo) {
-      if (newTo && this.from) {
-        this.calcRoute()
-      }
+
+  computed: {
+    filteredHouses() {
+      return this.houses.filter((house) => this.isWithinRange(house))
     }
   },
+
   methods: {
+    // code for loading google maps
     loadGoogleMaps() {
       const script = document.createElement('script')
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBCo8-P-w_42crrvaFDr4bqd-XGASt2tzM&libraries=places`
+      script.src = `https://maps.googleapis.com/maps/api/js?key=&libraries=places`
+
       script.defer = true
       script.async = true
       script.onload = () => {
         this.initMap()
         this.initAutocomplete()
         this.getUserLocation()
+        this.guestHouse()
       }
       script.onerror = () => {
         this.apiError()
       }
       document.head.appendChild(script)
     },
+
+    //  show the location when open first maps
     initMap() {
       const myLatLng = { lat: 11.5546, lng: 104.9169 }
       const mapOptions = {
@@ -108,6 +118,8 @@ export default {
       this.directionsDisplay = new google.maps.DirectionsRenderer()
       this.directionsDisplay.setMap(this.map)
     },
+
+    //  auto complete when searching for directions
     initAutocomplete() {
       const options = {
         types: ['geocode']
@@ -124,7 +136,7 @@ export default {
       this.autocompleteFrom.addListener('place_changed', () => {
         const place = this.autocompleteFrom.getPlace()
         if (!place.geometry) {
-          console.error("Place not found for 'From' input.")
+          console.error('Place not found for From input.')
           return
         }
         this.from = place.formatted_address
@@ -139,6 +151,8 @@ export default {
         this.to = place.formatted_address
       })
     },
+
+    //  code caught location of user stand
     getUserLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -181,6 +195,8 @@ export default {
         this.from = 'Your current location'
       }
     },
+
+    // icons to show user location where
     addUserLocationMarker(latlng) {
       this.userLocationMarker = new google.maps.Marker({
         position: latlng,
@@ -194,50 +210,61 @@ export default {
         }
       })
     },
-    guestHouse() {
-      axiosInstance.get('/Guest_House').then((response) => {
-        const guesthouses = response.data.data
-        if (guesthouses.length === 0) {
-          this.output = `<div class='alert-warning'><i class='fas fa-exclamation-triangle'></i> No guesthouses found.</div>`
-          return
-        }
-        this.clearMarkers()
-        guesthouses.forEach((guesthouse) => {
-          const latitude = parseFloat(guesthouse.latitude)
-          const longitude = parseFloat(guesthouse.longitude)
 
-          if (!isNaN(latitude) && !isNaN(longitude) && latitude !== 0 && longitude !== 0) {
-            // Valid coordinates, create marker directly
-            const latlng = new google.maps.LatLng(latitude, longitude)
-            this.createMarker({
-              geometry: {
-                location: latlng
-              },
-              address: guesthouse.address,
-              name: guesthouse.name,
-              photos: guesthouse.photos
-            })
-          } else {
-            // Invalid or missing coordinates, use geocoding
-            this.geocodeAddress(guesthouse.address, (latlng) => {
-              if (latlng) {
-                this.createMarker({
-                  geometry: {
-                    location: latlng
-                  },
-                  address: guesthouse.address,
-                  name: guesthouse.name,
-                  photos: guesthouse.photos
-                })
-              } else {
-                console.warn('Geocoding failed for address:', guesthouse.address)
-              }
-            })
+    // add guesthouse from backend to show on the maps
+    guestHouse() {
+      axiosInstance
+        .get('/guest_house/list')
+        .then((response) => {
+          const guesthouses = response.data.data
+          if (guesthouses.length === 0) {
+            // this.output = `<div class='alert-warning'><i class='fas fa-exclamation-triangle'></i> No guesthouses found.</div>`
+            return
           }
+          this.clearMarkers()
+          guesthouses.forEach((guesthouse) => {
+            const latitude = parseFloat(guesthouse.latitude)
+            const longitude = parseFloat(guesthouse.longitude)
+
+            if (!isNaN(latitude) && !isNaN(longitude) && latitude !== 0 && longitude !== 0) {
+              const latlng = new google.maps.LatLng(latitude, longitude)
+              const distance = google.maps.geometry.spherical.computeDistanceBetween(
+                this.userLocationMarker.getPosition(),
+                latlng
+              )
+              this.createMarker({
+                geometry: {
+                  location: latlng
+                },
+                address: guesthouse.address,
+                name: guesthouse.name,
+                photos: guesthouse.photos
+              })
+            } else {
+              this.geocodeAddress(guesthouse.address, (latlng) => {
+                if (latlng) {
+                  this.createMarker({
+                    geometry: {
+                      location: latlng
+                    },
+                    address: guesthouse.address,
+                    name: guesthouse.name,
+                    photos: guesthouse.photos
+                  })
+                } else {
+                  console.warn('Geocoding failed for address:', guesthouse.address)
+                }
+              })
+            }
+          })
         })
-      })
+        .catch((error) => {
+          console.error('Error fetching guesthouses:', error)
+          // this.output = `<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Failed to fetch guesthouses. Please try again later.</div>`
+        })
     },
 
+    // icons for location guesthouses
     createMarker(place) {
       const marker = new google.maps.Marker({
         position: place.geometry.location,
@@ -259,32 +286,43 @@ export default {
       })
 
       this.markers.push(marker)
-
       let imageUrl = ''
       if (place.photos && place.photos.length > 0) {
         imageUrl = `http://127.0.0.1:8000${place.photos[0].url.slice(16)}`
       }
-
-      const infowindowContent = `
-      <div>
-        <img
-          src="${imageUrl}"
-          class="card-img-top"
-          style="width:40%; height: auto;"
-        />
+      const contentString = `
         <div>
-          <strong>${place.name}</strong><br>
-          ${place.address}
-        </div>
-      </div>`
+          <h3>${place.name}</h3>
+          <p>${place.address}</p>
+       <img
+        src="${imageUrl}"
+        class="card-img-top"
+        style="width:40%; height: auto;"
+      />        
+      </div>
+      `
 
       const infowindow = new google.maps.InfoWindow({
-        content: infowindowContent
+        content: contentString
       })
 
       marker.addListener('click', () => {
         infowindow.open(this.map, marker)
         this.calcRouteToGuesthouse(place.geometry.location)
+      })
+    },
+
+    // code for geocode when adding guesthouse
+    geocodeAddress(address, callback) {
+      const geocoder = new google.maps.Geocoder()
+      geocoder.geocode({ address }, (results, status) => {
+        if (status === 'OK') {
+          const latlng = results[0].geometry.location
+          callback(latlng)
+        } else {
+          console.error('Geocoding failed:', status)
+          callback(null)
+        }
       })
     },
 
@@ -294,10 +332,12 @@ export default {
       })
       this.markers = []
     },
+
+    // calculate route to another places
     calcRoute() {
       if (!this.from || !this.to) {
-        this.output =
-          "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Please fill in the required fields.</div>"
+        // this.output =
+        //   "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Please fill in the required fields.</div>"
         return
       }
 
@@ -329,7 +369,6 @@ export default {
               const path = result.routes[0].overview_path
               const midPointIndex = Math.floor(path.length / 2)
               const midPoint = path[midPointIndex]
-
               const overlay = new google.maps.OverlayView()
               overlay.draw = () => {
                 const marker = new google.maps.Marker({
@@ -338,12 +377,11 @@ export default {
                   visible: false
                 })
 
-                const div = document.createElement('div')
-                div.style.position = 'absolute'
+                const div = document.createElement('div')`   div.style.position = 'absolute'
                 div.style.background = 'black'
                 div.style.padding = '5px'
                 div.style.border = '1px solid black'
-                div.innerHTML = `<strong> Distance:</strong> ${totalDistanceInKm} km<br><strong> Duration:</strong> ${totalDurationInMinutes} minutes`
+                div.innerHTML = <strong> Distance:</strong> ${totalDistanceInKm} km<br><strong> Duration:</strong> ${totalDurationInMinutes} minutes`
 
                 const panes = overlay.getPanes()
                 panes.overlayLayer.appendChild(div)
@@ -353,63 +391,159 @@ export default {
               return
             }
           }
-          this.output =
-            "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> No route found.</div>"
+          // this.output =
+          //   "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> No route found.</div>"
         } else {
           this.directionsDisplay.setDirections({ routes: [] })
           this.map.setCenter({ lat: 38.346, lng: -0.4907 })
         }
       })
     },
-    calcRouteToGuesthouse(destination) {
-      if (!this.from || !destination) {
-        this.output =
-          "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Please fill in the required fields.</div>"
-        return
+
+    fetchGuestHousesNearLocation(location) {
+      axiosInstance.get('/Guest_House').then((response) => {
+        const guesthouses = response.data.data
+        if (guesthouses.length === 0) {
+          // this.output =
+          //   "<div class='alert-warning'><i class='fas fa-exclamation-triangle'></i> No guesthouses found.</div>"
+          return
+        }
+        this.clearMarkers()
+        guesthouses.forEach((guesthouse) => {
+          const latitude = parseFloat(guesthouse.latitude)
+          const longitude = parseFloat(guesthouse.longitude)
+
+          // Check if the guesthouse is within 5000 meters (5 km) from the user
+          if (!isNaN(latitude) && !isNaN(longitude) && latitude !== 0 && longitude !== 0) {
+            const latlng = new google.maps.LatLng(latitude, longitude)
+            const distance = google.maps.geometry.spherical.computeDistanceBetween(location, latlng)
+            if (distance <= 5000) {
+              this.createMarker({
+                geometry: {
+                  location: latlng
+                },
+                address: guesthouse.address,
+                name: guesthouse.name,
+                photos: guesthouse.photos
+              })
+            }
+          } else {
+            this.geocodeAddress(guesthouse.address, (latlng) => {
+              if (latlng) {
+                this.createMarker({
+                  geometry: {
+                    location: latlng
+                  },
+                  address: guesthouse.address,
+                  name: guesthouse.name,
+                  photos: guesthouse.photos
+                })
+              } else {
+                console.warn('Geocoding failed for address:', guesthouse.address)
+              }
+            })
+          }
+        })
+      })
+    },
+
+    calcRouteToGuesthouse(latlng) {
+      const userLocation = {
+        lat: this.userLocationMarker.getPosition().lat(),
+        lng: this.userLocationMarker.getPosition().lng()
       }
 
-      const routeRequest = {
-        origin: this.from,
-        destination: destination,
-        travelMode: google.maps.TravelMode.DRIVING,
-        unitSystem: google.maps.UnitSystem.METRIC
+      const request = {
+        origin: userLocation,
+        destination: latlng,
+        travelMode: 'DRIVING'
       }
 
-      this.directionsService.route(routeRequest, (result, status) => {
-        if (status === google.maps.DirectionsStatus.OK) {
+      this.directionsService.route(request, (result, status) => {
+        if (status === 'OK') {
           this.directionsDisplay.setDirections(result)
+
+          const route = result.routes[0]
+          if (route) {
+            const legs = route.legs
+            if (legs && legs.length > 0) {
+              let totalDistance = 0
+              let totalDuration = 0
+              legs.forEach((leg) => {
+                totalDistance += leg.distance.value
+                totalDuration += leg.duration.value
+              })
+
+              const totalDistanceInKm = (totalDistance / 1000).toFixed(2)
+              const totalDurationInMinutes = Math.floor(totalDuration / 60)
+
+              const path = route.overview_path
+              const midPointIndex = Math.floor(path.length / 2)
+              const midPoint = path[midPointIndex]
+
+              // Create a marker for the midpoint
+              const midPointMarker = new google.maps.Marker({
+                position: midPoint,
+                map: this.map,
+                icon: {
+                  path: google.maps.SymbolPath.CIRCLE,
+                  scale: 5,
+                  fillColor: 'black',
+                  fillOpacity: 1,
+                  strokeWeight: 0
+                }
+              })
+
+              // Info window content for the midpoint marker
+              const infowindowContent = ` <div style="background-color: white; border: 1px black; padding: 10px;">
+                                      <strong>Distance:</strong> ${totalDistanceInKm} km<br>
+                                      <strong>Duration:</strong> ${totalDurationInMinutes} minutes
+                                    </div>`
+
+              const infowindow = new google.maps.InfoWindow({
+                content: infowindowContent
+              })
+
+              // Open infowindow on midpoint marker
+              infowindow.open(this.map, midPointMarker)
+              return
+            }
+          }
         } else {
-          this.output =
-            "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> No route found.</div>"
+          // this.output = `<div class="alert alert-danger mt-3">Could not calculate directions: ${status}</div>`
         }
       })
     },
+
+    // Handle Google Maps API script loading error
     apiError() {
       console.error('Google Maps API script loading failed.')
-      this.output =
-        "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Failed to load Google Maps API.</div>"
+      // this.output =
+      //   "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Failed to load Google Maps API.</div>"
     },
-    createMarkerFromData(markerData) {
-      // Use the markerData to create a new marker on the map
-      const latitude = parseFloat(markerData.latitude)
-      const longitude = parseFloat(markerData.longitude)
-      const latlng = new google.maps.LatLng(latitude, longitude)
 
-      this.createMarker({
-        geometry: {
-          location: latlng
-        },
-        address: markerData.address,
-        name: markerData.name,
-        photos: markerData.photos
+    // Route to a specific house address from the card service component
+    showHouseOnMap(house) {
+      const address = ` ${house.address}, ${house.city}, ${house.state}, ${house.country}`
+
+      const geocoder = new google.maps.Geocoder()
+      geocoder.geocode({ address: address }, (results, status) => {
+        if (status === 'OK') {
+          const location = results[0].geometry.location
+          this.map.setCenter(location)
+          this.map.setZoom(15)
+          this.createMarker({
+            geometry: {
+              location: location
+            },
+            address: house.address,
+            name: house.name,
+            photos: house.photos
+          })
+        } else {
+          console.error('Geocode was not successful for the following reason: ' + status)
+        }
       })
-    }
-  },
-  watch: {
-    markerData(newMarkerData) {
-      if (newMarkerData) {
-        this.createMarkerFromData(newMarkerData)
-      }
     }
   }
 }
@@ -423,45 +557,36 @@ export default {
 .map-container {
   position: relative;
   margin-left: -190px;
+  margin-top: -59px;
 }
 
 .map-form {
   position: absolute;
   top: 10px;
-  right: 5%;
-  z-index: 1;
-  background-color: #0000002e;
-  padding: 12px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: width 0.3s ease;
-  width: 15px;
-  overflow: hidden;
-}
-
-.map-form:hover {
-  width: 472px;
-}
-
-.map-label {
-  color: #555;
-  font-size: 16px;
-  margin-right: 10px;
-  width: 20px;
+  right: 3%;
+  /* z-index: 1; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: width 0.3s ease-in-out;
 }
 
 .map-input {
-  border: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  font-size: 16px;
-  border-radius: 3px;
+  margin-bottom: 10px;
 }
 
 .map-button {
-  margin-top: 20px;
-  background-color: #007bff;
-  border-color: #007bff;
-  border-radius: 3px;
-  font-size: 16px;
-  padding: 10px 20px;
+  margin-top: 10px;
+}
+
+.map-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #495057;
+}
+
+#cal {
+  margin-top: -10px;
 }
 </style>

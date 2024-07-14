@@ -32,13 +32,21 @@
     {{-- sweet alert --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
+    {{-- link stripe js --}}
+    <script src="https://js.stripe.com/v3/"></script>
+
+    {{-- date flatpcker --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <!-- Livewire Styles -->
     @livewireStyles
 </head>
 
 <body class="font-sans antialiased">
     <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-200">
-        <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false" class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
+        <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false"
+            class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
 
         @include('layouts.sidebar')
 
@@ -46,30 +54,30 @@
 
             @include('layouts.header')
 
-            @if(\Session::has('success'))
-            <div class="text-green-600 pt-5 pl-5">
-                <ul>
-                    <li>{!! \Session::get('success') !!}</li>
-                </ul>
-            </div>
+            @if (\Session::has('success'))
+                <div class="text-green-600 pt-5 pl-5">
+                    <ul>
+                        <li>{!! \Session::get('success') !!}</li>
+                    </ul>
+                </div>
             @endif
 
-            @if(\Session::has('error'))
-            <div class="text-green-600 pt-5 pl-5">
-                <ul>
-                    <li>{!! \Session::get('error') !!}</li>
-                </ul>
-            </div>
+            @if (\Session::has('error'))
+                <div class="text-green-600 pt-5 pl-5">
+                    <ul>
+                        <li>{!! \Session::get('error') !!}</li>
+                    </ul>
+                </div>
             @endif
 
             @if ($errors->any())
-            <div class="text-red-600 pt-5 pl-5">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+                <div class="text-red-600 pt-5 pl-5">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
 
             {{ $slot }}
