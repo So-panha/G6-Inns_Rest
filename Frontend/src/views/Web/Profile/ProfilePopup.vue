@@ -80,8 +80,6 @@ const logout = () => {
 
 const closeProfilePopup = () => {
   emit('toggleProfilePopup')
-  localStorage.removeItem('profile_image_url')
-  localStorage.removeItem('inputs')
 }
 </script>
 
