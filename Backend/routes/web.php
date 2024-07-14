@@ -87,10 +87,9 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::post('/process-payment',[PaymentController::class,'createStripePaymentIntent'])->name('stripe.paymentIntent.create');
         Route::post('/paid-guestHouse',[PaymentController::class,'paid'])->name('paid.guestHouse');
         Route::post('/update-real-time-guestHouse',[PaymentController::class, 'update'])->name('update-time-guestHouse');
-        Route::get('/payment', [PaymentController::class, 'show']);
 
         // Table Payment
-        // Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+        Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
     });
 
 
@@ -98,6 +97,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function (){
     Route::get('/chat/{query}',Chat::class)->name('chat');
+
     Route::get('/users',Users::class)->name('users');
 
     Route::get('/users',Users::class)->name('users');

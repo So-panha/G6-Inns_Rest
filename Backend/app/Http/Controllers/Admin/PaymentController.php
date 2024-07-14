@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\GuestHouse;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Stripe\Exception\ApiErrorException;
 use Stripe\PaymentIntent;
@@ -12,7 +13,7 @@ use Stripe\Stripe;
 class PaymentController extends Controller
 {
     //
-    private $stripe;
+    // private $stripe;
     public function showPaymentForm()
     {
         return view('payment.payment');
@@ -57,6 +58,17 @@ class PaymentController extends Controller
         ]);
         // Save new data of guest house
         $guestHouse->save();
+
+        // create data for payment
+        $payment = [
+            'guest_house_id' => $request->guestHouseId,
+            'amount' => $request->amount,
+            'date_paid' => $date,
+            'user_id' => Auth()->user()->id
+        ];
+
+        // Save payment data
+        Transaction::create($payment);
 
         // return response
         return response()->json(['success' => $guestHouse], 200);

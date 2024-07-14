@@ -150,7 +150,7 @@ class GuestHousesController extends Controller
     // }
 
 
-  
+
 
     public function destroy(Request $request, string $id)
     {
