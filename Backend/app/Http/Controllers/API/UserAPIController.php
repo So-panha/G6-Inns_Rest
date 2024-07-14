@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\booking_user_room;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class BookingUserRoomController extends Controller
+class UserAPIController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,6 +13,7 @@ class BookingUserRoomController extends Controller
     public function index()
     {
         //
+        dd(1);
     }
 
     /**
@@ -26,7 +27,7 @@ class BookingUserRoomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(booking_user_room $booking_user_room)
+    public function show(string $id)
     {
         //
     }
@@ -34,7 +35,7 @@ class BookingUserRoomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, booking_user_room $booking_user_room)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -42,7 +43,7 @@ class BookingUserRoomController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(booking_user_room $booking_user_room)
+    public function destroy(string $id)
     {
         //
     }

@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('booking_user_rooms', function (Blueprint $table) {
             $table->id();
+            $table->integer('price');
+            $table->integer('number_of_rooms');
+            $table->date('departure_date');
+            $table->date('arrival_date');
+
+            $table->foreignId('user_id')->references('id')->on('user_normals');
+            $table->foreignId('room_id')->references('id')->on('rooms')->onDelete('cascade');
+
+
             $table->timestamps();
         });
     }
