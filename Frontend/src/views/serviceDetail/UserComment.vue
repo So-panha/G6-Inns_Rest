@@ -1,72 +1,101 @@
 <template>
-  <div class="container my-6 p-4 ml-3">
-  <div class="card" style="width: 100%;">
-    <div class="card-body">
-      <h3 class="card-title text-center">Feedback</h3>
-      <p class="card-text text-center">Tell us how we can improve</p>
-      <form class="p-6">
-        <div class="form-group">
-          <textarea class="form-control ml-25" rows="2" placeholder="Write your message here" style="width: 80%;"></textarea>
-        </div>
-        <button type="button" class="btn mt-3 ml-248 btn-primary">Submit</button>
-      </form>
-    </div>
-  </div>
-<!-- --------------------------------------------------------------- -->
-  <div class="row mt-4 scroll-container">
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <div class="d-flex align-items-start">
-            <img src="https://i.pinimg.com/736x/27/c2/4b/27c24bb5579d509d947ec97eea11adc8.jpg" class="rounded-circle mr-3 h-15 w-15" alt="Dany nay">
-            <div>
-              <h6 class="card-title mb-0">Dany nay</h6>
-              <p class="card-text">1 day ago</p>
-              <p class="card-text">" oh my got your servic so good I really ressing about it "</p>
-            </div>
+  <div class="container my-6 p-4">
+    <div class="card" style="width: 100%">
+      <div class="card-body">
+        <h3 class="card-title text-center">Feedback</h3>
+        <p class="card-text text-center">Tell us how we can improve</p>
+        <div class="d-flex ml-30">
+          <img :src="profileImageUrl" class="rounded-circle mr-3 h-10 w-10" :alt="name" />
+          <div class="mt-2">
+            <h6 class="card-title mb-0">{{ name }}</h6>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <div class="d-flex align-items-start">
-            <img src="https://i.pinimg.com/564x/0c/0d/6d/0c0d6d6e41711f70e282142f222daf3f.jpg" class="rounded-circle mr-3 h-15 w-15">
-            <div>
-              <h6 class="card-title mb-0">Vanny Mao</h6>
-              <p class="card-text">2 days ago</p>
-              <p class="card-text">"this application so amazing its very comfortable and saety."</p>
-            </div>
+        <form class="p-6">
+          <div class="form-group">
+            <textarea
+              class="form-control ml-25"
+              rows="2"
+              placeholder="Write your message here"
+              style="width: 80%"
+            ></textarea>
           </div>
-        </div>
+          <button type="button" class="btn mt-3 ml-248 btn-primary">Submit</button>
+        </form>
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <div class="d-flex align-items-start">
-            <img src="https://i.pinimg.com/564x/17/dd/c2/17ddc2f538307c63a2e92707886d9234.jpg" class="rounded-circle mr-3 h-15 w-15">
-            <div>
-              <h6 class="card-title mb-0">Ma Ny</h6>
-              <p class="card-text">3 days ago</p>
-              <p class="card-text">"so good"</p>
+    <!-- --------------------------------------------------------------- -->
+   <div class="row mt-4 scroll-container">
+      <div class="col-md-4" v-for="comment in comments" :key="comment.id">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-items-start">
+              <img :src="profileImageUrl" class="rounded-circle mr-3 h-10 w-10" :alt="comment.name" />
+              <div>
+                <h6 class="card-title mb-0">{{ name }}</h6>
+                <p class="card-text">{{ comment.timeAgo }}</p>
+                <p class="card-text">{{ comment.text }}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+
 export default {
+  name: 'UserComment',
+  setup() {
+    const profileImageUrl = ref('');
+    const name = ref('');
+    const comments = ref([]);
 
-}
+    const getUserProfile = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/user/show/1'); // Adjust URL and user ID as needed
+        profileImageUrl.value = `http://127.0.0.1:8000/storage/${response.data.user.profile}`;
+        name.value = response.data.user.name;
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    const fetchComments = async () => {
+      try {
+        // Replace with your API endpoint to fetch comments
+        const response = await axios.get('http://127.0.0.1:8000/api/comments');
+        comments.value = response.data.comments;
+      } catch (error) {
+        console.error('Error fetching comments:', error);
+      }
+    };
+
+    onMounted(() => {
+      getUserProfile();
+      fetchComments();
+    });
+
+    return {
+      profileImageUrl,
+      name,
+      comments: [
+        {
+          id: 1,
+          timeAgo: '1 day ago',
+          text: '" oh my got your service so good I really ressing about it "'
+        },
+        {
+          id: 2,
+          timeAgo: '2 days ago',
+          text: '"this application so amazing its very comfortable and saety."'
+        },
+        { id: 3, timeAgo: '3 days ago', text: '"so good"' }
+      ]
+    };
+  },
+};
 </script>
-
-<style>
-
-
-</style>

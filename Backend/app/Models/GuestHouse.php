@@ -67,6 +67,12 @@ class GuestHouse extends Model implements HasMedia
             'thumbnail' => $media->getUrl('thumb'),
         ];
     });
+    
+}
+
+// -----relation ship with comment-----------------
+public function commentFeadback(){
+    return $this->hasMany(CommentFeedback::class);
 }
 
     public function created_by()
