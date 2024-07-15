@@ -89,7 +89,11 @@ export default {
     // code for loading google maps
     loadGoogleMaps() {
       const script = document.createElement('script')
+<<<<<<< HEAD
       script.src = `https://maps.googleapis.com/maps/api/js?&libraries=places`
+=======
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBCo8-P-w_42crrvaFDr4bqd-XGASt2tzM&libraries=places`
+>>>>>>> d06d46d79707aac44608f15624965ec6e757fa8d
 
       script.defer = true
       script.async = true
