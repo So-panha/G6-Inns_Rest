@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\RegisterToUser;
+
 use App\Http\Controllers\Admin\{
     ProfileController,
     MailSettingController,
@@ -90,6 +92,8 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
 
         // Table Payment
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+        Route::get('/registertouse', [RegisterToUser::class, 'store'])->name('register.user');
+
     });
 
 
