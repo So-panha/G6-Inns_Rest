@@ -25,8 +25,6 @@
       </div>
     </div>
   </WebLayout>
-  <!-- {{ store.posts }} -->
-  <!-- {{ posts }} -->
 </template>
 
 <script>
@@ -40,7 +38,7 @@ export default {
   },
   data() {
     return {
-      store: usePostStore(),
+      store: usePostStore()
     }
   },
   mounted() {

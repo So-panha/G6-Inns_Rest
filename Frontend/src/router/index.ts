@@ -17,7 +17,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/login',
+      path: '/',
       name: 'login',
       component: () => import('../views/Admin/Auth/LoginView.vue')
     },
@@ -29,25 +29,25 @@ const router = createRouter({
     {
       path: '/qrCode',
       name: 'qrCode',
-      component: () => import('../views/Admin/User/QRCodeGeneratorView.vue')
+      component: () => import('../views/Web/QrCode/QRCodeGeneratorView.vue')
     },
     {
       path: '/ticket',
       name: '/ticket',
-      component: () => import('../views/Admin/User/TicketView.vue')
+      component: () => import('../views/Web/Ticket/TicketView.vue')
     },
     {
       path: '/ticketNoti',
       name: '/ticketNoti',
-      component: () => import('../views/Admin/User/TicketNotiView.vue')
+      component: () => import('../views/Web/TicketNoti/TicketNotiView.vue')
     },
     {
       path: '/bookingUser',
       name: 'bookingUser',
-      component: () => import('../views/Admin/User/BookingUserView.vue')
+      component: () => import('../views/Web/Booking/BookingUserView.vue')
     },
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       component: () => import('../views/Web/HomeView.vue')
     },
@@ -57,11 +57,17 @@ const router = createRouter({
       component: () => import('../views/Web/Post/ListView.vue')
     },
     {
-      path: '/service-detail',
-      name: 'service-detail',
-      component: () => import('../views/serviceDetail/ServiceDetail.vue')
+      path: '/service-detail/:id',
+      name: 'show-room',
+      component: () => import('../views/serviceDetail/ServiceDetail.vue'),
+      props: true
+    },
+    {
+      path: '/ListRoom',
+      name: 'ListRoom',
+      component: () => import('../views/serviceDetail/ListRoom.vue')
     }
-
+     
   ]
 })
 

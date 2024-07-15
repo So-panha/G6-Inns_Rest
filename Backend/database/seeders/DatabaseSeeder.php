@@ -23,5 +23,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(BadTypeSeeder::class);
         $this->call(TypeOfRoomSeeder::class);
+
+        $this->call(BookingRoomSeeder::class);
     }
 }
