@@ -22,7 +22,7 @@
           </span>
         </div>
         <div @click="$emit('toggleProfilePopup')">
-          <img :src="profileImageUrl" class="profile-image rounded-full mr-7 h-12 w-12" />
+          <img :src="getImage(tempInputs.profile)" class="profile-image rounded-full mr-7 h-12 w-12" />
         </div>
       </div>
     </div>
@@ -30,14 +30,59 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits } from 'vue'
-import LogoInn from '@/assets/LogoInn.svg'
+import axios from 'axios';
+import { defineProps, ref, onMounted } from 'vue';
+import LogoInn from '@/assets/LogoInn.svg';
+import { useAuthStore } from '../../../stores/auth-store.ts';
+const authStore = useAuthStore();
+interface ProfileData {
+  profile: string;
+}
 
-const props = defineProps({
-  profileImageUrl: String
-})
+const props = defineProps<{
+  showProfilePopup: boolean;
+  tempInputs: ProfileData;
+}>();
 
-const emit = defineEmits(['toggleProfilePopup', 'toggleTicketNotiPopup'])
+const emit = defineEmits<{
+  (event: 'toggleEditPopup'): void;
+  (event: 'toggleProfilePopup'): void;
+}>();
+// please make it get id denimic make it can 
+
+const tempInputs = ref<ProfileData>({
+  profile: '',
+});
+
+const showEditPopup = () => {
+  emit('toggleEditPopup');
+};
+
+const getImage = (profile: string) => {
+  return `http://127.0.0.1:8000/storage/${profile}`;
+};
+
+const fetchUserData = async () => {
+  
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/user/show/${authStore.user.id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
+    });
+    // Update tempInputs with response data
+    Object.assign(tempInputs.value, response.data.user);
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+  }
+};
+
+// Fetch user data when component is mounted
+onMounted(() => {
+  fetchUserData();
+});
+
+
 </script>
 
 <style scoped>
