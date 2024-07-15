@@ -5,7 +5,7 @@
       <CardDetail :ListImages="ListImages"/>
     </div >
     <div v-else>
-      <h1>No have Room</h1>
+      <h1>This Gest House doesn't have any room</h1>
     </div>
     
   </div>
