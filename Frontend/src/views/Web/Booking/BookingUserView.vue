@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { ref } from 'vue';
 import * as yup from 'yup';
 import { useRouter } from 'vue-router';
 
@@ -40,8 +40,6 @@ const form = ref({
   arrivaldate: ''
 });
 const errors = ref({});
-
-const emit = defineEmits(['close', 'submit']);
 
 const schema = yup.object().shape({
   numRooms: yup.number().integer().min(1, 'At least one room is required').required('Number of rooms is required'),
@@ -67,13 +65,19 @@ const validateForm = async () => {
 
 const submitForm = async () => {
   if (await validateForm()) {
-    emit('submit', form.value);
-    router.push('/qrCode');
+    router.push({
+      name: 'qrCode',
+      params: {
+        numRooms: form.value.numRooms,
+        departuredate: form.value.departuredate,
+        arrivaldate: form.value.arrivaldate
+      }
+    });
   }
 };
 
 const cancelForm = () => {
-  emit('close');
+  // Handle form cancellation logic
 };
 </script>
 
