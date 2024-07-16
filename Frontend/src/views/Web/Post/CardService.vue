@@ -1,9 +1,10 @@
 <template>
+
   <div>
     <div class="container mt-2 mb-10 group_text flex items-center justify-between">
       <div>
-        <h2 class="ml-3">Popular Booking</h2>
-        <p class="mb-13 ml-3">Find the Guest House that near your location</p>
+        <h2 class=" ml-3">Popular Booking</h2>
+        <p class="mb-13 ml-3">Find the Gest House that near your here</p>
       </div>
 
       <div class="flex items-center">
@@ -139,6 +140,7 @@
 
 <script>
 import axiosInstance from '@/plugins/axios'
+
 
 export default {
   data() {

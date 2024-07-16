@@ -18,7 +18,7 @@
                 v-for="image in listImage.images"
                 :key="image.url"
                 class="d-inline-block"
-                style="width: 430px; height: 320px; object-fit: cover; position: relative;"
+                style="width: 430px; height: 320px; object-fit: cover; position: relative"
               >
                 <img
                   :src="getImage(image.url)"
@@ -40,7 +40,7 @@
                 class="position-absolute top-50 start-0 translate-middle-y btn btn-outline-dark border-0"
               >
                 <span class="material-symbols-outlined">chevron_left</span>
-              </button> 
+              </button>
               <button
                 @click="scrollRight(listImage.id)"
                 class="position-absolute top-50 end-0 translate-middle-y btn btn-outline-dark border-0"
@@ -72,7 +72,7 @@
             </div>
             <div class="d-flex justify-content-end mt-5">
               <button class="btn btn-danger mr-2 bookorganize">Booked</button>
-              <button class="btn btn-primary" @click="openBookingModal(index)">Booking</button>
+              <button class="btn btn-primary" @click="openBookingModal(index,listImage.id)">Booking</button>
             </div>
           </div>
         </div>
@@ -92,41 +92,21 @@
               @close="closeBookingModal"
               @submit="handleFormSubmit"
               :selectedImage="selectedImage"
+              :ListImages="ListImages"
+              :roomId="selectedRoomId"
+
             />
           </div>
         </div>
       </div>
     </div>
 
-    <!-- pop up Id card -->
-    <div v-if="showidcard" class="card shadow-sm modal" tabindex="-1" style="display: block">
-      <div class="card-body">
-        <h1 class="text-center mb-4">QR Code Generator</h1>
-        <div class="form-group">
-          <label for="qr-data">Enter data for QR code:</label>
-          <input
-            id="qr-data"
-            v-model="data"
-            class="form-control"
-            placeholder="e.g., URL, text, etc."
-          />
-        </div>
-        <div class="text-center">
-          <button @click="generateQRCode" class="btn btn-primary">Generate QR Code</button>
-        </div>
-        <div v-if="qrCodeSrc" class="qr-code-container text-center mt-4">
-          <qrcode-vue :value="qrCodeSrc" :size="200" level="H" />
-          <div class="text-center mt-3">
-            <button @click="showSuccessAlert" class="btn btn-success mt-3">Ok</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    {{ selectedRoomId }}
   </div>
 </template>
 
 <script>
-import BookingUserView from '@/views/Web/Booking/BookingUserView.vue';
+import BookingUserView from '@/views/Web/Booking/BookingUserView.vue'
 
 export default {
   name: 'CardDetail',
@@ -143,37 +123,40 @@ export default {
     return {
       urlImage: 'http://127.0.0.1:8000',
       showBookingModal: false,
-      selectedImage: null
-    };
+      selectedImage: null,
+      selectedRoomId:null
+    }
   },
   methods: {
     toggleFavorite(index) {
-      this.ListImages[index].isFavorite = !this.ListImages[index].isFavorite;
+      this.ListImages[index].isFavorite = !this.ListImages[index].isFavorite
     },
-    openBookingModal(index) {
-      this.selectedImage = this.ListImages[index];
-      this.showBookingModal = true;
+    openBookingModal(index,roomId) {
+      this.selectedImage = this.ListImages[index]
+      this.selectedRoomId = roomId
+      this.showBookingModal = true
+      console.log(this.selectedRoomId)
     },
     closeBookingModal() {
-      this.showBookingModal = false;
+      this.showBookingModal = false
     },
     handleFormSubmit(formData) {
-      console.log('Form submitted with data:', formData);
-      this.closeBookingModal();
+      console.log('Form submitted with data:', formData)
+      this.closeBookingModal()
     },
     getImage(image) {
-      return this.urlImage + image.slice(16);
+      return this.urlImage + image.slice(16)
     },
     scrollLeft(imageId) {
-      const scrollContainer = document.getElementById(`scrollContainer-${imageId}`);
-      scrollContainer.scrollBy(-400, 0);
+      const scrollContainer = document.getElementById(`scrollContainer-${imageId}`)
+      scrollContainer.scrollBy(-400, 0)
     },
     scrollRight(imageId) {
-      const scrollContainer = document.getElementById(`scrollContainer-${imageId}`);
-      scrollContainer.scrollBy(400, 0);
+      const scrollContainer = document.getElementById(`scrollContainer-${imageId}`)
+      scrollContainer.scrollBy(400, 0)
     }
   }
-};
+}
 </script>
 
 <style scoped>
