@@ -22,9 +22,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import QrcodeVue from 'qrcode.vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import Swal from 'sweetalert2';
 
 export default defineComponent({
@@ -36,7 +36,7 @@ export default defineComponent({
     const data = ref('');
     const qrCodeSrc = ref('');
     const router = useRouter();
-
+    const route = useRoute();
     const generateQRCode = () => {
       qrCodeSrc.value = data.value;
     };
