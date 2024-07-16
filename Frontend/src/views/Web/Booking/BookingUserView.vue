@@ -1,17 +1,22 @@
 <template>
-  <div class="container d-flex" >
-    <div>
-      <h1 class="text-light" style="font-weight: bold">
-        Booking <br />
-        Room
-      </h1>
-    </div>
+  <div class="container">
 
+    <div class="image-gallery">
+      <div class="image-item">
+        <img src="https://i.pinimg.com/736x/9d/d9/e8/9dd9e8449a07a4e942ace34f86771b16.jpg" alt="Room 1" class="zoom">
+      </div>
+      <div class="image-item">
+        <img src="https://i.pinimg.com/736x/8d/bf/86/8dbf8697536b7fb44e444c52d856f52f.jpg" alt="Room 2" class="zoom">
+      </div>
+      <div class="image-item">
+        <img src="https://i.pinimg.com/736x/d8/0d/8f/d80d8f9aae74097a28f023ba25547d43.jpg" alt="Room 3" class="zoom">
+      </div>
+    </div>
   </div>
   <div class="content">
     <div class="row">
       <div class="col-md-12 mb-3 mt-3">
-        <span style="font-weight: bold;">Set number of booking rooms</span>
+        <span style="font-weight:">Set number of booking rooms</span>
         <input
           type="number"
           class="form-control"
@@ -24,7 +29,7 @@
     </div>
     <div class="row">
       <div class="col-md-6 mb-3 mt-3">
-        <span style="font-weight: bold;">Check In day</span>
+        <span style="font-weight: ">Check In day</span>
         <input
           type="date"
           class="form-control"
@@ -35,7 +40,7 @@
         <span v-if="errors.departuredate" class="error">{{ errors.departuredate }}</span>
       </div>
       <div class="col-md-6 mb-3 mt-3">
-        <span style="font-weight: bold;">Check Out day</span>
+        <span style="font-weight: ">Check Out day</span>
         <input
           type="date"
           class="form-control"
@@ -138,41 +143,37 @@ html {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
-}
-
-h1 {
-  margin-top: 20%;
-  text-align: left;
-  color: white;
-  font-size: 50px;
 }
 
 .container {
-  margin-top: 10px;
-  position: relative;
-  width: 100%;
-  min-height: 50vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  background-image: url('https://wpmedia.roomsketcher.com/content/uploads/2021/12/09103646/Subtle_Blue_Shades_Large_Bedroom_idea-1024x768.jpg');
+  min-height: 50vh;
+  /* Ensure full viewport height */
+  background-image: url('https://i.pinimg.com/564x/6a/fd/29/6afd297faea93c71cd076ade13b2b767.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  padding-bottom: 50px;
+  /* Space for the gallery at the bottom */
+  position: relative;
 }
 
 .content {
+  margin-top: 20px;
   position: relative;
   background: rgba(255, 255, 255, 0.9);
   padding: 20px;
   width: 100%;
+  /* Adjusted width */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   margin: 0 auto;
+  /* Center the content horizontally */
 }
 
 .error {
   color: red;
-  font-size: 12px;
 }
 
 .text-right {
@@ -180,18 +181,38 @@ h1 {
 }
 
 .btn {
-  font-size: 14px;
-  padding: 8px 16px;
   margin-top: 10px;
 }
 
-.btn-danger {
-  background-color: #dc3545;
-  color: white;
+.image-gallery {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  /* Ensure gallery is above the content */
 }
 
-.btn-primary {
-  background-color: #007bff;
-  color: white;
+.image-item {
+  margin: 0 10px;
+}
+
+.image-item img {
+  width: 150px;
+  /* Adjusted smaller image size */
+  height: 150px;
+  /* Adjusted smaller image size */
+  border-radius: 8px;
+  border: 5px solid white;
+  transition: transform .2s;
+}
+
+.image-item img:hover {
+  transform: scale(1.1);
 }
 </style>
