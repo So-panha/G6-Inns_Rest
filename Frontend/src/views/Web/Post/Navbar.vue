@@ -1,34 +1,40 @@
 <template>
-  <div class="flex justify-between px-20 py-3 bg-white" style="box-shadow: 0 4px 2px -2px rgba(0,0,0,.25);">
-    <div class="flex items-start space-x-1">
-      <img :src="LogoInn" alt="LogoInn Logo" class="h-20" />
-    </div>  
+  <div class="flex justify-between items-center px-6 py-2 bg-white shadow-md">
+    <!-- Logo Section -->
+    <img :src="LogoInn" alt="LogoInn Logo" class="h-12" />
 
-    <div class="mt-8 mb-3 ml-3">
-      <h5 style="font-weight: bold;">Free</h5>
-      <h6>Check IN | Check Out</h6>
-      <hr>
+    <!-- Center Section -->
+    <div class="text-center">
+      <h5 class="font-bold">Free</h5>
+      <h6 class="text-gray-600">Check IN | Check OUT</h6>
+      <hr class="border-gray-300 mt-1" />
     </div>
-    <div class="flex">
-      <div class="mt-8 mr-30">
-        <h6 style="font-weight: bold;">Ready to book?</h6>
-        <h6 style="font-weight: bold;">Find your rest house here</h6>
-        <hr>
+
+    <!-- Right Section -->
+    <div class="flex items-center space-x-9">
+      <div class="text-right">
+        <h6 class="font-bold">Ready to book?</h6>
+        <h6 class="font-bold">Find your rest house here</h6>
+        <hr class="border-gray-300 mt-1" />
       </div>
-      <div class="flex mt-8">
-        <div @click="$emit('toggleTicketNotiPopup')">
-          <span class="material-symbols-outlined mr-6" style="font-size: 45px">
-            shopping_cart
-          </span>
-        </div>
-        <div @click="$emit('toggleProfilePopup')">
-          <img :src="profileImageUrl" class="profile-image rounded-full mr-7 h-12 w-12" />
-        </div>
+      <div class="flex items-center space-x-8">
+        <span
+          class="material-symbols-outlined text-gray-700 cursor-pointer"
+          style="font-size: 32px"
+          @click="$emit('toggleTicketNotiPopup')"
+        >
+          shopping_cart
+        </span>
+        <img
+          :src="profileImageUrl"
+          alt="Profile Image"
+          class="profile-image h-10 w-10 cursor-pointer"
+          @click="$emit('toggleProfilePopup')"
+        />
       </div>
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue'
 import LogoInn from '@/assets/LogoInn.svg'
@@ -39,10 +45,12 @@ const props = defineProps({
 
 const emit = defineEmits(['toggleProfilePopup', 'toggleTicketNotiPopup'])
 </script>
-
 <style scoped>
 .profile-image {
   border: 2px solid rgb(238, 40, 228);
   border-radius: 50%;
+}
+.shadow-md {
+  box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.25);
 }
 </style>
