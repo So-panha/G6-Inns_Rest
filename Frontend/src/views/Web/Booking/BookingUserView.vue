@@ -1,150 +1,95 @@
 <template>
-  <div>
+  <div class="container">
 
-    
-    <div class="container d-flex">
-      <div>
-        <h1 class="text-light" style="font-weight: bold">
-          Booking <br />
-          Room
-        </h1>
+    <div class="image-gallery">
+      <div class="image-item">
+        <img src="https://i.pinimg.com/736x/9d/d9/e8/9dd9e8449a07a4e942ace34f86771b16.jpg" alt="Room 1" class="zoom">
+      </div>
+      <div class="image-item">
+        <img src="https://i.pinimg.com/736x/8d/bf/86/8dbf8697536b7fb44e444c52d856f52f.jpg" alt="Room 2" class="zoom">
+      </div>
+      <div class="image-item">
+        <img src="https://i.pinimg.com/736x/d8/0d/8f/d80d8f9aae74097a28f023ba25547d43.jpg" alt="Room 3" class="zoom">
       </div>
     </div>
-    <div class="content">
-      <div class="row">
-        <div class="col-md-6 mb-3 mt-3">
-          <span style="font-weight: bold;">Put your number of rooms booking</span>
-          <input
-            type="number"
-            class="form-control"
-            id="numRooms"
-            v-model="form.numRooms"
-            placeholder="Number Of Rooms"
-          />
-          <span v-if="errors.numRooms" class="error">{{ errors.numRooms }}</span>
-        </div>
-
-        <div class="col-md-6 mb-3 mt-3">
-          <span style="font-weight: bold;">Price</span>
-          <input
-            type="text"
-            class="form-control"
-            id="price"
-            v-model="form.price"
-            placeholder="Price"
-          />
-          <span v-if="errors.price" class="error">{{ errors.price }}</span>
-        </div>
+  </div>
+  <div class="content">
+    <div class="row">
+      <div class="col-md-12 mb-3 mt-3">
+        <input type="number" class="form-control" id="numRooms" v-model="form.numRooms" placeholder="Number Of Room">
+        <span v-if="errors.numRooms" class="error">{{ errors.numRooms }}</span>
       </div>
-      <div class="row">
-        <div class="col-md-6 mb-3 mt-3">
-          <span style="font-weight: bold;">Check In day</span>
-          <input
-            type="date"
-            class="form-control"
-            id="checkInDate"
-            v-model="form.checkInDate"
-            placeholder="Check In Date"
-          />
-          <span v-if="errors.checkInDate" class="error">{{ errors.checkInDate }}</span>
-        </div>
-        <div class="col-md-6 mb-3 mt-3">
-          <span style="font-weight: bold;">Check Out day</span>
-          <input
-            type="date"
-            class="form-control"
-            id="checkOutDate"
-            v-model="form.checkOutDate"
-            placeholder="Check Out Date"
-          />
-          <span v-if="errors.checkOutDate" class="error">{{ errors.checkOutDate }}</span>
-        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3 mt-3">
+        <input type="date" class="form-control" id="departuredate" v-model="form.departuredate"
+          placeholder="Departure Date">
+        <span v-if="errors.departuredate" class="error">{{ errors.departuredate }}</span>
       </div>
-      <div class="text-right">
-        <button class="btn btn-danger mr-2" @click="cancelForm">Cancel</button>
-        <button class="btn btn-primary" @click="handleFormSubmit()">Check to pay</button>
+      <div class="col-md-6 mb-3 mt-3">
+        <input type="date" class="form-control" id="arrivaldate" v-model="form.arrivaldate" placeholder="Arrival Date">
+        <span v-if="errors.arrivaldate" class="error">{{ errors.arrivaldate }}</span>
       </div>
+    </div>
+    <div class="text-right">
+      <button class="btn btn-danger mr-2" @click="cancelForm">Cancel</button>
+      <button class="btn btn-primary" @click="submitForm">Submit</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue'
-import * as yup from 'yup'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue';
+import * as yup from 'yup';
+import { useRouter } from 'vue-router';
 
-const props = defineProps({
-  ListBooks: {
-    type: Array,
-    required: true
-  },
-  selectedRoomId: {
-    type: Number,
-    required: true
-  }
-})
-
-const router = useRouter()
+const router = useRouter();
 
 const form = ref({
   numRooms: '',
-  price: '',
-  checkInDate: '',
-  checkOutDate: ''
-})
-const errors = ref({})
-
-const emit = defineEmits(['close', 'submit'])
+  departuredate: '',
+  arrivaldate: ''
+});
+const errors = ref({});
 
 const schema = yup.object().shape({
-  numRooms: yup
-    .number()
-    .integer()
-    .min(1, 'At least one room is required')
-    .required('Number of rooms is required'),
-  price: yup
-    .string()
-    .required('Price is required'),
-  checkInDate: yup
-    .date()
-    .required('Check In Date is required')
-    .min(new Date(), 'Check In Date cannot be in the past'),
-  checkOutDate: yup
-    .date()
-    .required('Check Out Date is required')
-    .min(yup.ref('checkInDate'), 'Check Out Date cannot be before Check In Date')
-})
+  numRooms: yup.number().integer().min(1, 'At least one room is required').required('Number of rooms is required'),
+  departuredate: yup.date().required('Departure Date is required').min(new Date(), 'Departure Date cannot be in the past'),
+  arrivaldate: yup.date().required('Arrival Date is required').min(yup.ref('departuredate'), 'Arrival Date cannot be before Departure Date'),
+});
 
 const validateForm = async () => {
-  errors.value = {}
+  errors.value = {};
   try {
-    await schema.validate(form.value, { abortEarly: false })
-    return true
+    await schema.validate(form.value, { abortEarly: false });
+    return true;
   } catch (err) {
     if (err.inner) {
       errors.value = err.inner.reduce((acc, error) => {
-        acc[error.path] = error.message
-        return acc
-      }, {})
+        acc[error.path] = error.message;
+        return acc;
+      }, {});
     }
-    return false
+    return false;
   }
-}
+};
 
-const handleFormSubmit = async () => {
+const submitForm = async () => {
   if (await validateForm()) {
-    const formData = {
-      ...form.value,
-      selectedRoomId: props.selectedRoomId
-    }
-    emit('submit', formData)
-    router.push('/qrCode')
+    router.push({
+      name: 'qrCode',
+      params: {
+        numRooms: form.value.numRooms,
+        departuredate: form.value.departuredate,
+        arrivaldate: form.value.arrivaldate
+      }
+    });
   }
-}
+};
 
 const cancelForm = () => {
-  emit('close')
-}
+  // Handle form cancellation logic
+};
 </script>
 
 <style scoped>
