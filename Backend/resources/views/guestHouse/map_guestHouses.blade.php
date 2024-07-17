@@ -109,7 +109,6 @@
                 function(position) {
                     var latitude = position.coords.latitude - 0.0056923;
                     var longitude = position.coords.longitude + 0.002583;
-                    console.log(latitude,longitude);
 
                 // Initialize the map
                 var mapCanvas = document.getElementById('map-canvas');

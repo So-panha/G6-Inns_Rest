@@ -41,8 +41,13 @@
                     <div class="px-4 py-2">
                         <div class="font-bold text-lg mb-1">{{ $guestHouse->name }}</div>
                         <p class="text-gray-600 text-sm w-full pr-2">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis distinctio ipsum
-                            vitae deleniti praesentium veritatis sunt doloremque incidunt voluptate tempora!
+                            <strong>Address: {{ ($guestHouse->address) ? $guestHouse->address : "No address"}}</strong>
+                        </p>
+                        <p class="text-gray-600 text-sm w-full pr-2">
+                            <strong>Wifi: {{ ($guestHouse->wifi) === 1 ? 'Free Wifi' : "No have Wifi"}}</strong>
+                        </p>
+                        <p class="text-gray-600 text-sm w-full pr-2">
+                            <strong>Active:</strong> <strong class="{{ ($guestHouse->active) === 1 ? 'text-green-500' : "text-red-500"}}">{{ ($guestHouse->active) === 1 ? 'Active' : "Unactive"}}</strong>
                         </p>
                     </div>
                     <input class="hidden" type="text" id="files" value="{{$guestHouses}}">

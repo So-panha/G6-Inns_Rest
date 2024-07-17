@@ -33,7 +33,7 @@ class GuestHouse extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
-        'description',
+        'wifi',
         'active',
         'day_has',
         'real_day',
