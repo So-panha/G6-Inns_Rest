@@ -59,6 +59,7 @@
               <span class="locate material-symbols-outlined" style="font-size: 40px">home_pin</span>
               <small class="text-muted">5 minute walk from University in Phnom Penh</small>
             </p>
+
             <div class="d-flex justify-content-between align-items-center ml-1">
               <div class="flex">
                 <span class="home material-symbols-outlined" style="font-size: 30px">home</span>
