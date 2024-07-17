@@ -3,19 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\Day;
 use App\Models\GuestHouse;
 use App\Models\User;
-use Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Symfony\Component\HttpFoundation\Response;
 
 class GuestHousesController extends Controller
 {
-    // Store multiple images in file
 
+    // list all data guesthouses
     public function index()
     {
         $guestHouses = GuestHouse::all();
@@ -25,7 +21,7 @@ class GuestHousesController extends Controller
         return view('guesthouse.index', compact('guestHouses', 'mapGuestHouses', 'latitude', 'longitude'));
     }
 
-
+    // Store multiple images in file
     public function storeMedia(Request $request)
     {
 
@@ -41,8 +37,8 @@ class GuestHousesController extends Controller
             $this->validate($request, [
                 'file' => sprintf(
                     'image|dimensions:max_width=%s,max_height=%s',
-                    $request->input('width', 100000),
-                    $request->input('height', 100000)
+                    $request->input('width', 400000),
+                    $request->input('height', 400000)
                 ),
             ]);
         }
@@ -55,6 +51,10 @@ class GuestHousesController extends Controller
             }
         } catch (\Exception $e) {
             // Handle any exceptions that occur during directory creation
+            return response()->json([
+               'message' => 'Error creating directory',
+                'error' => $e->getMessage(),
+            ], 500);
         }
 
         $file = $request->file('file');
@@ -69,89 +69,49 @@ class GuestHousesController extends Controller
         ]);
     }
 
-
-
+    // Store new guesthouse data
     public function store(Request $request)
     {
         $guestHouse = GuestHouse::create($request->all());
-
-        // $hours = collect($request->input('from_hours'))->mapWithKeys(function($value, $id) use ($request) {
-        //     return $value ? [
-        //             $id => [
-        //                 'from_hours'    => $value,
-        //                 'from_minutes'  => $request->input('from_minutes.'.$id),
-        //                 'to_hours'      => $request->input('to_hours.'.$id),
-        //                 'to_minutes'    => $request->input('to_minutes.'.$id)
-        //             ]
-        //         ]
-        //         : [];
-        // });
-        // $shop->days()->sync($hours);
-
         foreach ($request->input('photos', []) as $file) {
             $guestHouse->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('photos');
         }
-
         return redirect()->back();
     }
 
-    // public function edit(GuestHouse $shop)
-    // {
-    //     abort_if(Gate::denies('shop_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-    //     $categories = Category::all()->pluck('name', 'id');
-    //     $days = Day::all();
-
-    //     $shop->load('categories', 'created_by', 'days');
-
-    //     return view('admin.shops.edit', compact('categories', 'shop', 'days'));
-    // }
-
-    // public function update(UpdateShopRequest $request, GuestHouse $guestHouse)
-    // {
-    //     if (!$request->active) {
-    //         $request->merge([
-    //             'active' => 0
-    //         ]);
-    //     }
-    //     $guestHouse->update($request->all());
-    //     $guestHouse->categories()->sync($request->input('categories', []));
-
-    //     $hours = collect($request->input('from_hours'))->mapWithKeys(function ($value, $id) use ($request) {
-    //         return $value ? [
-    //             $id => [
-    //                 'from_hours' => $value,
-    //                 'from_minutes' => $request->input('from_minutes.' . $id),
-    //                 'to_hours' => $request->input('to_hours.' . $id),
-    //                 'to_minutes' => $request->input('to_minutes.' . $id)
-    //             ]
-    //         ]
-    //             : [];
-    //     });
-    //     $guestHouse->days()->sync($hours);
-
-    //     if (count($guestHouse->photos) > 0) {
-    //         foreach ($guestHouse->photos as $media) {
-    //             if (!in_array($media->file_name, $request->input('photos', []))) {
-    //                 $media->delete();
-    //             }
-    //         }
-    //     }
-
-    //     $media = $guestHouse->photos->pluck('file_name')->toArray();
-
-    //     foreach ($request->input('photos', []) as $file) {
-    //         if (count($media) === 0 || !in_array($file, $media)) {
-    //             $guestHouse->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('photos');
-    //         }
-    //     }
-
-    //     return redirect()->route('admin.shops.index');
-    // }
+    // Get to view data when click edit
+    public function edit(GuestHouse $GuestHouse)
+    {
+        return view('guesthouse.edit', compact('GuestHouse'));
+    }
 
 
+    public function update(Request $request, GuestHouse $guestHouse)
+    {
 
+        $guestHouse->update($request->all());
 
+        if (count($guestHouse->photos) > 0) {
+            foreach ($guestHouse->photos as $media) {
+                if (!in_array($media->file_name, $request->input('photos', []))) {
+                    $media->delete();
+                }
+            }
+        }
+
+        $media = $guestHouse->photos->pluck('file_name')->toArray();
+
+        foreach ($request->input('photos', []) as $file) {
+            if (count($media) === 0 || !in_array($file, $media)) {
+                $guestHouse->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('photos');
+            }
+        }
+
+        return redirect()->route('admin.guest-houses.index');
+    }
+
+    // delete guest house
     public function destroy(Request $request, string $id)
     {
         try {

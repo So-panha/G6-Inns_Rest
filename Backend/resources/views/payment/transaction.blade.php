@@ -1,13 +1,4 @@
 <x-app-layout>
-    <!-- HTML -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;1,600&display=swap"rel="stylesheet" />
-    <style>
-        * {
-            font-family: 'Source Sans Pro';
-        }
-    </style>
-
     <div class="w-auto font-sans">
         <div x-data="{ openTab: 1 }" class="p-8">
             <div class="w-full">

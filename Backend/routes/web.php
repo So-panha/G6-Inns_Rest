@@ -75,21 +75,21 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('guest-houses', 'GuestHousesController');
         Route::resource('rooms', 'RoomController');
 
-        Route::post('shops/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
+        Route::post('guestHouses/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
+        Route::post('edit/guestHouses/media', 'GuestHousesController@editStoreMedia')->name('guestHouses.storeMedia.edit');
         Route::post('rooms/media', 'RoomController@storeMedia')->name('rooms.storeMedia');
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
         Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
         Route::get('/mail', [MailSettingController::class, 'index'])->name('mail.index');
         Route::put('/mail-update/{mailsetting}', [MailSettingController::class, 'update'])->name('mail.update');
-        // Route Payment(http://127.0.0.1:8000/admin/payment)
         Route::get('/payment', [PaymentController::class, 'showPaymentForm']);
-        // Route::post('/payment', 'PaymentController@createStripePaymentIntent')->name('stripe.paymentIntent.create');
         Route::post('/process-payment',[PaymentController::class,'createStripePaymentIntent'])->name('stripe.paymentIntent.create');
         Route::post('/paid-guestHouse',[PaymentController::class,'paid'])->name('paid.guestHouse');
         Route::post('/update-real-time-guestHouse',[PaymentController::class, 'update'])->name('update-time-guestHouse');
 
         // Table Payment
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+        Route::get('/edit-guestHouse', [GuestHousesController::class, 'edit'])->name('edit-guestHouse');
     });
 
 

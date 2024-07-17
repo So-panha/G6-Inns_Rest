@@ -8,8 +8,6 @@
 <script type='text/javascript'
     src='https://maps.google.com/maps/api/js?language=en&key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&region=GB'>
 </script>
-
-
 @if (count($guestHouses) != 0)
     <script defer>
         function initialize() {
