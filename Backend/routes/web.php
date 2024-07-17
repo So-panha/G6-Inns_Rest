@@ -85,9 +85,9 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         // Route Payment(http://127.0.0.1:8000/admin/payment)
         Route::get('/payment', [PaymentController::class, 'showPaymentForm']);
         // Route::post('/payment', 'PaymentController@createStripePaymentIntent')->name('stripe.paymentIntent.create');
-        Route::post('/process-payment',[PaymentController::class,'createStripePaymentIntent'])->name('stripe.paymentIntent.create');
-        Route::post('/paid-guestHouse',[PaymentController::class,'paid'])->name('paid.guestHouse');
-        Route::post('/update-real-time-guestHouse',[PaymentController::class, 'update'])->name('update-time-guestHouse');
+        Route::post('/process-payment', [PaymentController::class, 'createStripePaymentIntent'])->name('stripe.paymentIntent.create');
+        Route::post('/paid-guestHouse', [PaymentController::class, 'paid'])->name('paid.guestHouse');
+        Route::post('/update-real-time-guestHouse', [PaymentController::class, 'update'])->name('update-time-guestHouse');
 
         // Table Payment
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
@@ -98,26 +98,25 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
 
 Route::middleware('auth')->group(function () {
 
-Route::middleware('auth')->group(function (){
-    Route::get('/chat/{query}',Chat::class)->name('chat');
+    Route::middleware('auth')->group(function () {
+        Route::get('/chat/{query}', Chat::class)->name('chat');
 
-    Route::get('/users',Users::class)->name('users');
+        Route::get('/users', Users::class)->name('users');
 
-    Route::get('/users',Users::class)->name('users');
+        Route::get('/users', Users::class)->name('users');
 
-    Route::get('/chat',Index::class)->name('chat.index');
-});
-
-
-Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
-    ->group(function () {
-        Route::resource('register', 'RegisteredUserController');
+        Route::get('/chat', Index::class)->name('chat.index');
     });
+
+
+    Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
+        ->group(function () {
+            Route::resource('register', 'RegisteredUserController');
+        });
 });
 
 // Route::post('/emails-sendings', )
 
 // Social Login with google
 Route::get('login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
-Route::get('login/google/callback', [LoginController::class, 'redirectToGoogleCallback']);
-;
+Route::get('login/google/callback', [LoginController::class, 'redirectToGoogleCallback']);;

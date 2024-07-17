@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Api\CommentFeedbackApiController;
 use App\Http\Controllers\API\GuestHouseApiController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\UserController as APIUserController;
@@ -66,3 +67,10 @@ Route::delete('/booking_user_rooms/{id}', [BookingUserRoomAPIController::class, 
 Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->name('guest_house.id');
 Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->name('rooms');
 
+ //-------------Comment-Feedback-Routes----------------------------------------
+
+Route::post('/commentGuestHouse', [CommentFeedbackApiController::class, 'commentGuestHouse'])->name('commentGuestHouse');
+Route::put('/updateComment/{id}', [CommentFeedbackApiController::class, 'update'])->name('updateComment');
+Route::delete('/deleteComment/{id}', [CommentFeedbackApiController::class, 'destroy'])->name('destroy');
+Route::get('/commentOther', [CommentFeedbackApiController::class, 'index'])->name('commentOther');
+Route::get('/commentOther', [CommentFeedbackApiController::class, 'index'])->name('commentOther');

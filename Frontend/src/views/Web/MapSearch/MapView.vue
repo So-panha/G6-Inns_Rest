@@ -5,7 +5,7 @@
         <div class="map-container">
           <div
             id="googleMap"
-            style="height: 550px; width: 93%; border: 1px solid #ccc; margin-left: 150px"
+            style="height: 450px; width: 93%; border: 1px solid #ccc; margin-left: 150px"
           ></div>
           <form class="map-form" :class="{ expanded: formExpanded }">
             <div class="form-group" style="display: flex; align-items: center; margin-top: 5px">
@@ -44,7 +44,11 @@
       </div>
     </div>
     <!-- Cards component -->
-    <card-service :houses="filteredHouses" @showOnMap="showHouseOnMap" />
+    <card-service
+      :houses="filteredHouses"
+      @showOnMap="showHouseOnMap"
+      @searchHouseOnTheMaps="searchHouseOnTheMaps"
+    />
   </div>
 </template>
 
@@ -89,7 +93,8 @@ export default {
     // code for loading google maps
     loadGoogleMaps() {
       const script = document.createElement('script')
-      script.src = `https://maps.googleapis.com/maps/api/js?key=&libraries=places`
+      // script.src = `https://maps.googleapis.com/maps/api/js?&libraries=places`
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBCo8-P-w_42crrvaFDr4bqd-XGASt2tzM&libraries=places`
 
       script.defer = true
       script.async = true
@@ -291,16 +296,18 @@ export default {
         imageUrl = `http://127.0.0.1:8000${place.photos[0].url.slice(16)}`
       }
       const contentString = `
-        <div>
-          <h3>${place.name}</h3>
-          <p>${place.address}</p>
-       <img
+  <div style="background-color: #f0f0f0; border-radius: 5px;">
+    <div>
+      <h3>${place.name}</h3>
+      <p>${place.address}</p>
+      <img
         src="${imageUrl}"
         class="card-img-top"
-        style="width:40%; height: auto;"
-      />        
-      </div>
-      `
+        style="width: 40%; height: auto; display: block; margin: 0 auto;"
+      />
+    </div>
+  </div>
+`
 
       const infowindow = new google.maps.InfoWindow({
         content: contentString
@@ -333,11 +340,11 @@ export default {
       this.markers = []
     },
 
-    // calculate route to another places
+    // calculate route to anther places
     calcRoute() {
       if (!this.from || !this.to) {
-        // this.output =
-        //   "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Please fill in the required fields.</div>"
+        this.output =
+          "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> Please fill in the required fields.</div>"
         return
       }
 
@@ -377,11 +384,12 @@ export default {
                   visible: false
                 })
 
-                const div = document.createElement('div')`   div.style.position = 'absolute'
+                const div = document.createElement('div')
+                div.style.position = 'absolute'
                 div.style.background = 'black'
                 div.style.padding = '5px'
                 div.style.border = '1px solid black'
-                div.innerHTML = <strong> Distance:</strong> ${totalDistanceInKm} km<br><strong> Duration:</strong> ${totalDurationInMinutes} minutes`
+                div.innerHTML = `<strong> Distance:</strong> ${totalDistanceInKm} km<br><strong> Duration:</strong> ${totalDurationInMinutes} minutes`
 
                 const panes = overlay.getPanes()
                 panes.overlayLayer.appendChild(div)
@@ -391,17 +399,16 @@ export default {
               return
             }
           }
-          // this.output =
-          //   "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> No route found.</div>"
+          this.output =
+            "<div class='alert-danger'><i class='fas fa-exclamation-triangle'></i> No route found.</div>"
         } else {
           this.directionsDisplay.setDirections({ routes: [] })
           this.map.setCenter({ lat: 38.346, lng: -0.4907 })
         }
       })
     },
-
     fetchGuestHousesNearLocation(location) {
-      axiosInstance.get('/Guest_House').then((response) => {
+      axiosInstance.get('/guest_house/list').then((response) => {
         const guesthouses = response.data.data
         if (guesthouses.length === 0) {
           // this.output =
@@ -539,6 +546,23 @@ export default {
             address: house.address,
             name: house.name,
             photos: house.photos
+          })
+        } else {
+          console.error('Geocode was not successful for the following reason: ' + status)
+        }
+      })
+    },
+    searchHouseOnTheMaps(absoluteAddress) {
+      const geocoder = new google.maps.Geocoder()
+      geocoder.geocode({ address: absoluteAddress }, (results, status) => {
+        if (status === 'OK') {
+          const location = results[0].geometry.location
+          this.map.setCenter(location)
+          this.map.setZoom(15)
+          this.createMarker({
+            address: absoluteAddress.name,
+            name: absoluteAddress.address,
+            photos: absoluteAddress.photos
           })
         } else {
           console.error('Geocode was not successful for the following reason: ' + status)
