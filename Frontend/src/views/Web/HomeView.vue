@@ -2,10 +2,20 @@
   <Navbar :profileImageUrl="profileImageUrl" @toggleProfilePopup="toggleProfilePopup"
     @toggleTicketNotiPopup="toggleTicketNotiPopup" />
   <MapViewVue />
-  <ProfilePopup v-if="showProfilePopup" :showProfilePopup="showProfilePopup" :profileImageUrl="profileImageUrl"
-    :inputs="inputs" @toggleProfilePopup="toggleProfilePopup" @toggleEditPopup="toggleEditPopup" />
-  <EditProfilePopup v-show="showEditPopup" :profileImageUrl="profileImageUrl" :tempInputs="tempInputs"
-    @closeEditPopup="closeEditPopup" @saveChanges="saveChanges" />
+    <ProfilePopup
+    v-if="showProfilePopup"
+    :showProfilePopup="showProfilePopup"
+    :tempInputs="inputs"
+    @toggleProfilePopup="toggleProfilePopup"
+    @toggleEditPopup="toggleEditPopup"
+    @updateProfile="updateProfile"
+  />
+  <EditProfilePopup
+    v-show="showEditPopup"
+    :tempInputs="tempInputs"
+    @saveChanges="saveChanges"
+    @closeEditPopup="closeEditPopup"
+  />
   <TicketNotiPopup v-show="showTicketNotiPopup" @close-popup="closeTicketNotiPopup"  />
 
   <FooterView />
@@ -25,9 +35,6 @@ const showProfilePopup = ref(false)
 const showEditPopup = ref(false)
 const showTicketNotiPopup = ref(false)
 
-const toggleProfilePopup = () => {
-  showProfilePopup.value = !showProfilePopup.value
-}
 
 const toggleEditPopup = () => {
   showEditPopup.value = true
@@ -42,9 +49,21 @@ const closeTicketNotiPopup = () => {
   showTicketNotiPopup.value = false
 }
 
-setTimeout(() => {
-  profileImageUrl.value = 'https://example.com/profile-image.jpg'
-}, 1000) // Simulating delay in fetching profile image URL
+const toggleProfilePopup = () => {
+  showProfilePopup.value = !showProfilePopup.value
+}
+
+
+const closeEditPopup = () => {
+  showEditPopup.value = false
+  showProfilePopup.value = true // Show profile popup after closing edit popup
+}
+
+const saveChanges = (updatedInputs: any) => {
+  // Update profile data
+  Object.assign(inputs, updatedInputs)
+  closeEditPopup() // Close edit popup and show profile popup
+}
 
 const inputs = reactive({
   name: '',
@@ -59,17 +78,4 @@ const tempInputs = reactive({
   phoneNumber: '',
   profile: ''
 })
-
-const closeEditPopup = () => {
-  showEditPopup.value = false
-}
-
-const saveChanges = (updatedInputs: any) => {
-  inputs.name = updatedInputs.name
-  inputs.email = updatedInputs.email
-  inputs.phoneNumber = updatedInputs.phoneNumber
-
-  // Close the edit popup
-  closeEditPopup()
-}
 </script>
