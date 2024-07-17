@@ -20,6 +20,7 @@
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "element-plus": "^2.7.4",
+    "flatpickr": "^4.6.13",
     "google-maps-api-loader": "^1.1.1",
     "leaflet": "^1.9.4",
     "markerwithlabel": "^2.0.2",
