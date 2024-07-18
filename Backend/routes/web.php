@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
+    ApproveUserController,
     ProfileController,
     MailSettingController,
     GuestHousesController,
@@ -75,46 +76,47 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('guest-houses', 'GuestHousesController');
         Route::resource('rooms', 'RoomController');
 
-        Route::post('shops/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
+        Route::post('guestHouses/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
+        Route::post('edit/guestHouses/media', 'GuestHousesController@editStoreMedia')->name('guestHouses.storeMedia.edit');
         Route::post('rooms/media', 'RoomController@storeMedia')->name('rooms.storeMedia');
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
         Route::put('/profile-update', [ProfileController::class, 'update'])->name('profile.update');
         Route::get('/mail', [MailSettingController::class, 'index'])->name('mail.index');
         Route::put('/mail-update/{mailsetting}', [MailSettingController::class, 'update'])->name('mail.update');
-        // Route Payment(http://127.0.0.1:8000/admin/payment)
         Route::get('/payment', [PaymentController::class, 'showPaymentForm']);
         // Route::post('/payment', 'PaymentController@createStripePaymentIntent')->name('stripe.paymentIntent.create');
-        Route::post('/process-payment',[PaymentController::class,'createStripePaymentIntent'])->name('stripe.paymentIntent.create');
-        Route::post('/paid-guestHouse',[PaymentController::class,'paid'])->name('paid.guestHouse');
-        Route::post('/update-real-time-guestHouse',[PaymentController::class, 'update'])->name('update-time-guestHouse');
+        Route::post('/process-payment', [PaymentController::class, 'createStripePaymentIntent'])->name('stripe.paymentIntent.create');
+        Route::post('/paid-guestHouse', [PaymentController::class, 'paid'])->name('paid.guestHouse');
+        Route::post('/update-real-time-guestHouse', [PaymentController::class, 'update'])->name('update-time-guestHouse');
 
         // Table Payment
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+        // Approve User
+        Route::get('/approve-user', [ApproveUserController::class, 'index'])->name('approve.index');
     });
 
 
 Route::middleware('auth')->group(function () {
 
-Route::middleware('auth')->group(function (){
-    Route::get('/chat/{query}',Chat::class)->name('chat');
+    Route::middleware('auth')->group(function () {
+        Route::get('/chat/{query}', Chat::class)->name('chat');
 
-    Route::get('/users',Users::class)->name('users');
+        Route::get('/users', Users::class)->name('users');
 
-    Route::get('/users',Users::class)->name('users');
+        Route::get('/users', Users::class)->name('users');
 
-    Route::get('/chat',Index::class)->name('chat.index');
-});
-
-
-Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
-    ->group(function () {
-        Route::resource('register', 'RegisteredUserController');
+        Route::get('/chat', Index::class)->name('chat.index');
     });
+
+
+    Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
+        ->group(function () {
+            Route::resource('register', 'RegisteredUserController');
+        });
 });
 
 // Route::post('/emails-sendings', )
 
 // Social Login with google
 Route::get('login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
-Route::get('login/google/callback', [LoginController::class, 'redirectToGoogleCallback']);
-;
+Route::get('login/google/callback', [LoginController::class, 'redirectToGoogleCallback']);;

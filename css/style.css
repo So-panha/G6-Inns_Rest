@@ -40,8 +40,7 @@
 .dt-sidebar .widget, .content .entry {
   background-color: #FFFFFF;
   border: 1px solid #FFFFFF;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
   padding: 20px;
 }
@@ -236,8 +235,7 @@ figure {
  * Address differences between Firefox and other browsers.
  */
 hr {
-  -webkit-box-sizing: content-box;
-          box-sizing: content-box;
+  box-sizing: content-box;
   height: 0;
 }
 
@@ -348,8 +346,7 @@ input {
  */
 input[type=checkbox],
 input[type=radio] {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box; /* 1 */
+  box-sizing: border-box; /* 1 */
   padding: 0; /* 2 */
 }
 
@@ -369,8 +366,7 @@ input[type=number]::-webkit-outer-spin-button {
  */
 input[type=search] {
   -webkit-appearance: textfield; /* 1 */
-  -webkit-box-sizing: content-box;
-          box-sizing: content-box; /* 2 */
+  box-sizing: content-box; /* 2 */
 }
 
 /**
@@ -434,7 +430,6 @@ th {
 /* Extras added by Directory Theme
    ========================================================================== */
 * {
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -446,7 +441,6 @@ th {
 }
 
 :after, :before {
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -1413,7 +1407,6 @@ img.aligncenter {
   min-height: 85px;
   background-color: #2F2F2F;
   border-bottom: 1px solid #FFFFFF;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   color: #FFFFFF;
 }
@@ -1437,8 +1430,7 @@ img.aligncenter {
   display: inline-block;
   vertical-align: top;
   width: 20%;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   padding: 0px 5px;
 }
 .site-logo-wrap h1 {
@@ -1475,8 +1467,7 @@ img.aligncenter {
   display: inline-block;
   vertical-align: top;
   width: 80%;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   padding: 0px 5px;
   margin-left: -1%;
 }
@@ -1569,7 +1560,6 @@ img.aligncenter {
   z-index: 1;
   border: 1px solid #FFFFFF;
   border-top: none;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 #primary-nav ul .sub-menu ul {
@@ -1703,7 +1693,6 @@ img.aligncenter {
   background-color: #2F2F2F;
   border-top: 1px solid #FFFFFF;
   border-bottom: 1px solid #444;
-  -webkit-box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.2);
   box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.2);
 }
 .footer-widgets .container {
@@ -1717,7 +1706,6 @@ img.aligncenter {
   text-transform: uppercase;
   margin-bottom: 15px;
   padding-bottom: 7px;
-  -webkit-box-shadow: 0 1px 1px rgba(255, 255, 255, 0.05);
   box-shadow: 0 1px 1px rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(0, 0, 0, 0.4);
 }
@@ -2042,7 +2030,6 @@ input[type=tel]:focus,
 input[type=color]:focus,
 select:focus {
   outline: 0;
-  -webkit-box-shadow: none;
   box-shadow: none;
 }
 .fl-field .dt-input, .fl-field #buddypress .groups-members-search input[type=search], #buddypress .groups-members-search .fl-field input[type=search],
@@ -2113,7 +2100,6 @@ textarea {
 #buddypress .standard-form textarea:focus, #buddypress div.activity-comments form .ac-textarea textarea:focus,
 textarea:focus {
   outline: 0;
-  -webkit-box-shadow: none;
   box-shadow: none;
 }
 
@@ -2428,8 +2414,7 @@ h2.comments-title a,
 .content .content-archive.entry {
   background-color: transparent;
   border-color: transparent;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   padding: 0;
 }
 
@@ -2454,7 +2439,6 @@ h2.comments-title a,
   margin: 15px 0;
   padding: 20px;
   background-color: #fff;
-  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -2608,8 +2592,7 @@ a img.aligncenter {
 .screen-reader-text:focus {
   background-color: #f1f1f1;
   border-radius: 3px;
-  -webkit-box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
-          box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
   clip: auto !important;
   color: #21759b;
   display: block;
@@ -2729,12 +2712,10 @@ a img.aligncenter {
   color: #7c7c7c;
   background-color: #e6e6e6;
   background-repeat: repeat-x;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#e6e6e6));
   background-image: linear-gradient(top, #f4f4f4, #e6e6e6);
   border: 1px solid #d2d2d2;
   border-radius: 3px;
-  -webkit-box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
-          box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
+  box-shadow: 0 1px 2px rgba(64, 64, 64, 0.1);
 }
 
 .sidebar .widget,
@@ -2985,8 +2966,7 @@ a.comment-edit-link {
 }
 
 #comments ol.commentlist #respond {
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
   border: 1px solid #eee;
   border-radius: 4px;
   margin-bottom: 30px;
@@ -3270,7 +3250,6 @@ a.comment-edit-link {
   border-radius: 4px;
 }
 #buddypress form#whats-new-form textarea {
-  -webkit-box-sizing: content-box;
   box-sizing: content-box;
 }
 #buddypress form#whats-new-form input[type=submit] {
@@ -3331,8 +3310,7 @@ a.comment-edit-link {
 .woo-container .content-box.content-single #respond, .woo-container .content .content-single.entry #respond, .content .woo-container .content-single.entry #respond, .woo-container .sidebar .content-single.widget #respond, .sidebar .woo-container .content-single.widget #respond,
 .woo-container .dt-sidebar .content-single.widget #respond,
 .dt-sidebar .woo-container .content-single.widget #respond {
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 .woocommerce div.product .product_title {
@@ -3366,4 +3344,4 @@ a.comment-edit-link {
 --------------------------------------------------------------*/
 body > span[style*="top: -999px"] {
   display: none;
-}
+}/*# sourceMappingURL=style.css.map */

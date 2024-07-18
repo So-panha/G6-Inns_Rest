@@ -1,31 +1,29 @@
 <template>
   <div>
-
+ 
     <div v-if="ListImages!='' ">
       <CardDetail :ListImages="ListImages"/>
     </div >
     <div v-else>
-      <h1>No have Room</h1>
+      <h1>This Gest House doesn't have any room</h1>
     </div>
-    
   </div>
 </template>
 
 <script>
 import axios from 'axios';
 import CardDetail from './CardDetail.vue';
-
 export default {
   name: 'ListRoom',
   components: {
-    CardDetail
+    CardDetail ,
   },
   data() {
     return {
       ListImages: []  // Initialize as an array to store multiple room details
     };
   },
-  mounted() {
+  mounted(){
     this.fetchRoomDetails();
   },
   methods: {
