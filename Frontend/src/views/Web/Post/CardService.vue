@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div class="container mt-2 mb-10 group_text flex items-center justify-between">
       <div>
 

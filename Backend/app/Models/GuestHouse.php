@@ -12,7 +12,7 @@ use Spatie\MediaLibrary\HasMedia;
 
 class GuestHouse extends Model implements HasMedia
 {
-    use HasFactory,SoftDeletes,InteractsWithMedia;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
 
     public $table = 'guest_houses';
 
@@ -45,8 +45,8 @@ class GuestHouse extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-        ->width(1200)
-        ->height(1200);
+            ->width(1200)
+            ->height(1200);
     }
 
     // public function categories()
@@ -60,20 +60,24 @@ class GuestHouse extends Model implements HasMedia
     // }
 
     public function getPhotosAttribute()
-{
-    return $this->getMedia('photos')->map(function ($media) {
-        return [
-            'url' => $media->getUrl(),
-            'thumbnail' => $media->getUrl('thumb'),
-        ];
-    });
-    
-}
+    {
+        return $this->getMedia('photos')->map(function ($media) {
+            return [
+                'url' => $media->getUrl(),
+                'thumbnail' => $media->getUrl('thumb'),
+            ];
+        });
+    }
 
-// -----relation ship with comment-----------------
-public function commentFeadback(){
-    return $this->hasMany(CommentFeedback::class);
-}
+    // -----relation ship with comment-----------------
+    public function commentFeedback()
+    {
+        return $this->hasMany(CommentFeedback::class,'guestHouse_id');
+    }
+
+    // public function Like(){
+    //     return $this->hasMany(Like::class, 'guestHouse_id'); 
+    // }
 
     public function created_by()
     {
@@ -98,6 +102,20 @@ public function commentFeadback(){
         return $this->getFirstMediaUrl('photos', 'thumb');
     }
 
+    // --------------like------
+    public function countLikes()
+    {
+        return $this->hasMany(Like::class ,'guestHouse_id')->count();
+    }
+    public function getAllLike()
+    {
+        return $this->hasMany(Like::class, 'guestHouse_id');
+    }
+
+
+
+
+  
     // public function scopeSearchResults($query)
     // {
     //     return $query->where('active', 1)
@@ -115,4 +133,5 @@ public function commentFeadback(){
     //             });
     //         });
     // }
+
 }

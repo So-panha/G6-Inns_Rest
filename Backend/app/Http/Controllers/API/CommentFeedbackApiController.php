@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentFeedbackResource;
 use App\Models\CommentFeedback;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentFeedbackApiController extends Controller
 {
@@ -16,7 +16,7 @@ class CommentFeedbackApiController extends Controller
     {
         $comment_feedback = CommentFeedback::with('userNormal', 'guestHouse')->get();
         $comment_feedback =CommentFeedbackResource::collection($comment_feedback);
-        return response()->json($comment_feedback);
+        return response()->json(["success"=> true, "comment_feedback"=> $comment_feedback, "Message" =>"comment list successfully"], 200) ;
 
     }
 
@@ -54,6 +54,10 @@ class CommentFeedbackApiController extends Controller
         if (!$comment_feedback) {
             return response()->json(['message' => 'Comment not found'], 404);
         }
+        if ($comment_feedback->userNormal_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+        
 
         $comment_feedback->comment = $request->comment;
         $comment_feedback->save();
@@ -71,8 +75,7 @@ class CommentFeedbackApiController extends Controller
         if (!$comment_feedback) {
             return response()->json(['message' => 'Comment not found'], 404);
         }
-
-        if ($comment_feedback->userNormal_id !== (int)request()->userNormal_id) {
+        if ($comment_feedback->userNormal_id !== Auth::id()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -89,14 +92,14 @@ class CommentFeedbackApiController extends Controller
         $request->validate([
             'guestHouse_id' => 'required|exists:guest_houses,id',
             'comment' => 'required|string|max:255',
-            'userNormal_id' => 'required|exists:user_normals,id',
         ]);
 
         try {
             $comment_feedback = CommentFeedback::create([
                 'guestHouse_id' => $request->guestHouse_id,
                 'comment' => $request->comment,
-                'userNormal_id' => $request->userNormal_id,
+                'userNormal_id' => Auth::id(),
+                // 'userNormal_id' => $request->userNormal_id
             ]);
 
             $comment_feedback->load('guestHouse', 'userNormal');

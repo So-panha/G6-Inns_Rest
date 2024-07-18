@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comment_feedback', function (Blueprint $table) {
+        Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('userNormal_id');
+            $table->integer('userNormal_id');
             $table->integer('guestHouse_id');
-            $table->string('comment');
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comment_feedback');
+        Schema::dropIfExists('likes');
     }
 };
