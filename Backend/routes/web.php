@@ -92,6 +92,7 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
 
         // Table Payment
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+        // Bocking regester to user
         Route::get('/registertouse', [RegisterToUser::class, 'store'])->name('register.user');
 
     });
