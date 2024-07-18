@@ -8,8 +8,6 @@
 <script type='text/javascript'
     src='https://maps.google.com/maps/api/js?language=en&key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&region=GB'>
 </script>
-
-
 @if (count($guestHouses) != 0)
     <script defer>
         function initialize() {
@@ -111,7 +109,6 @@
                 function(position) {
                     var latitude = position.coords.latitude - 0.0056923;
                     var longitude = position.coords.longitude + 0.002583;
-                    console.log(latitude,longitude);
 
                 // Initialize the map
                 var mapCanvas = document.getElementById('map-canvas');

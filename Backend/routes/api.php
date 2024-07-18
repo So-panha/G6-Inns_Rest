@@ -70,10 +70,10 @@ Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->
 Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->name('rooms');
 
  //-------------Comment-Feedback-Routes----------------------------------------
- Route::middleware('auth:sanctum')->group(function () {
-Route::post('/commentGuestHouse', [CommentFeedbackApiController::class, 'commentGuestHouse']);
-Route::put('/updateComment/{id}', [CommentFeedbackApiController::class, 'update']);
-Route::delete('/deleteComment/{id}', [CommentFeedbackApiController::class, 'destroy']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/commentGuestHouse', [CommentFeedbackApiController::class, 'commentGuestHouse']);
+    Route::put('/updateComment/{id}', [CommentFeedbackApiController::class, 'update']);
+    Route::delete('/deleteComment/{id}', [CommentFeedbackApiController::class, 'destroy']);
 
 });
 // Route::post('/commentGuestHouse', [CommentFeedbackApiController::class, 'commentGuestHouse'])->name('commentGuestHouse');

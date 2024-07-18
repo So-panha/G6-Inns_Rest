@@ -1,5 +1,5 @@
 <template>
-  <div class="container my-6 p-6">
+  <div class="container my-6 p-4 ml-2">
     <div class="card" style="width: 100%">
       <div class="card-body">
         <h3 class="card-title text-center">Feedback</h3>

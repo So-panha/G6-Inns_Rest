@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('guest_houses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->longText('description')->nullable();
             $table->string('address')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->boolean('wifi')->default(0);
             $table->boolean('active')->default(0);
             $table->integer('amount')->default(10);
             $table->integer('day_has')->default(0);

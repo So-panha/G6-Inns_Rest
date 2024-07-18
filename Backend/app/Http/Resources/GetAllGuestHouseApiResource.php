@@ -17,22 +17,20 @@ class GetAllGuestHouseApiResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            // 'description' => $this->description,
-            // 'address' => $this->address,
-            // 'latitude' => $this->latitude,
-            // 'longitude' => $this->longitude,
-            // 'active' => $this->active,
-            // 'created_at' => $this->created_at,
-            // 'updated_at' => $this->updated_at,
-            // 'created_by_id' => $this->created_by_id,
-            // 'photos' => $this->photos,
-            // 'thumbnail' => $this->thumbnail,
-            // 'like' => GetLikeResource::collection($this->like),
+            'description' => $this->description,
+            'address' => $this->address,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+            'active' => $this->active,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'created_by_id' => $this->created_by_id,
+            'photos' => GetAllPhotosResource::collection($this->photos),
+            'thumbnail' => $this->thumbnail,
             'like' => $this->getAllLike,
             'likes_count' => $this->countLikes(),
-
             'commentFeedback' =>CommentFeedbackResource::collection($this->commentFeedback),
-            // 'media' => MediaResource::collection($this->media),
+            'media' => MediaResource::collection($this->media),
         ];
     }
 }
