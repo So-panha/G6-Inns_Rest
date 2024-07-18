@@ -108,6 +108,15 @@ class RoomController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //Get user id
+        $user_id = Auth()->user()->id;
+        //Check if the room belongs to the user
+        $room = Room::find($id);
+        if($room && $room->user_id == $user_id){
+            $room->delete();
+            return redirect()->back()->with('message', 'Delete successful');
+        } else {
+            return redirect()->back()->with('error', 'Delete failed');
+        }
     }
 }

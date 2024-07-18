@@ -60,37 +60,45 @@
                     <div class="flex-1 ml-4 h-36">
                         <table class="border-collapse border border-slate-400 w-full h-full">
                             <thead>
-                              <tr>
-                                <th class="border border-slate-300">Name</th>
-                                <th class="border border-slate-300">Price</th>
-                                <th class="border border-slate-300">Capacity</th>
-                                <th class="border border-slate-300">Status</th>
-                                <th class="border border-slate-300">Check in</th>
-                                <th class="border border-slate-300">Number of Room</th>
-                                <th class="border border-slate-300">Description</th>
-                              </tr>
+                                <tr>
+                                    <th class="border border-slate-300">Name</th>
+                                    <th class="border border-slate-300">Price</th>
+                                    <th class="border border-slate-300">Capacity</th>
+                                    <th class="border border-slate-300">Status</th>
+                                    <th class="border border-slate-300">Check in</th>
+                                    <th class="border border-slate-300">Number of Room</th>
+                                    <th class="border border-slate-300">Description</th>
+                                </tr>
                             </thead>
                             <tbody class="text-center">
-                              <tr>
-                                <td class="border border-slate-300">{{ $room->name }}</td>
-                                <td class="border border-slate-300">{{ $room->price }}</td>
-                                <td class="border border-slate-300">{{ $room->capacity }}</td>
-                                <td class="border border-slate-300 {{($room->status) == 0 ? 'bg-green-400' : 'bg-red-400'}}">{{ ($room->status) == 0 ? 'Has room' : 'Full' }}</td>
-                                <td class="border border-slate-300">{{ $room->check_in }}</td>
-                                <td class="border border-slate-300">{{ $room->number_of_rooms }}</td>
-                                <td class="border border-slate-300">{{ $room->description }}</td>
-                              </tr>
+                                <tr>
+                                    <td class="border border-slate-300">{{ $room->name }}</td>
+                                    <td class="border border-slate-300">{{ $room->price }}</td>
+                                    <td class="border border-slate-300">{{ $room->capacity }}</td>
+                                    <td
+                                        class="border border-slate-300 {{ $room->status == 0 ? 'bg-green-400' : 'bg-red-400' }}">
+                                        {{ $room->status == 0 ? 'Has room' : 'Full' }}</td>
+                                    <td class="border border-slate-300">{{ $room->check_in }}</td>
+                                    <td class="border border-slate-300">{{ $room->number_of_rooms }}</td>
+                                    <td class="border border-slate-300">{{ $room->description }}</td>
+                                </tr>
                             </tbody>
-                          </table>
+                        </table>
                     </div>
                     <div class="w-24 flex flex-col justify-center gap-2">
-                        <button class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded ml-auto w-20">Edit</button>
-                        <button class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded ml-auto">Delete</button>
+                        <a href="" class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded ml-auto w-20 text-center">{{ trans('cruds.guestHouse.fields.edited_at') }}</a>
+                        <form action="{{route('admin.rooms.destroy',$room->id)}}" method="POST" class="py-2 px-4">
+                            @csrf
+                            @method('Delete')
+                            <button class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded ml-auto text-center">{{ trans('cruds.guestHouse.fields.deleted_at') }}</button>
+                        </form>
                     </div>
                 </div>
             </div>
         @endforeach
 
+
+        {{-- Modal of create room --}}
         <div style="z-index: 1" id="popup-modal"
             class="fixed left-0 top-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none">
             <div class="flex items-center justify-center min-h-screen text-center sm:block sm:p-0">
@@ -170,11 +178,11 @@
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"></textarea>
                                 </div>
                                 <div>
-                                    <input type="guest_house_id" name="guest_house_id" id="guest_house_id" value="{{$guest_house_id}}"
-                                        class="hidden" />
+                                    <input type="guest_house_id" name="guest_house_id" id="guest_house_id"
+                                        value="{{ $guest_house_id }}" class="hidden" />
                                 </div>
                                 <div>
-                                    <input type="user_id" name="user_id" id="user_id" value="{{$user_id}}"
+                                    <input type="user_id" name="user_id" id="user_id" value="{{ $user_id }}"
                                         class="hidden" />
                                 </div>
                                 <div class="mt-4">
@@ -194,7 +202,7 @@
                                 </div>
                                 <div id="close-create" class="group-from mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                                     <button type="submit"
-                                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Create</button>
+                                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">{{ trans('cruds.guestHouse.fields.created_at') }}</button>
                                 </div>
                             </form>
                         </div>
@@ -206,7 +214,6 @@
 
     </div>
 
-    <script src="/js/mapInput.js"></script>
     <script>
         // popup modal
         const popupModal = document.getElementById('popup-modal');
