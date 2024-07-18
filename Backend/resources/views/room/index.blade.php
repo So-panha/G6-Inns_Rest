@@ -68,12 +68,14 @@
                                     <th class="border border-slate-300">Check in</th>
                                     <th class="border border-slate-300">Number of Room</th>
                                     <th class="border border-slate-300">Description</th>
+                                    <th class="border border-slate-300">Bed Type</th>
+                                    <th class="border border-slate-300">Room Type</th>
                                 </tr>
                             </thead>
                             <tbody class="text-center">
                                 <tr>
                                     <td class="border border-slate-300">{{ $room->name }}</td>
-                                    <td class="border border-slate-300">{{ $room->price }}</td>
+                                    <td class="border border-slate-300">${{ $room->price }}</td>
                                     <td class="border border-slate-300">{{ $room->capacity }}</td>
                                     <td
                                         class="border border-slate-300 {{ $room->status == 0 ? 'bg-green-400' : 'bg-red-400' }}">
@@ -81,16 +83,20 @@
                                     <td class="border border-slate-300">{{ $room->check_in }}</td>
                                     <td class="border border-slate-300">{{ $room->number_of_rooms }}</td>
                                     <td class="border border-slate-300">{{ $room->description }}</td>
+                                    <td class="border border-slate-300">{{ $bedTypes[$room->bed_type - 1]->name }}</td>
+                                    <td class="border border-slate-300">{{ $roomTypes[$room->type_of_room - 1]->name }}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="w-24 flex flex-col justify-center gap-2">
-                        <a href="" class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded ml-auto w-20 text-center">{{ trans('cruds.guestHouse.fields.edited_at') }}</a>
-                        <form action="{{route('admin.rooms.destroy',$room->id)}}" method="POST" class="py-2 px-4">
+                        <a href="{{ route('admin.rooms.edit', $room->id) }}"
+                            class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded ml-auto w-20 text-center">{{ trans('cruds.guestHouse.fields.edited_at') }}</a>
+                        <form action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST" class="py-2 px-4">
                             @csrf
                             @method('Delete')
-                            <button class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded ml-auto text-center">{{ trans('cruds.guestHouse.fields.deleted_at') }}</button>
+                            <button
+                                class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded ml-auto text-center">{{ trans('cruds.guestHouse.fields.deleted_at') }}</button>
                         </form>
                     </div>
                 </div>
@@ -124,7 +130,7 @@
                             <form class="space-y-4" method="POST" action="{{ route('admin.rooms.store') }}"
                                 enctype="multipart/form-data">
                                 @csrf
-                                @method('post')
+                                @method('POST')
                                 <div>
                                     <label for="name"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name of
@@ -155,7 +161,7 @@
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                         for="select">Type of Bad</label>
                                     <select class="w-full" name="bed_type" id="bed_type">
-                                        <option value="">Select Bad Type</option>
+                                        <option value="" selected disabled>Select Bad Type</option>
                                         @foreach ($bedTypes as $bedType)
                                             <option value="{{ $bedType->id }}">{{ $bedType->name }}</option>
                                         @endforeach
@@ -165,7 +171,7 @@
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                         for="type_of_room">Type of Room</label>
                                     <select class="w-full" name="type_of_room" id="type_of_room">
-                                        <option value="">Select Condition Room</option>
+                                        <option value="" selected disabled>Select Condition Room</option>
                                         @foreach ($roomTypes as $roomType)
                                             <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
                                         @endforeach
@@ -196,8 +202,6 @@
                                                 {{ $errors->first('photos') }}
                                             </div>
                                         @endif
-                                        <span
-                                            class="help-block">{{ trans('cruds.guestHouse.fields.photos_helper') }}</span>
                                     </div>
                                 </div>
                                 <div id="close-create" class="group-from mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
@@ -308,21 +312,23 @@
     {{-- alert when delete branch --}}
     @if (Session::has('message'))
         <script>
-            swal("Messages", "{{ Session::get('message') }}", 'success'), {
-                button: true,
-                button: "OK",
-                timer: 3000,
-                dangerMode: true,
-            };
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '{{ session('message') }}',
+                showConfirmButton: false,
+                timer: 1500
+            });
         </script>
     @elseif (Session::has('error'))
         <script>
-            swal("Messages", "{{ Session::get('error') }}", 'error'), {
-                button: true,
-                button: "OK",
-                timer: 3000,
-                dangerMode: true,
-            };
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: '{{ session('error') }}',
+                showConfirmButton: false,
+                timer: 1500
+            });
         </script>
     @endif
 </x-app-layout>

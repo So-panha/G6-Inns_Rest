@@ -23,12 +23,13 @@ class Room extends Model implements HasMedia
 
     public function getPhotosAttribute()
     {
-        return $this->getMedia('photos')->map(function ($media) {
-            return [
-                'url' => $media->getUrl(),
-                'thumbnail' => $media->getUrl('thumb'),
-            ];
+        $files = $this->getMedia('photos');
+        $files->each(function ($item) {
+            $item->url       = $item->getUrl();
+            $item->thumbnail = $item->getUrl('thumb');
         });
+
+        return $files;
     }
 
     public function bedType(){

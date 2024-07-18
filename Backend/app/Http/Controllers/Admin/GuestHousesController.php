@@ -108,7 +108,7 @@ class GuestHousesController extends Controller
             }
         }
 
-        return redirect()->route('admin.guest-houses.index');
+        return redirect()->route('admin.guest-houses.index')->with('message', 'Updated successful');;
     }
 
     // delete guest house

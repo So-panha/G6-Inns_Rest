@@ -155,21 +155,23 @@
     {{-- alert when delete branch --}}
     @if (Session::has('message'))
         <script>
-            swal("Messages", "{{ Session::get('message') }}", 'success'), {
-                button: true,
-                button: "OK",
-                timer: 3000,
-                dangerMode: true,
-            };
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '{{ session('message') }}',
+                showConfirmButton: false,
+                timer: 1500
+            });
         </script>
     @elseif (Session::has('error'))
         <script>
-            swal("Messages", "{{ Session::get('error') }}", 'error'), {
-                button: true,
-                button: "OK",
-                timer: 3000,
-                dangerMode: true,
-            };
+             Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '{{ session('error') }}',
+                showConfirmButton: false,
+                timer: 1500
+            });
         </script>
     @endif
 </x-app-layout>
