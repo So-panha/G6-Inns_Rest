@@ -1,41 +1,52 @@
 <template>
-  <div class="container">
+  <form action="">
 
-    <div class="image-gallery">
-      <div class="image-item">
-        <img src="https://i.pinimg.com/736x/9d/d9/e8/9dd9e8449a07a4e942ace34f86771b16.jpg" alt="Room 1" class="zoom">
-      </div>
-      <div class="image-item">
-        <img src="https://i.pinimg.com/736x/8d/bf/86/8dbf8697536b7fb44e444c52d856f52f.jpg" alt="Room 2" class="zoom">
-      </div>
-      <div class="image-item">
-        <img src="https://i.pinimg.com/736x/d8/0d/8f/d80d8f9aae74097a28f023ba25547d43.jpg" alt="Room 3" class="zoom">
-      </div>
-    </div>
-  </div>
-  <div class="content">
-    <div class="row">
-      <div class="col-md-12 mb-3 mt-3">
-        <input type="number" class="form-control" id="numRooms" v-model="form.numRooms" placeholder="Number Of Room">
-        <span v-if="errors.numRooms" class="error">{{ errors.numRooms }}</span>
+    <div class="container">
+  
+      <div class="image-gallery">
+        <div class="image-item">
+          <img src="https://i.pinimg.com/736x/9d/d9/e8/9dd9e8449a07a4e942ace34f86771b16.jpg" alt="Room 1" class="zoom">
+        </div>
+        <div class="image-item">
+          <img src="https://i.pinimg.com/736x/8d/bf/86/8dbf8697536b7fb44e444c52d856f52f.jpg" alt="Room 2" class="zoom">
+        </div>
+        <div class="image-item">
+          <img src="https://i.pinimg.com/736x/d8/0d/8f/d80d8f9aae74097a28f023ba25547d43.jpg" alt="Room 3" class="zoom">
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6 mb-3 mt-3">
-        <input type="date" class="form-control" id="departuredate" v-model="form.departuredate"
-          placeholder="Departure Date">
-        <span v-if="errors.departuredate" class="error">{{ errors.departuredate }}</span>
+    <div class="contain">
+      <div class="row">
+        <div class="col-md-6 mb-3 mt-3">
+          <label for="">Number of rooms user booking</label>
+          <input type="number" class="form-control" id="numRooms" v-model="form.numRooms" placeholder="Number Of Rooms">
+          <span v-if="errors.numRooms" class="error">{{ errors.numRooms }}</span>
+        </div>
+        <div class="col-md-6 mb-3 mt-3">
+          <label for="">Price</label>
+          <input type="text" class="form-control" id="numRooms" v-model="form.numRooms" placeholder="price">
+          <span v-if="errors.numRooms" class="error">{{ errors.price }}</span>
+        </div>
       </div>
-      <div class="col-md-6 mb-3 mt-3">
-        <input type="date" class="form-control" id="arrivaldate" v-model="form.arrivaldate" placeholder="Arrival Date">
-        <span v-if="errors.arrivaldate" class="error">{{ errors.arrivaldate }}</span>
+      <div class="row">
+        <div class="col-md-6 mb-3 mt-3">
+          <label for="">Check IN</label>
+          <input type="date" class="form-control" id="departuredate" v-model="form.departuredate"
+            placeholder="Departure Date">
+          <span v-if="errors.departuredate" class="error">{{ errors.departuredate }}</span>
+        </div>
+        <div class="col-md-6 mb-3 mt-3">
+          <label for="Check Out">Check IN</label>
+          <input type="date" class="form-control" id="arrivaldate" v-model="form.arrivaldate" placeholder="Arrival Date">
+          <span v-if="errors.arrivaldate" class="error">{{ errors.arrivaldate }}</span>
+        </div>
+      </div>
+      <div class="text-right">
+        <button class="btn btn-danger mr-2" @click="cancelForm">Cancel</button>
+        <button class="btn btn-primary" @click="submitForm">Submit</button>
       </div>
     </div>
-    <div class="text-right">
-      <button class="btn btn-danger mr-2" @click="cancelForm">Cancel</button>
-      <button class="btn btn-primary" @click="submitForm">Submit</button>
-    </div>
-  </div>
+  </form>
 </template>
 
 <script setup>

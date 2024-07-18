@@ -2,12 +2,11 @@
   <footer class="footer text-black pt-5 pb-2 mt-3">
     <div class="container text-center text-md-left">
       <div class="row text-center text-md-left">
-        <h5 style="background-color:#40008f ;" class="text-white p-3 mb-5">List of property</h5>
+        <h5 style="background-color:#001063;" class="text-white p-3 mb-5">List of property <hr></h5>
+        
         <div class="col-md-3 col-lg-2 col-xl-2 mx-auto head">
-         
 
             <img src="../../../Image/InnsRest.png" class="logo">
-            
          
           <!-- <p class="text-uppercase mb-2 font-weight-bold text-black mt-3">List of property</p> -->
           <!-- <hr class="mb-4 w-100 text-white"/> -->
