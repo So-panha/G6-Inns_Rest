@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\RegisterToUser;
+
 use App\Http\Controllers\Admin\{
     ApproveUserController,
     ProfileController,
@@ -94,6 +96,9 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
         // Approve User
         Route::get('/approve-user', [ApproveUserController::class, 'index'])->name('approve.index');
+        // Bocking regester to user
+        Route::get('/registertouse', [RegisterToUser::class, 'store'])->name('register.user');
+
     });
 
 
