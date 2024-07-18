@@ -87,7 +87,8 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         // Route::post('/payment', 'PaymentController@createStripePaymentIntent')->name('stripe.paymentIntent.create');
         Route::post('/process-payment', [PaymentController::class, 'createStripePaymentIntent'])->name('stripe.paymentIntent.create');
         Route::post('/paid-guestHouse', [PaymentController::class, 'paid'])->name('paid.guestHouse');
-        Route::post('/update-real-time-guestHouse', [PaymentController::class, 'update'])->name('update-time-guestHouse');
+        Route::post('/update-real-time-guestHouse', [PaymentController::class, 'update'])->name('update.time.guestHouse');
+        Route::post('/unactive-guest-house', [PaymentController::class, 'unactivate'])->name('unactive.guestHouse');
 
         // Table Payment
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');

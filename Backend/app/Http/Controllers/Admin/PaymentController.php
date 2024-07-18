@@ -88,4 +88,14 @@ class PaymentController extends Controller
         // return response
         return response()->json(['success' => $request->dayHas]);
     }
+
+
+    public function unactivate(Request $request){
+        // find guest house
+        $guestHouse = GuestHouse::find($request->guest_house_id);
+        // Update real day in guest house
+        $guestHouse->update($request->all());
+        // return response
+        // return response()->json(['success' => $request->guest_house_id]);
+    }
 }
