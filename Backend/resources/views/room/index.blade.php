@@ -84,19 +84,24 @@
                                     <td class="border border-slate-300">{{ $room->number_of_rooms }}</td>
                                     <td class="border border-slate-300">{{ $room->description }}</td>
                                     <td class="border border-slate-300">{{ $bedTypes[$room->bed_type - 1]->name }}</td>
-                                    <td class="border border-slate-300">{{ $roomTypes[$room->type_of_room - 1]->name }}</td>
+                                    <td class="border border-slate-300">{{ $roomTypes[$room->type_of_room - 1]->name }}
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <div class="w-24 flex flex-col justify-center gap-2">
+                        {{-- Edit btn --}}
                         <a href="{{ route('admin.rooms.edit', $room->id) }}"
                             class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded ml-auto w-20 text-center">{{ trans('cruds.guestHouse.fields.edited_at') }}</a>
-                        <form action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST" class="py-2 px-4">
+                        {{-- Delete btn --}}
+                        <button data-deleted="{{ $room->id }}"
+                            class="btn-delete bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded ml-auto text-center">{{ trans('cruds.guestHouse.fields.deleted_at') }}</button>
+                        <form action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST" class="hidden py-2 px-4">
                             @csrf
                             @method('Delete')
-                            <button
-                                class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded ml-auto text-center">{{ trans('cruds.guestHouse.fields.deleted_at') }}</button>
+                            <button data-confirmdeleted="{{ $room->id }}"
+                                class="confirm-delete bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded ml-auto text-center">{{ trans('cruds.guestHouse.fields.deleted_at') }}</button>
                         </form>
                     </div>
                 </div>
@@ -295,6 +300,50 @@
 
         }
 
+        // Alert when deleting
+        // Btn Delete
+        const btnDeletes = document.querySelectorAll('.btn-delete');
+        // Btn Confirm delete
+        const confirmDeletes = document.querySelectorAll('.confirm-delete');
+
+        btnDeletes.forEach(btnDelete => {
+            btnDelete.addEventListener('click', function() {
+                // Get id from btnDelete
+                const id = btnDelete.dataset.deleted;
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn-delete bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ml-auto text-center ml-4",
+                        cancelButton: "btn-delete bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded ml-auto text-center mr-4"
+                    },
+                    buttonsStyling: false
+                });
+                swalWithBootstrapButtons.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel!",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirect to delete
+                        confirmDeletes.forEach(confirmDelete => {
+                            confirmId = confirmDelete.dataset.confirmdeleted;
+                            if (confirmId == id) {
+                                confirmDelete.click();
+                            }
+                        });
+
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        // when cancel
+                    }
+                });
+            });
+        });
         // Script slide
         var swiper = new Swiper(".default-carousel", {
             loop: true,
