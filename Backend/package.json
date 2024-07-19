@@ -29,5 +29,8 @@
         "psr-4": {
             "App\\Http\\Livewire\\": "app/Http/Livewire/"
         }
+    },
+    "dependencies": {
+        "@stripe/stripe-js": "^4.1.0"
     }
 }
