@@ -1,107 +1,260 @@
 <x-app-layout>
     <div class="h-screen md:flex">
-        <div class="flex md:w-1/2 justify-center py-10 items-center bg-white">
-            <form class="bg-white" action="{{ route('admin.register.user') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('post')
-                <h1 class="text-gray-800 font-bold text-2xl mb-4">Register to user</h1>
+        <div class="flex w-3/5 justify-center py-10 bg-white">
+            @if ($document == null)
+                <div class="items-center w-full m-4" x-data="stepIndicator()">
+                    <h1 class="text-gray-800 font-bold text-2xl mb-8 text-center">Request to become a service account
+                    </h1>
+                    <div class="flex w-full">
+                        <div class="flex items-center w-full">
+                            <div x-show="currentStep === 0"
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-green-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                            </div>
+                            <div x-show="currentStep != 0"
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-green-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-full fill-white" viewBox="0 0 24 24">
+                                    <path
+                                        d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                        data-original="#000000" />
+                                </svg>
+                            </div>
+                            <div class="w-full h-1 bg-gray-300 mx-[5px]" :class="{ 'bg-green-500': currentStep != 0 }">
+                            </div>
+                        </div>
 
-                @if (session('success'))
-                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                        <span class="block sm:inline">{{ session('success') }}</span>
+                        <div class="flex items-center w-full">
+                            <div x-show="currentStep === 0"
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-gray-300 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                            </div>
+                            <div x-show="currentStep === 1"
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-green-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                            </div>
+                            <div x-show="currentStep != 1 && currentStep != 0"
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-green-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-full fill-white" viewBox="0 0 24 24">
+                                    <path
+                                        d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                        data-original="#000000" />
+                                </svg>
+                            </div>
+                            <div class="w-full h-1 bg-gray-300 mx-[5px]" :class="{ 'bg-green-500': currentStep == 2 }">
+                            </div>
+                        </div>
+                        <div class="flex items-center w-full">
+                            <div class="w-8 h-8 shrink-0 mx-[-1px] bg-yellow-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4"
+                                :class="{ 'bg-gray-300': currentStep == 3 }">
+                                <span class="w-3 h-3 bg-white rounded-full"></span>
+                            </div>
+                            <div class="w-full h-1 bg-gray-300 mx-[5px]" :class="{ 'bg-green-500': currentStep == 3 }">
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-gray-300 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                                <span class="text-base text-gray-500 font-bold"></span>
+                            </div>
+                        </div>
+
                     </div>
-                @endif
 
-                <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                    </svg>
-                    <input class="pl-2 outline-none border-none" type="number" name="id" id="id" placeholder="ID" required />
+                    <form action="{{ route('admin.request-account-service.store') }}" method="POST"
+                        enctype="multipart/form-data" class="mt-24">
+                        @csrf
+                        @method('POST')
+                        <div x-show="currentStep === 0">
+                            <h2 class="text-2xl font-semibold mb-2 text-blue-600"></h2>
+                            @if (session('success'))
+                                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+                                    role="alert">
+                                    <span class="block sm:inline">{{ session('success') }}</span>
+                                </div>
+                            @endif
+
+                            <label for="dropzone-file2"
+                                class="flex flex-col justify-center items-center w-full h-96 text-center bg-white border-2 border-gray-300 border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl">
+                                <h2 id="dropzone-text2"
+                                    class="font-medium tracking-wide text-gray-700 dark:text-gray-200">
+                                    National IdentityCard</h2>
+                                <input id="dropzone-file2" type="file" name="identity" class="hidden" required />
+                                <div id="file-preview2" class="w-full"></div>
+                            </label>
+                            @error('identity')
+                                <p class="text-red-500 text-xs italic mb-4">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div x-show="currentStep === 1">
+                            <h2 class="text-2xl font-semibold mb-2 text-blue-600"></h2>
+                            <label for="dropzone-file1"
+                                class="mt-4 flex flex-col justify-center items-center w-full h-96 text-center bg-white border-2 border-gray-300 border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl">
+                                <h2 id="dropzone-text1"
+                                    class="font-medium tracking-wide text-gray-700 dark:text-gray-200">
+                                    Upload your image</h2>
+                                <input id="dropzone-file1" type="file" name="image" class="hidden" required />
+                                <div id="file-preview1" class="w-full"></div>
+                            </label>
+                            @error('image')
+                                <p class="text-red-500 text-xs italic mb-4">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div x-show="currentStep === 2">
+                            <h3 class="font-semibold mb-2 text-blue-600 mb-8">Please write the purpose and commitment to
+                                make sure you open it for your business</h3>
+                            <textarea name="message" id="description" class="w-full h-56"></textarea>
+                        </div>
+                        <button class="hidden" type="submit" id="confirm_submit"></button>
+                    </form>
+                    <div class="mt-20 flex justify-between">
+                        <button class="btn bg-red-500 text-white py-2 px-4" @click="decrementStep()">Back</button>
+                        <button x-show="currentStep <= 1" class="btn bg-green-500 text-white py-2 px-4"
+                            @click="incrementStep()">Next</button>
+                        <button x-show="currentStep === 2" class="btn bg-green-500 text-white py-2 px-4"
+                            id="submit">Submit</button>
+                    </div>
                 </div>
-                @error('id')
-                    <p class="text-red-500 text-xs italic mb-4">{{ $message }}</p>
-                @enderror
+            @elseif($document != null)
+                <div class="items-center w-full m-4">
+                    <h1 class="text-gray-800 font-bold text-2xl mb-8 text-center">Request to become a service account
+                    </h1>
+                    <div class="flex w-full">
+                        <div class="flex items-center w-full">
+                            <div
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-green-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-full fill-white" viewBox="0 0 24 24">
+                                    <path
+                                        d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                        data-original="#000000" />
+                                </svg>
+                            </div>
+                            <div class="w-full h-1 bg-gray-300 mx-[5px] bg-green-500">
+                            </div>
+                        </div>
 
-                <label for="dropzone-file" class="mt-4 flex flex-col items-center w-full max-w-lg mx-auto text-center bg-white border-2 border-gray-300 border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl">
-                    <h2 id="dropzone-text" class="font-medium tracking-wide text-gray-700 dark:text-gray-200">Upload your image</h2>
-                    <input id="dropzone-file" type="file" name="image" class="hidden" required />
-                    <div id="file-preview" class="w-40"></div>
-                </label>
-                @error('image')
-                    <p class="text-red-500 text-xs italic mb-4">{{ $message }}</p>
-                @enderror
+                        <div class="flex items-center w-full">
+                            <div
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-green-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-full fill-white" viewBox="0 0 24 24">
+                                    <path
+                                        d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                        data-original="#000000" />
+                                </svg>
+                            </div>
+                            <div class="w-full h-1 bg-gray-300 mx-[5px] bg-green-500">
+                            </div>
+                        </div>
+                        <div class="flex items-center w-full">
+                            <div
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-yellow-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4 bg-gray-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-full fill-white"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                        data-original="#000000" />
+                                </svg>
+                            </div>
+                            <div class="w-full h-1 bg-gray-300 mx-[5px] bg-green-500">
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-gray-300 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                                <span class="text-base text-gray-500 font-bold"></span>
+                            </div>
+                        </div>
 
-                <label for="dropzone-file1" class="mt-4 flex flex-col items-center w-full max-w-lg mx-auto text-center bg-white border-2 border-gray-300 border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl">
-                    <h2 id="dropzone-text1" class="font-medium tracking-wide text-gray-700 dark:text-gray-200">National Identity Card</h2>
-                    <input id="dropzone-file1" type="file" name="nid" class="hidden" required />
-                    <div id="file-preview1" class="w-40"></div>
-                </label>
-                @error('nid')
-                    <p class="text-red-500 text-xs italic mb-4">{{ $message }}</p>
-                @enderror
+                    </div>
 
-                <script>
-                    document.getElementById('dropzone-file').addEventListener('change', function(event) {
-                        const file = event.target.files[0];
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = function(e) {
-                                const previewContainer = document.getElementById('file-preview');
-                                const dropzoneText = document.getElementById('dropzone-text');
-                                previewContainer.innerHTML = `
-                                <img src="${e.target.result}" alt="File preview" class="w-full h-auto border border-gray-300 rounded-lg" style="max-height: 250px; object-fit: cover;" />
-                                `;
-                                dropzoneText.style.display = 'none';
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    });
+                    <div>
+                        <div class="flex flex-col justify-center items-center w-full h-96 text-center bg-white border-2 border-gray-300 border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl mt-24">
+                            <h1 class="text-2xl font-sans">Please wait 24H or 42H Thanks for use our service</h1>
+                        </div>
+                    </div>
 
-                    document.getElementById('dropzone-file1').addEventListener('change', function(event) {
-                        const file = event.target.files[0];
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = function(e) {
-                                const previewContainer = document.getElementById('file-preview1');
-                                const dropzoneText = document.getElementById('dropzone-text1');
-                                previewContainer.innerHTML = `
-                                <img src="${e.target.result}" alt="File preview" class="w-full h-auto border border-gray-300 rounded-lg" style="max-height: 250px; object-fit: cover;" />
-                                `;
-                                dropzoneText.style.display = 'none';
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    });
-                </script>
-
-                <div class="flex items-start border-2 py-2 px-3 rounded-2xl mt-4 bg-white shadow-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 mt-2.5" viewBox="0 0 24 24" fill="currentColor">
-                        <path fill-rule="evenodd" d="M19.186 2.09c.521.25 1.136.612 1.625 1.101.49.49.852 1.104 1.1 1.625.313.654.11 1.408-.401 1.92l-7.214 7.213c-.31.31-.688.541-1.105.675l-4.222 1.353a.75.75 0 0 1-.943-.944l1.353-4.221a2.75 2.75 0 0 1 .674-1.105l7.214-7.214c.512-.512 1.266-.714 1.92-.402zm.211 2.516a3.608 3.608 0 0 0-.828-.586l-6.994 6.994a1.002 1.002 0 0 0-.178.241L9.9 14.102l2.846-1.496c.09-.047.171-.107.242-.178l6.994-6.994a3.61 3.61 0 0 0-.586-.828zM4.999 5.5A.5.5 0 0 1 5.47 5l5.53.005a1 1 0 0 0 0-2L5.5 3A2.5 2.5 0 0 0 3 5.5v12.577c0 .76.082 1.185.319 1.627.224.419.558.754.977.978.442.236.866.318 1.627.318h12.154c.76 0 1.185-.082 1.627-.318.42-.224.754-.559.978-.978.236-.442.318-.866.318-1.627V13a1 1 0 1 0-2 0v5.077c0 .459-.021.571-.082.684a.364.364 0 0 1-.157.157c-.113.06-.225.082-.684.082H5.923c-.459 0-.57-.022-.684-.082a.363.363 0 0 1-.157-.157c-.06-.113-.082-.225-.082-.684V5.5z" clip-rule="evenodd" />
-                    </svg>
-                    <textarea rows="1" name="message" id="message" placeholder="Type your message" class="w-full pl-2 outline-none border-none resize-none overflow-hidden"></textarea>
+                    <div class="mt-20 flex justify-between">
+                        <button class="btn bg-red-200 text-white py-2 px-4" disabled>Back</button>
+                        <button class="btn bg-green-200 text-white py-2 px-4" id="submit" disabled>Submit</button>
+                    </div>
                 </div>
-                @error('message')
-                    <p class="text-red-500 text-xs italic mb-4">{{ $message }}</p>
-                @enderror
-
-                <button type="submit" class="block w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">Submit</button>
-            </form>
+            @endif
         </div>
-        <div class="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-red-800 to-purple-700 i justify-around items-start hidden">
+        <div
+            class="relative overflow-hidden md:flex w-2/5 bg-gradient-to-tr from-purple-900 to-purple-700  justify-around items-start hidden">
             <div class="ml-10 mr-10 mt-20 font-bold">
                 <h1 class="text-white text-3xl font-sans">Follow the instructions below</h1>
-                <ol class="text-white mt-5 list-decimal pl-5 space-y-4">
-                    <li>ID: Enter your ID in the text box provided.</li>
-                    <li>Upload Image: Click on the "Upload your image" area to select and upload a photo of yourself.</li>
-                    <li>Upload National Identity Card: Click on the "Nationality Identity Card" area to select and upload a photo of your National Identity Card.</li>
-                    <li>Message (Optional): Type any additional messages or information in the text area.</li>
-                    <li>Submit: Once all fields are completed, click the "Submit" button to send your registration.</li>
+                <ol class="text-white mt-5 pl-5 space-y-4">
+                    <li>Step1: Upload image of yuor Identity.</li>
+                    <li>Step2: Upload image of your face with holding your Identity.</li>
+                    <li>Step3: Write the reason about your purpose of use this account.</li>
+                    <li>Note: Make sure the images that is uploaded by you have a good qaulity.</li>
+                    <li>You will get button switch your account when we approve if you abey the instruction.</li>
                 </ol>
             </div>
-            <div class="absolute -bottom-32 -left-40 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
-            <div class="absolute -bottom-40 -left-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+            <div class="absolute -bottom-32 -left-40 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8">
+            </div>
+            <div class="absolute -bottom-40 -left-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8">
+            </div>
             <div class="absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
             <div class="absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('dropzone-file1').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewContainer = document.getElementById('file-preview1');
+                    const dropzoneText = document.getElementById('dropzone-text1');
+                    previewContainer.innerHTML = `
+                    <img src="${e.target.result}" alt="File preview" class="w-full h-full border border-gray-300 rounded-lg" style="max-height: 380px; object-fit: cover;" />
+                    `;
+                    dropzoneText.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('dropzone-file2').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewContainer = document.getElementById('file-preview2');
+                    const dropzoneText = document.getElementById('dropzone-text2');
+                    previewContainer.innerHTML = `
+                    <img src="${e.target.result}" alt="File preview" class="w-full h-auto border border-gray-300 rounded-lg" style="max-height: 380px; object-fit: cover;" />
+                    `;
+                    dropzoneText.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Stepper
+        function stepIndicator() {
+            return {
+                currentStep: 0,
+                incrementStep() {
+                    if (this.currentStep <= 1) {
+                        this.currentStep++;
+                    }
+                },
+                decrementStep() {
+                    if (this.currentStep > 0) {
+                        this.currentStep--;
+                    }
+                }
+            };
+        }
+
+        // submit action
+        const btnSubmit = document.getElementById('submit');
+        const confirm_submit = document.getElementById('confirm_submit');
+
+        btnSubmit.addEventListener('click', function(event) {
+            confirm_submit.click();
+        });
+    </script>
 </x-app-layout>

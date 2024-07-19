@@ -77,6 +77,7 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('checking-room', 'CheckingRoomController');
         Route::resource('guest-houses', 'GuestHousesController');
         Route::resource('rooms', 'RoomController');
+        Route::resource('request-account-service', 'RequestAccountServiceController');
 
         Route::post('guestHouses/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
         Route::post('edit/guestHouses/media', 'GuestHousesController@editStoreMedia')->name('guestHouses.storeMedia.edit');
@@ -96,9 +97,6 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
         // Approve User
         Route::get('/approve-user', [ApproveUserController::class, 'index'])->name('approve.index');
-        // Bocking regester to user
-        Route::get('/registertouse', [RegisterToUser::class, 'store'])->name('register.user');
-
     });
 
 
