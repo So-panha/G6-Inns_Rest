@@ -81,6 +81,8 @@ Route::
         Route::resource('request-account-service', 'RequestAccountServiceController');
         Route::resource('approve-user', 'ApproveUserController');
 
+        // Alert when user request account to the admin
+        Route::get('/alert-request', 'ApproveUserController@alertRequest')->name('alert.request');
         Route::post('guestHouses/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
         Route::post('edit/guestHouses/media', 'GuestHousesController@editStoreMedia')->name('guestHouses.storeMedia.edit');
         Route::post('rooms/media', 'RoomController@storeMedia')->name('rooms.storeMedia');
@@ -99,8 +101,8 @@ Route::
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 
         // Approve user services
-        Route::put('/approve-user',[ApproveUserController::class, 'approve'])->name('approve.user.service');
-        Route::put('/reject-user',[ApproveUserController::class, 'reject'])->name('reject.user.service');
+        Route::put('/approve-user', [ApproveUserController::class, 'approve'])->name('approve.user.service');
+        Route::put('/reject-user', [ApproveUserController::class, 'reject'])->name('reject.user.service');
     });
 
 

@@ -31,4 +31,9 @@ class ApproveUserController extends Controller
         $accountRequests->update(['response' => 1, 'status'=> '0']);
         return response()->json(['succss'=>true, 'data' => $accountRequests]);
     }
+
+    public function alertRequest(){
+        $countRequest = RequestAccountService::where('response', 0)->count();
+        return response()->json(['success' => true ,'data' => $countRequest]);
+    }
 }
