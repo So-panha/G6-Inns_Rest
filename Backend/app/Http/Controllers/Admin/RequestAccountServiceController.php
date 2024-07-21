@@ -5,45 +5,50 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RequestAccountServiceRequest;
 use App\Models\RequestAccountService;
+use App\Traits\uploadImage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class RequestAccountServiceController extends Controller
 {
     //
+    use uploadImage;
     public function index()
     {
         $user_id = Auth()->user()->id;
         $document = RequestAccountService::all()->where('user_id', $user_id)->where('response', 0)->first();
-        $response = RequestAccountService::all()->where('user_id', $user_id)->where('response', 1)->where('status',0)->first();
-        return view('RegisterToUser.register', compact('document','response'));
+        $response = RequestAccountService::all()->where('user_id', $user_id)->where('response', 1)->where('status', 0)->first();
+        return view('RegisterToUser.register', compact('document', 'response'));
     }
 
     public function store(RequestAccountServiceRequest $request)
     {
         try {
-            $image = $request->image;
-            $name = time() . '_' . $image->getClientOriginalName();
-            $filePathImage = 'document/' . $name;
-            Storage::disk('public')->put($filePathImage, file_get_contents($image));
-
-            $identity = $request->identity;
-            $name = time() . '_' . $identity->getClientOriginalName();
-            $filePathIdentity = 'document/' . $name;
-            Storage::disk('public')->put($filePathIdentity, file_get_contents($identity));
-
+            // Get user id
             $user_id = Auth()->user()->id;
-            RequestAccountService::create([
+
+            // Account request
+            $accountRequest = [
                 'user_id' => $user_id,
-                'image_1' => $filePathImage,
-                'image_2' => $filePathIdentity,
                 'response' => 0,
                 'message' => $request->message,
-            ]);
+            ];
 
-            return redirect()->route('admin.request-account-service.index');
+            // Save image in storage
+            if ($request->hasFile('identity') && $request->hasFile('image')) {
+                if($identity = $this->saveImageDocument($request->identity)){
+                    $accountRequest['image_1'] = '/Document/'.$identity;
+
+                }
+                if($image = $this->saveImageDocument($request->image)){
+                    $accountRequest['image_2'] = '/Document/'.$image;
+                }
+
+                // Save request to database
+                RequestAccountService::create($accountRequest);
+            }
+            return redirect()->route('admin.request-account-service.index')->with('message', 'Submit successfully');
         } catch (\Exception $e) {
-            return redirect()->route('admin.request-account-service.index')->with('error', 'Failed to submit request. Please try again.');
+            return redirect()->route('admin.request-account-service.index')->with('message', 'Failed to submit request. Please try again.');
         }
     }
 }

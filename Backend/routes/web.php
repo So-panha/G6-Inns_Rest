@@ -64,7 +64,8 @@ Route::get('/admin/dashboard', function () {
 
 require __DIR__ . '/auth.php';
 
-Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
+Route::
+        namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
     ->group(function () {
         Route::resource('roles', 'RoleController');
         Route::resource('permissions', 'PermissionController');
@@ -78,6 +79,7 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('guest-houses', 'GuestHousesController');
         Route::resource('rooms', 'RoomController');
         Route::resource('request-account-service', 'RequestAccountServiceController');
+        Route::resource('approve-user', 'ApproveUserController');
 
         Route::post('guestHouses/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
         Route::post('edit/guestHouses/media', 'GuestHousesController@editStoreMedia')->name('guestHouses.storeMedia.edit');
@@ -95,8 +97,10 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
 
         // Table Payment
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
-        // Approve User
-        Route::get('/approve-user', [ApproveUserController::class, 'index'])->name('approve.index');
+
+        // Approve user services
+        Route::put('/approve-user',[ApproveUserController::class, 'approve'])->name('approve.user.service');
+        Route::put('/reject-user',[ApproveUserController::class, 'reject'])->name('reject.user.service');
     });
 
 
@@ -123,4 +127,5 @@ Route::middleware('auth')->group(function () {
 
 // Social Login with google
 Route::get('login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
-Route::get('login/google/callback', [LoginController::class, 'redirectToGoogleCallback']);;
+Route::get('login/google/callback', [LoginController::class, 'redirectToGoogleCallback']);
+;

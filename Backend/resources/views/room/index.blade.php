@@ -358,7 +358,7 @@
         });
     </script>
 
-    {{-- alert when delete branch --}}
+    {{-- alert when delete branch success --}}
     @if (Session::has('message'))
         <script>
             Swal.fire({

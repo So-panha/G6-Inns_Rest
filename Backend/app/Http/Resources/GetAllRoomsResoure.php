@@ -26,7 +26,7 @@ class GetAllRoomsResoure extends JsonResource
             'updated_at' => $this->updated_at,
             'guest_house' => new GetGuestHouseResoure($this->guestHouse),
             'user_id' => new GetUserResoure($this->user),
-            'images' => $this->photos,
+            'images' => GetImagesRoomResource::collection($this->photos),
         ];
     }
 }
