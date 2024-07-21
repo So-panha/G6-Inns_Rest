@@ -16,8 +16,9 @@ class RequestAccountServiceController extends Controller
     {
         $user_id = Auth()->user()->id;
         $document = RequestAccountService::all()->where('user_id', $user_id)->where('response', 0)->first();
-        $response = RequestAccountService::all()->where('user_id', $user_id)->where('response', 1)->where('status', 0)->first();
-        return view('RegisterToUser.register', compact('document', 'response'));
+        $reject = RequestAccountService::all()->where('user_id', $user_id)->where('response', 1)->where('status', 0)->first();
+        $approve = RequestAccountService::all()->where('user_id', $user_id)->where('response', 1)->where('status', 1)->first();
+        return view('RegisterToUser.register', compact('document', 'approve' , 'reject'));
     }
 
     public function store(RequestAccountServiceRequest $request)

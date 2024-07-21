@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="h-screen md:flex">
         <div class="flex w-3/5 justify-center py-10 bg-white">
-            @if ($document == null)
+            @if ($document == null && $approve == null && $reject == null)
                 <div class="items-center w-full m-4" x-data="stepIndicator()">
                     <h1 class="text-gray-800 font-bold text-2xl mb-8 text-center">Request to become a service account
                     </h1>
@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div class="flex items-center w-full">
-                            <div class="w-8 h-8 shrink-0 mx-[-1px] bg-yellow-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4"
+                            <div class="w-8 h-8 shrink-0 mx-[-1px] bg-green-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4"
                                 :class="{ 'bg-gray-300': currentStep == 3 }">
                                 <span class="w-3 h-3 bg-white rounded-full"></span>
                             </div>
@@ -113,7 +113,7 @@
                             id="submit">Submit</button>
                     </div>
                 </div>
-            @elseif($document != null)
+            @elseif($document != null && $approve == null && $reject == null)
                 <div class="items-center w-full m-4">
                     <h1 class="text-gray-800 font-bold text-2xl mb-8 text-center">Request to become a service account
                     </h1>
@@ -145,7 +145,7 @@
                         </div>
                         <div class="flex items-center w-full">
                             <div
-                                class="w-8 h-8 shrink-0 mx-[-1px] bg-yellow-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4 bg-gray-300">
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-green-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4 bg-gray-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-full fill-white"
                                     viewBox="0 0 24 24">
                                     <path
@@ -166,7 +166,8 @@
                     </div>
 
                     <div>
-                        <div class="flex flex-col justify-center items-center w-full h-96 text-center bg-white border-2 border-gray-300 border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl mt-24">
+                        <div
+                            class="flex flex-col justify-center items-center w-full h-96 text-center bg-white border-2 border-gray-300 border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl mt-24">
                             <h1 class="text-2xl font-sans">Please wait 24H or 42H Thanks for use our service</h1>
                         </div>
                     </div>
@@ -174,6 +175,152 @@
                     <div class="mt-20 flex justify-between">
                         <button class="btn bg-red-200 text-white py-2 px-4" disabled>Back</button>
                         <button class="btn bg-green-200 text-white py-2 px-4" id="submit" disabled>Submit</button>
+                    </div>
+                </div>
+            @elseif($approve != null)
+                <div class="items-center w-full m-4">
+                    <h1 class="text-gray-800 font-bold text-2xl mb-8 text-center">Request to become a service account
+                    </h1>
+                    <div class="flex w-full">
+                        <div class="flex items-center w-full">
+                            <div
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-green-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-full fill-white"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                        data-original="#000000" />
+                                </svg>
+                            </div>
+                            <div class="w-full h-1 bg-gray-300 mx-[5px] bg-green-500">
+                            </div>
+                        </div>
+
+                        <div class="flex items-center w-full">
+                            <div
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-green-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-full fill-white"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                        data-original="#000000" />
+                                </svg>
+                            </div>
+                            <div class="w-full h-1 bg-gray-300 mx-[5px] bg-green-500">
+                            </div>
+                        </div>
+                        <div class="flex items-center w-full">
+                            <div
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-green-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4 bg-gray-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-full fill-white"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                        data-original="#000000" />
+                                </svg>
+                            </div>
+                            <div class="w-full h-1 bg-gray-300 mx-[5px] bg-green-500">
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-yellow-300 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                                <span class="text-base text-gray-500 font-bold"></span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-full fill-white"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                        data-original="#000000" />
+                                </svg>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <div
+                            class="flex flex-col justify-center items-center w-full h-96 text-center bg-white border-2 border-gray-300 border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl mt-24">
+                            <h1 class="text-2xl font-sans">You account has been approve <br> please click on the button
+                                to change into account service</h1>
+                        </div>
+                    </div>
+
+                    <div class="mt-20 flex justify-center">
+                        <button class="btn bg-blue-500 text-white py-2 px-4">Start your account</button>
+                    </div>
+                </div>
+            @else
+                <div class="items-center w-full m-4">
+                    <h1 class="text-gray-800 font-bold text-2xl mb-8 text-center">Request to become a service account
+                    </h1>
+                    <div class="flex w-full">
+                        <div class="flex items-center w-full">
+                            <div
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-green-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-full fill-white"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                        data-original="#000000" />
+                                </svg>
+                            </div>
+                            <div class="w-full h-1 bg-gray-300 mx-[5px] bg-green-500">
+                            </div>
+                        </div>
+
+                        <div class="flex items-center w-full">
+                            <div
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-green-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-full fill-white"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                        data-original="#000000" />
+                                </svg>
+                            </div>
+                            <div class="w-full h-1 bg-gray-300 mx-[5px] bg-green-500">
+                            </div>
+                        </div>
+                        <div class="flex items-center w-full">
+                            <div
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-green-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4 bg-gray-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-full fill-white"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                        data-original="#000000" />
+                                </svg>
+                            </div>
+                            <div class="w-full h-1 bg-gray-300 mx-[5px] bg-green-500">
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div
+                                class="w-8 h-8 shrink-0 mx-[-1px] bg-red-500 p-1.5 flex items-center justify-center rounded-full ring-2 ring-gray-300 ring-offset-4">
+                                <span class="text-base text-gray-500 font-bold"></span>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M12 15C12.2833 15 12.5208 14.9042 12.7125 14.7125C12.9042 14.5208 13 14.2833 13 14C13 13.7167 12.9042 13.4792 12.7125 13.2875C12.5208 13.0958 12.2833 13 12 13C11.7167 13 11.4792 13.0958 11.2875 13.2875C11.0958 13.4792 11 13.7167 11 14C11 14.2833 11.0958 14.5208 11.2875 14.7125C11.4792 14.9042 11.7167 15 12 15ZM11 11H13V5H11V11ZM2 22V4C2 3.45 2.19583 2.97917 2.5875 2.5875C2.97917 2.19583 3.45 2 4 2H20C20.55 2 21.0208 2.19583 21.4125 2.5875C21.8042 2.97917 22 3.45 22 4V16C22 16.55 21.8042 17.0208 21.4125 17.4125C21.0208 17.8042 20.55 18 20 18H6L2 22ZM5.15 16H20V4H4V17.125L5.15 16Z"
+                                        fill="#5F6368" />
+                                </svg>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <div
+                            class="flex flex-col justify-center items-center w-full h-96 text-center bg-white border-2 border-gray-300 border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl mt-24">
+                            <h1 class="text-2xl font-sans">You account has been reject <br> Beacause some information
+                                look like stranger please do it again</h1>
+                        </div>
+                    </div>
+                    <div class="mt-20 flex justify-center">
+                        <button class="btn bg-red-500 text-white py-2 px-4">Start request again</button>
                     </div>
                 </div>
             @endif
