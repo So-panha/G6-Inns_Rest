@@ -85,16 +85,20 @@ export default {
 
 .booking-card {
   padding: 20px;
-  background-color: #f8f9fa; /* Light background color */
+  background-color: #f8f9fa;
+  /* Light background color */
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* Soft shadow */
 }
 
 .btn-success {
   background-color: green;
   border-color: green;
-  color: white; /* Text color */
+  color: white;
+  /* Text color */
 }
+
 .btn-success:hover {
   background-color: darkgreen;
   border-color: darkgreen;
@@ -105,11 +109,87 @@ export default {
 }
 
 .card {
-  border: none; /* Remove default card border */
-  box-shadow: none; /* Remove default card shadow */
+  border: none;
+  /* Remove default card border */
+  box-shadow: none;
+  /* Remove default card shadow */
 }
 
 .col-form-label {
-  font-weight: bold; /* Make labels bold */
+  font-weight: bold;
+  /* Make labels bold */
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .container {
+    width: 90%;
+    /* Adjust width for tablets */
+  }
+
+  .booking-card {
+    padding: 15px;
+    /* Slightly less padding on tablets */
+  }
+
+  .form-group {
+    margin-bottom: 10px;
+    /* Reduced margin for smaller screens */
+  }
+
+  .btn-success {
+    font-size: 14px;
+    /* Slightly smaller font size for tablets */
+    padding: 6px 12px;
+    /* Adjust padding for smaller buttons */
+  }
+
+  .col-form-label {
+    font-size: 14px;
+    /* Adjust font size for labels */
+  }
+}
+
+/* Mobile (767px and smaller) */
+@media screen and (max-width: 767px) {
+  .container {
+    width: 80%;
+    padding: 5px;
+  }
+
+  .booking-card {
+    padding: 8px;
+  }
+
+  .form-group {
+    margin-bottom: 6px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-group label,
+  .form-group p {
+    font-size: 10px;
+  }
+
+  .btn-success {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+
+  .col-form-label {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 16px;
+  }
+
+  .fixed {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    width: 50vw;
+  }
 }
 </style>

@@ -1,10 +1,5 @@
-
-
 <template>
-  <div
-    v-show="showEditPopup"
-    class="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50"
-  >
+  <div v-show="showEditPopup" class="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
     <div class="popup2 bg-white p-10 rounded-sm shadow-sm relative w-1/2 max-w-2xl">
       <div class="absolute flex top-4 left-2">
         <h3 class="mt-2 ml-10 text-edit">Edit Profile</h3>
@@ -13,10 +8,10 @@
         <!-- Display the user's profile image -->
         <img class="profile-image w-30 h-30 mx-auto rounded-full" :src="profileImageUrl" />
       </div>
-      <div class="absolute top-43 right-68">
+      <div class="absolute top-43 right-68" id="upload">
         <!-- Button to upload a new profile image -->
         <button class="btn btn-upload btn-sm" @click="triggerFileInput" title="Edit Profile">
-          <span class="material-symbols-outlined" style="font-size: 15px"> add_circle </span>
+          <span class="material-symbols-outlined " style="font-size: 15px"> add_circle </span>
         </button>
         <input type="file" ref="fileInputRef" @change="handleFileChange" class="hidden" />
       </div>
@@ -29,12 +24,7 @@
           <h6>Name:</h6>
         </div>
         <div class="input-group mb-2">
-          <input
-            type="text"
-            class="form-control ml-3 mt-2"
-            placeholder="Enter your name"
-            v-model="tempInputs.name"
-          />
+          <input type="text" class="form-control ml-3 mt-2" placeholder="Enter your name" v-model="tempInputs.name" />
         </div>
         <!-- Input for the user's phone number -->
         <div class="flex items-center">
@@ -42,12 +32,8 @@
           <h6>Phone:</h6>
         </div>
         <div class="input-group mb-2">
-          <input
-            type="text"
-            class="form-control ml-3 mt-2"
-            placeholder="Enter your phone number"
-            v-model="tempInputs.phoneNumber"
-          />
+          <input type="text" class="form-control ml-3 mt-2" placeholder="Enter your phone number"
+            v-model="tempInputs.phoneNumber" />
         </div>
         <!-- Input for the user's email -->
         <div class="flex items-center mb-2">
@@ -57,12 +43,7 @@
           <h6 class="mt-2">Email:</h6>
         </div>
         <div class="input-group">
-          <input
-            type="text"
-            class="form-control ml-3 mt-2"
-            placeholder="Enter your email"
-            v-model="tempInputs.email"
-          />
+          <input type="text" class="form-control ml-3 mt-2" placeholder="Enter your email" v-model="tempInputs.email" />
         </div>
       </div>
       <div class="mt-4 flex justify-end">
@@ -171,12 +152,12 @@ const updateUser = async () => {
   formData.append('name', tempInputs.name);
   formData.append('email', tempInputs.email);
   formData.append('phoneNumber', tempInputs.phoneNumber);
-  
+
   // Add profile image to form data if available
   if (fileInputRef.value && fileInputRef.value.files && fileInputRef.value.files[0]) {
     formData.append('profile', fileInputRef.value.files[0]);
   }
-  
+
   try {
     const response = await axios.post(
       `http://127.0.0.1:8000/api/user/update/${authStore.user.id}`, // API endpoint for updating user
@@ -211,18 +192,129 @@ const saveChanges = async () => {
 
 <style scoped>
 .profile-image {
-  border: 2px solid rgb(238, 40, 228); /* Style for the profile image */
-  border-radius: 50%; /* Make the image circular */
+  border: 2px solid rgb(238, 40, 228);
+  /* Style for the profile image */
+  border-radius: 50%;
+  /* Make the image circular */
 }
+
 .btn-upload {
-  background: #8706ff; /* Style for the upload button */
-  color: white; /* Text color for the button */
+  background: #8706ff;
+  /* Style for the upload button */
+  color: white;
+  /* Text color for the button */
 }
+
 .text-edit {
-  color: #8f06ff; /* Color for the edit text */
+  color: #8f06ff;
+  /* Color for the edit text */
 }
+
 .popup2 {
-  border: 3px solid rgb(199, 13, 255); /* Border style for the popup */
+  border: 3px solid rgb(199, 13, 255);
+  /* Border style for the popup */
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .popup2 {
+    padding: 15px;
+    width: 80%;
+  }
+
+  .profile-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  .btn-upload {
+    font-size: 18px;
+  }
+
+  .form-control {
+    font-size: 14px;
+  }
+
+  h6 {
+    font-size: 1rem;
+  }
+
+  .btn {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+
+  /* Mobile styles */
+  .popup2 {
+    padding: 10px;
+    /* Consistent padding with tablet */
+    width: 90%;
+    max-width: none;
+    border: 3px solid rgb(199, 13, 255);
+    /* Border style for the popup */
+  }
+
+  .profile-image {
+    width: 100px;
+    /* Slightly larger for consistency with tablet */
+    height: 100px;
+    /* Slightly larger for consistency with tablet */
+  }
+
+  .input-group input {
+    padding: 10px;
+    /* Consistent padding with tablet */
+    font-size: 1rem;
+    /* Consistent font size with tablet */
+  }
+
+  .btn {
+    padding: 4px 9px;
+    /* Consistent padding with tablet */
+    font-size: 10px;
+    /* Consistent font size with tablet */
+    margin-bottom: 5px;
+  }
+
+  .absolute.top-2 {
+    top: 8px;
+    right: 8px;
+  }
+
+  .absolute.top-4.left-4 {
+    top: 8px;
+    left: 8px;
+  }
+
+  .mt-5 {
+    margin-top: 1.5rem;
+    /* Increased for consistency with tablet */
+  }
+
+  .mt-4 {
+    margin-top: 1.5rem;
+    /* Increased for consistency with tablet */
+  }
+
+  .mb-2,
+  .mb-3 {
+    margin-bottom: 10px;
+    /* Increased for consistency with tablet */
+  }
+
+  h3 {
+    display: none;
+  }
+
+  .mt-4 {
+    margin-right: 13px;
+  }
+  .btn-upload {
+    font-size: 5px;
+    margin-left: 350%;
+    margin-top: -120%;
+  }
+
 }
 </style>
-
