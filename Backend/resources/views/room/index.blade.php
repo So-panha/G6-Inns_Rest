@@ -83,8 +83,8 @@
                                     <td class="border border-slate-300">{{ $room->check_in }}</td>
                                     <td class="border border-slate-300">{{ $room->number_of_rooms }}</td>
                                     <td class="border border-slate-300">{{ $room->description }}</td>
-                                    <td class="border border-slate-300">{{ $bedTypes[$room->bed_type - 1]->name }}</td>
-                                    <td class="border border-slate-300">{{ $roomTypes[$room->type_of_room - 1]->name }}
+                                    <td class="border border-slate-300">{{ $bedTypes[$room->bed_type_id - 1]->name }}</td>
+                                    <td class="border border-slate-300">{{ $roomTypes[$room->type_of_room_id - 1]->name }}
                                     </td>
                                 </tr>
                             </tbody>
@@ -165,7 +165,7 @@
                                 <div>
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                         for="select">Type of Bad</label>
-                                    <select class="w-full" name="bed_type" id="bed_type">
+                                    <select class="w-full" name="bed_type_id" id="bed_type">
                                         <option value="" selected disabled>Select Bad Type</option>
                                         @foreach ($bedTypes as $bedType)
                                             <option value="{{ $bedType->id }}">{{ $bedType->name }}</option>
@@ -175,7 +175,7 @@
                                 <div>
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                         for="type_of_room">Type of Room</label>
-                                    <select class="w-full" name="type_of_room" id="type_of_room">
+                                    <select class="w-full" name="type_of_room_id" id="type_of_room">
                                         <option value="" selected disabled>Select Condition Room</option>
                                         @foreach ($roomTypes as $roomType)
                                             <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>

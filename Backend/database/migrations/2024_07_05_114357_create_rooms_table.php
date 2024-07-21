@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('capacity');
             $table->integer('status')->default(0);
             $table->integer('check_in')->default(0);
-            $table->integer('bed_type')->nullable();
-            $table->integer('type_of_room')->nullable();
+            $table->integer('bed_type_id')->nullable();
+            $table->integer('type_of_room_id')->nullable();
             $table->integer('number_of_rooms')->nullable();
             $table->string('description');
             $table->integer('guest_house_id')->nullable();
