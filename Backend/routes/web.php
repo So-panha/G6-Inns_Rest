@@ -132,6 +132,7 @@ Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
     Route::resource('register-account', 'RegisterUserServiceController');
 });
 
+
 // Route::post('/emails-sendings', )
 
 // Social Login with google

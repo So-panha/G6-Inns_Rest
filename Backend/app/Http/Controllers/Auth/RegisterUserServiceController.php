@@ -9,7 +9,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Spatie\Permission\Models\Role;
 
 class RegisterUserServiceController extends Controller
@@ -34,11 +33,12 @@ class RegisterUserServiceController extends Controller
      */
     public function store(Request $request)
     {
+
         try {
             $request->validate([
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'confirmed'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]);
 
             $user = User::create([
@@ -48,12 +48,13 @@ class RegisterUserServiceController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
+
             // Set role user
             $roles = Role::all();
             $user->syncRoles($roles[1]->id);
 
             // Set specific permissions to the user
-            $user->givePermissionTo(['Role access', 'Role edit', 'Role create', 'Role delete']);
+            $user->givePermissionTo(['Chat access', 'Chat user', 'Request_account_service access', 'Request_account_service create','Dashboard_service access']);
 
             // Switch to the account auto
             event(new Registered($user));
