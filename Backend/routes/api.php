@@ -7,6 +7,7 @@ use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\UserController as APIUserController;
 use App\Http\Controllers\API\RoomAPIController;
 use App\Http\Controllers\API\BookingUserRoomAPIController;
+use App\Http\Controllers\API\UserNormalController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AuthController;
@@ -36,15 +37,17 @@ Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:san
 
 
 Route::get('/Guest_House', [GuestHouseApiController::class, 'index'])->name('guest_house');
+Route::get('/Guest_House/show/{id}', [GuestHouseApiController::class, 'show'])->name('show_guest_house');
+// Route::get('/Show_Guest_House/{id}', [GuestHouseApiController::class, 'showCommentFeedback'])->name('show_guest_house');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');
 
 
 // -------------Route-UserNormal----------------------------------
-Route::get('/user/list', [APIUserController::class, 'index'])->name('user.list');
-Route::post('/user/create', [APIUserController::class, 'store'])->name('user.create');
-Route::get('/user/show/{id}', [APIUserController::class, 'show'])->name('user.show');
-Route::put('/user/update/{id}', [APIUserController::class, 'update'])->name('user.update');
-Route::delete('/user/delete/{id}', [APIUserController::class, 'destroy'])->name('user.delete');
+Route::get('/user/list', [UserNormalController::class, 'index'])->name('user.list');
+Route::post('/user/create', [UserNormalController::class, 'store'])->name('user.create');
+Route::get('/user/show/{id}', [UserNormalController::class, 'show'])->name('user.show');
+Route::put('/user/update/{id}', [UserNormalController::class, 'update'])->name('user.update');
+Route::delete('/user/delete/{id}', [UserNormalController::class, 'destroy'])->name('user.delete');
 
 Route::get('/guest_house/list', [GuestHouseApiController::class, 'index'])->name('guest_house');
 Route::get('/room/list', [RoomAPIController::class, 'index'])->name('rooms');
@@ -69,8 +72,14 @@ Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->
 
  //-------------Comment-Feedback-Routes----------------------------------------
 
-Route::post('/commentGuestHouse', [CommentFeedbackApiController::class, 'commentGuestHouse'])->name('commentGuestHouse');
-Route::put('/updateComment/{id}', [CommentFeedbackApiController::class, 'update'])->name('updateComment');
-Route::delete('/deleteComment/{id}', [CommentFeedbackApiController::class, 'destroy'])->name('destroy');
+// Route::get('commentOther/{guestHouseId}', [CommentFeedbackApiController::class, 'getCommentsByGuestHouse'])->name('commentOther');
+
+// Route::get('/comments/{id}', [CommentFeedbackApiController::class, 'getCommentsForGuestHouse'])->name('comments');
+Route::put('/updateComment/{id}', [CommentFeedbackApiController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('/deleteComment/{id}', [CommentFeedbackApiController::class, 'destroy'])->name('deleteComment');
+Route::post('/commentGuestHouse', [CommentFeedbackApiController::class, 'commentGuestHouse'])->middleware('auth:sanctum');
 Route::get('/commentOther', [CommentFeedbackApiController::class, 'index'])->name('commentOther');
-Route::get('/commentOther', [CommentFeedbackApiController::class, 'index'])->name('commentOther');
+Route::get('/comment/show/{id}', [CommentFeedbackApiController::class, 'showComments'])->name('showComments');
+// -----------------route add like-------------------------------
+
+Route::post('/add-like', [GuestHouseApiController::class, 'addLike'])->name('addLike');

@@ -70,4 +70,16 @@ class GuestHouse extends Model implements HasMedia
     {
         return $this->getFirstMediaUrl('photos', 'thumb');
     }
+
+    // --------------------------like-----------------------------
+    public function countLikes()
+    {
+        return $this->hasMany(Like::class, 'guestHouse_id')->count();
+    }
+    public function getAllLike(){
+        return $this->hasMany(Like::class, 'guestHouse_id');
+    }
+    public function commentFeedback(){
+        return $this->hasMany(CommentFeedback::class, 'guestHouse_id');
+    }
 }
