@@ -14,7 +14,10 @@ class GuestHousesController extends Controller
     // list all data guesthouses
     public function index()
     {
-        $guestHouses = GuestHouse::all();
+        // Get id user
+        $user_id = Auth()->user()->id;
+        // Get all guesthouses of the user by user_id
+        $guestHouses = GuestHouse::all()->where('created_by_id', $user_id);
         $mapGuestHouses = $guestHouses->makeHidden(['active', 'created_at', 'updated_at', 'deleted_at', 'created_by_id', 'photos', 'media']);
         $latitude = $guestHouses->average('latitude');
         $longitude = $guestHouses->average('longitude');
@@ -72,7 +75,19 @@ class GuestHousesController extends Controller
     // Store new guesthouse data
     public function store(Request $request)
     {
-        $guestHouse = GuestHouse::create($request->all());
+        // Get id user from authenticated user
+        $user_id = Auth()->user()->id;
+
+        $newData = [
+            'name' => $request->name,
+            'address' => $request->address,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'wifi' => $request->wifi,
+            'amount' => $request->amount,
+            'created_by_id' => $user_id
+        ];
+        $guestHouse = GuestHouse::create($newData);
         foreach ($request->input('photos', []) as $file) {
             $guestHouse->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('photos');
         }
