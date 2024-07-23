@@ -123,13 +123,15 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/chat', Index::class)->name('chat.index');
     });
-
-
-    Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
-        ->group(function () {
-            Route::resource('register', 'RegisteredUserController');
-        });
 });
+
+
+Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
+->group(function () {
+    Route::resource('register', 'RegisteredUserController');
+    Route::resource('register-account', 'RegisterUserServiceController');
+});
+
 
 // Route::post('/emails-sendings', )
 

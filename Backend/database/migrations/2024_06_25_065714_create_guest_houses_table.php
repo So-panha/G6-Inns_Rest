@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('wifi')->default(0);
             $table->boolean('active')->default(0);
             $table->integer('amount')->default(10);
+            $table->integer('created_by_id')->nullable();
             $table->integer('day_has')->default(0);
             $table->integer('real_day')->default(0);
             $table->integer('spend_day')->default(0);

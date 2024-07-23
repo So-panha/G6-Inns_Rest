@@ -4,7 +4,7 @@
         <div class="flex flex-col justify-center sm:w-96 sm:m-auto mx-5 mb-5 space-y-8">
             <h1 class="font-bold text-center text-4xl text-yellow-500">Register<span class="text-blue-500">Account</span>
             </h1>
-            <form method="POST" action="{{ route('auth.register.store') }}">
+            <form method="POST" action="{{ route('auth.register-account.store') }}">
                 @csrf
                 <div class="flex flex-col bg-white p-10 rounded-lg shadow space-y-6">
                     <h1 class="font-bold text-xl text-center">Register account</h1>
@@ -71,6 +71,6 @@
     <script>
         // Set up profile for the user
         var files = document.getElementById("profile");
-        files.value = 'Profile.jpg';
+        files.value = '/images/Profile.jpg';
     </script>
 </x-guest-layout>
