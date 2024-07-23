@@ -4,11 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class UserNormal extends Model
+class UserNormal extends Authenticatable
 {
-    use HasFactory, HasApiTokens;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+
 
     /**
      * The attributes that are mass assignable.
@@ -25,4 +29,10 @@ class UserNormal extends Model
     public function commentFeedback(){
         return $this->hasMany(CommentFeedback::class);
     }
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'userNormal_id');
+    }
+
+    
 }

@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
-class UserController extends Controller
+class UserNormalController extends Controller
 {
     public function index()
     {
@@ -21,7 +21,6 @@ class UserController extends Controller
             'users' => $userNormals
         ], 200);
     }
-
     public function store(StoreUserRequest $request)
     {
         try {
@@ -74,7 +73,7 @@ class UserController extends Controller
 
             // Update user data
             $userNormals->name = $request->name;
-            $userNormals->email = $request->email;
+            // $userNormals->email = $request->email;
             if ($request->password) {
                 $userNormals->password = bcrypt($request->password);
             }
