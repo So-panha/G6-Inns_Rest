@@ -14,15 +14,18 @@ class GetBookingRoomUserTypeResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
         return [
             'id' => $this->id,
             'price' => $this->price,
             'number_of_rooms' => $this->number_of_rooms,
             'departure_date' => $this->departure_date,
             'arrival_date' => $this->arrival_date,
-            'user' => new UserNormalResource($this->user), // Assuming $this->user is the user object
+            'paymented' => $this->paymented,
+            'user' => new UserNormalResource($this->user),
             'room' => new GetAllRoomsResoure($this->room)
         ];
+
     }
 }
 

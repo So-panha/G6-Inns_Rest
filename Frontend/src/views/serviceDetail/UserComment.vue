@@ -36,7 +36,7 @@
       <button class="btn btn-outline-dark scroll-btn" @click="scrollLeft">
         <span class="material-symbols-outlined">chevron_left</span>
       </button>
-      <div class="scroll-container d-flex flex-nowrap  h-40 w-300">
+      <div class="scroll-container d-flex flex-nowrap  h-40 w-400">
         <div class="col-md-4" v-for="comment in comments" :key="comment.id">
           <div class="card">
             <div class="card-body">

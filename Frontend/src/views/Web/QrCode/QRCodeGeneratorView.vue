@@ -1,11 +1,15 @@
 <template>
   <div id="app" class="container mt-5">
     <div class="card shadow-sm">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>Holy guacamole!</strong> You have success with booking .
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
       <div class="card-body">
         <h1 class="text-center mb-4">QR Code Generator</h1>
         <div class="form-group">
           <label for="qr-data">Enter data for QR code:</label>
-          <input id="qr-data" v-model="data" class="form-control" placeholder="e.g., URL, text, etc." />
+          <input id="qr-data" v-model="data" class="form-control" placeholder="QR" />
         </div>
         <div class="text-center">
           <button @click="generateQRCode" class="btn btn-primary">Generate QR Code</button>
@@ -13,6 +17,7 @@
         <div v-if="qrCodeSrc" class="qr-code-container text-center mt-4">
           <qrcode-vue :value="qrCodeSrc" :size="200" level="H" />
           <div class="text-center mt-3">
+            <span>Please, click on button ok to motify you already pay</span><br>
             <button @click="showSuccessAlert" class="btn btn-success mt-3">Ok</button>
           </div>
         </div>
@@ -22,10 +27,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
-import QrcodeVue from 'qrcode.vue';
-import { useRouter, useRoute } from 'vue-router';
-import Swal from 'sweetalert2';
+import { defineComponent, ref, onMounted } from 'vue'
+import QrcodeVue from 'qrcode.vue'
+import { useRouter, useRoute } from 'vue-router'
+import Swal from 'sweetalert2'
 
 export default defineComponent({
   name: 'qrCode',
@@ -33,32 +38,32 @@ export default defineComponent({
     QrcodeVue
   },
   setup() {
-    const data = ref('');
-    const qrCodeSrc = ref('');
-    const router = useRouter();
-    const route = useRoute();
+    const data = ref('')
+    const qrCodeSrc = ref('')
+    const router = useRouter()
+    const route = useRoute()
     const generateQRCode = () => {
-      qrCodeSrc.value = data.value;
-    };
+      qrCodeSrc.value = data.value
+    }
 
     const showSuccessAlert = () => {
       Swal.fire({
         icon: 'success',
         title: 'QR Code Generated Successfully!',
-        text: 'You can now proceed with your payment.',
+        text: 'You can now proceed with your payment.'
       }).then(() => {
-        router.push('/qrCode');
-      });
-    };
+        router.push('/qrCode')
+      })
+    }
 
     return {
       data,
       qrCodeSrc,
       generateQRCode,
       showSuccessAlert
-    };
+    }
   }
-});
+})
 </script>
 
 <style scoped>
