@@ -23,8 +23,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'phoneNumber',
-        'profile'
+        'phone_number',
+        'profile',
     ];
 
     /**
@@ -47,7 +47,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    // Relationships with user 
+    // Relationships with user
     public function guestHouses()
     {
         return $this->hasMany(GuestHouse::class, 'created_by_id', 'id');
@@ -55,7 +55,7 @@ class User extends Authenticatable
 
     public function conversations()
     {
-        
+
         return $this->hasMany(Conversation::class,'sender_id')->orWhere('receiver_id',$this->id)->whereNotDeleted();
     }
 

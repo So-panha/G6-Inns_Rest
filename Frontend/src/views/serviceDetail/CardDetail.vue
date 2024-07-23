@@ -1,8 +1,6 @@
 <template>
   <div class="container">
-    <!-- {{ bookings }} -->
-
-    <!-- {{ bookings.length }} -->
+    
     <div class="card mb-3 m-8" v-for="(listImage, index) in ListImages" :key="listImage.id" style="width: 98%">
       <div class="row p-5">
         <!-- Image Section -->
@@ -32,13 +30,12 @@
         </div>
 
         <!-- Details Section -->
-
         <div class="col-md-7">
           <div class="card-body">
             <h5 class="card-title">{{ listImage.name }}</h5>
-
+           
             <div v-if="bookings.length > 0">
-              <div v-if="bookings[index] != undefined">
+              <div v-if="bookings[index] !== undefined">
                 <p v-if="bookings[index].number_rooms > 0" class="text-green-500">
                   {{ bookings[index].number_rooms }} available rooms.
                 </p>
@@ -54,6 +51,9 @@
               <p class="text-orange-500">No bookings available.</p>
             </div>
 
+            <p>Type room : <span style="text-decoration: underline;">{{ listImage.type_of_room.name }}</span></p>
+            <h6 >{{ listImage.description }}</h6><br>
+
             <p class="card-text">
               <span class="locate material-symbols-outlined" style="font-size: 40px">home_pin</span>
               <small class="text-muted">5 minute walk from University in Phnom Penh</small>
@@ -61,7 +61,7 @@
             <div class="d-flex justify-content-between align-items-center ml-1">
               <div class="flex">
                 <span class="home material-symbols-outlined" style="font-size: 30px">home</span>
-                <p class="card-text mt-1 ml-4"></p>
+                <p class="card-text mt-1 ml-4">{{ listImage.bed_type.name }}</p>
               </div>
               <div class="flex">
                 <span class="wifi material-symbols-outlined" style="font-size: 30px">wifi</span>
@@ -72,18 +72,17 @@
 
             <div v-if="bookings.length > 0">
               <div class="d-flex justify-content-end mt-5">
-                <div v-if="bookings[index] != undefined">
+                <div v-if="bookings[index] !== undefined">
                   <button v-if="bookings[index].number_rooms > 0" class="btn btn-primary"
                     @click="openBookingModal(index, listImage)">
                     Booking Rooms
                   </button>
-                  <button v-if="bookings[index].number_rooms == 0" style="background-color: #bfdbfe"
-                    class="btn text-white">
+                  <button v-else style="background-color: #bfdbfe" class="btn text-white">
                     Booking Rooms
                   </button>
                 </div>
                 <div v-else>
-                  <button style="background-color: #bfdbfe" class="btn text-white">
+                  <button class="btn btn-primary" @click="openBookingModal(index, listImage)">
                     Booking Rooms
                   </button>
                 </div>
@@ -100,9 +99,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <h1 v-if="bookings != []">{{ bookings }}</h1>
-    <h1 v-else>null</h1> -->
 
     <!-- Modal for booking user -->
     <div v-if="showBookingModal" class="modal" tabindex="-1" style="display: block">
@@ -122,14 +118,13 @@
   </div>
 </template>
 
+
 <script>
 import BookingUserView from '@/views/Web/Booking/BookingUserView.vue'
 import axios from 'axios'
-import { array, object } from 'yup'
 
 export default {
   name: 'CardDetail',
-  // bookings:null,
   props: {
     ListImages: {
       type: Array,
@@ -144,9 +139,27 @@ export default {
       default: null
     },
     bookings: {
-      type: String,
+      type: Array,
       default: null
     }
+  },
+  setup(props) {
+    // Check if selectedImage is defined
+    if (!props.selectedImage) {
+      console.error('selectedImage is not defined');
+    }
+
+    // Safely access properties of selectedImage
+    const selectedImageId = props.selectedImage?.id;
+    if (selectedImageId) {
+      console.log('Selected Image ID:', selectedImageId);
+    } else {
+      console.error('Selected Image ID is not available');
+    }
+
+    return {
+      // Return any reactive variables or methods here
+    };
   },
 
   components: {
@@ -158,27 +171,20 @@ export default {
       showBookingModal: false,
       selectedImage: null,
       selectedRoomId: null,
-      startdate: null,
-      enddate: null,
-      profileImageUrl : ref(''),
-      name : ref('')
+      profileImageUrl: '',
+      name: ''
     }
   },
   mounted() {
     this.fetchRoomDetails()
     this.getUserProfile()
-
   },
   methods: {
     async fetchRoomDetails() {
       try {
-        const id = this.$route.params.id
-
         const response = await axios.get(`http://127.0.0.1:8000/api/guest_house/show/1`)
-        console.log(response)
         if (response.data.meeesager) {
           this.ListImages = response.data.rooms
-          console.log('Fetched room details:', this.ListImages)
         } else {
           console.error('No rooms data found in the response')
         }
@@ -186,25 +192,23 @@ export default {
         console.error('Error fetching room details:', error)
       }
     },
-    async getUserProfile () {
+    async getUserProfile() {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/user/show/1');
-        profileImageUrl.value = `http://127.0.0.1:8000/storage/${response.data.user.profile}`;
-        name.value = response.data.user.name;
-
-        console.log(this.name.value)
+        const response = await axios.get('http://127.0.0.1:8000/api/user/show/1')
+        this.profileImageUrl = `http://127.0.0.1:8000/storage/${response.data.user.profile}`
+        this.name = response.data.user.name
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error fetching user data:', error)
       }
     },
     toggleFavorite(index) {
       this.ListImages[index].isFavorite = !this.ListImages[index].isFavorite
     },
-    openBookingModal(index, roomId) {
+    openBookingModal(index, listImage) {
       this.selectedImage = this.ListImages[index]
-      this.selectedRoomId = roomId
+      this.selectedRoomId = listImage
       this.showBookingModal = true
-      console.log(this.selectedRoomId)
+      console.log('Opening modal for:', listImage)
     },
     closeBookingModal() {
       this.showBookingModal = false

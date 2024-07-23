@@ -36,14 +36,6 @@ class ProfileController extends Controller
         $user = auth()->user();
         return view('setting.profile',['user'=>$user]);
     }
-    public function saveImage($file)
-    {
-        $name = time() . '_' . $file->getClientOriginalName();
-        $filePath = 'profiles/' . $name;
-        Storage::disk('public')->put($filePath, file_get_contents($file));
-        return $filePath; // Return the saved file path
-    }
-
 
     public function update(Request $request)
     {
@@ -52,20 +44,20 @@ class ProfileController extends Controller
         $validated = $request->validate([
             'name'=>'required',
             'email' => 'required|email|unique:users,email,'.$user->id.',id',
+            'phone_number' => 'required|string|unique:users,phone_number,'.$user->id.',id',
         ]);
-
 
 
         if($request->password != null){
             $request->validate([
-                'password' => 'required|confirmed'
+                'passwo``rd' => 'required|confirmed'
             ]);
             $validated['password'] = bcrypt($request->password);
         }
 
         if($request->hasFile('profile')){
             if($name = $this->saveImage($request->profile)){
-                $validated['profile'] = $name;
+                $validated['profile'] = '/images/' .$name;
             }
         }
 

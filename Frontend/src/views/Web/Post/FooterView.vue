@@ -1,6 +1,6 @@
 <template>
-  <footer class="footer text-black pt-5 pb-2 mt-3" style="width: 100%;">
-    <div class="container text-center text-md-left" style="background-color: #D9D9D9">
+  <footer class="footer text-black pt-5 pb-2 mt-3">
+    <div class="container text-center text-md-left" >
       <div class="row text-center text-md-left">
         <h5 style="background-color:#001063;" class="text-white p-3 mb-5">List of property <hr></h5>
         
@@ -91,6 +91,12 @@ export default {
  background: linear-gradient(1deg, #7606ff 0%, #40008f 52%);
 
 } */
+
+.container{
+    background-color: #D9D9D9;
+    width: 100%;
+    
+}
 
 .btn-custom {
   background-color: transparent;

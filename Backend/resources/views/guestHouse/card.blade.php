@@ -52,9 +52,8 @@
                     </div>
                     <input class="hidden" type="text" id="files" value="{{$guestHouses}}">
                     <div class="px-4 py-2 bg-blue-300 flex justify-end">
-                        @if ($guestHouse->active == 1)
+                        @if ($guestHouse->active == 1 && $guestHouse->day_has != 0)
                             {{-- Edit Post of Guest house --}}
-                            {{-- <button class="inline-block bg-green-500 text-white rounded-full px-4 py-2 text-xs font-semibold mr-1 mb-1 edit-guestHouse"  data-edit="{{$guestHouse->id}}">{{ trans('cruds.guestHouse.fields.edited_at') }}</button> --}}
                             <a href="{{ route('admin.guest-houses.edit', $guestHouse->id) }}" class="inline-block bg-green-500 text-white rounded-full px-4 py-2 text-xs font-semibold mr-1 mb-1 edit-guestHouse">{{ trans('cruds.guestHouse.fields.edited_at') }}</a>
                             <div x-data="{ showPopup: false }">
                                 <button

@@ -18,7 +18,7 @@
                 <div class="p-4 text-right">
                     <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
                         Total Prices</p>
-                    <h4
+                    <h4 id="profit"
                         class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
                         $53k</h4>
                 </div>
@@ -40,8 +40,8 @@
                 </div>
                 <div class="p-4 text-right">
                     <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                        Total Users</p>
-                    <h4
+                        Total Users Owner</p>
+                    <h4 id="totalUsersOwner"
                         class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
                         2,300</h4>
                 </div>
@@ -63,8 +63,8 @@
                 </div>
                 <div class="p-4 text-right">
                     <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                        Total Owner</p>
-                    <h4
+                        Total User</p>
+                    <h4 id="totalUsersNormal"
                         class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
                         3,462</h4>
                 </div>
@@ -84,15 +84,16 @@
                     <div>
                         <h6
                             class="block antialiased tracking-normal font-sans text-base font-semibold leading-relaxed text-blue-gray-900 mb-1">
-                            Projects</h6>
+                            All data in app</h6>
                         <p
                             class="antialiased font-sans text-sm leading-normal flex items-center gap-1 font-normal text-blue-gray-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
-                                stroke="currentColor" aria-hidden="true" class="h-4 w-4 text-blue-500">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5">
-                                </path>
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M0 18V16L2 14V18H0ZM4 18V12L6 10V18H4ZM8 18V10L10 12.025V18H8ZM12 18V12.025L14 10.025V18H12ZM16 18V8L18 6V18H16ZM0 12.825V10L7 3L11 7L18 0V2.825L11 9.825L7 5.825L0 12.825Z"
+                                    fill="#8C1AF6" />
                             </svg>
-                            <strong>30 done</strong> this month
+                            <strong></strong> Each month
                         </p>
                     </div>
                     <button aria-expanded="false" aria-haspopup="menu" id=":r5:"
@@ -108,272 +109,253 @@
                         </span>
                     </button>
                 </div>
-                <table class="w-full min-w-[640px] table-auto">
-                    <thead>
-                        <tr>
-                            <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
-                                <p
-                                    class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">
-                                    companies</p>
-                            </th>
-                            <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
-                                <p
-                                    class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">
-                                    budget</p>
-                            </th>
-                            <th class="border-b border-blue-gray-50 py-3 px-6 text-left">
-                                <p
-                                    class="block antialiased font-sans text-[11px] font-medium uppercase text-blue-gray-400">
-                                    completion</p>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <div class="flex items-center gap-4">
-                                    <p
-                                        class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-bold">
-                                        Material XD Version</p>
-                                </div>
-                            </td>
 
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600">
-                                    $14,000</p>
-                            </td>
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <div class="w-10/12">
-                                    <p class="antialiased font-sans mb-1 block text-xs font-medium text-blue-gray-600">
-                                        60%</p>
-                                    <div
-                                        class="flex flex-start bg-blue-gray-50 overflow-hidden w-full rounded-sm font-sans text-xs font-medium h-1">
-                                        <div class="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
-                                            style="width: 60%;"></div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <div class="flex items-center gap-4">
-                                    <p
-                                        class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-bold">
-                                        Add Progress Track</p>
-                                </div>
-                            </td>
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600">
-                                    $3,000</p>
-                            </td>
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <div class="w-10/12">
-                                    <p class="antialiased font-sans mb-1 block text-xs font-medium text-blue-gray-600">
-                                        10%</p>
-                                    <div
-                                        class="flex flex-start bg-blue-gray-50 overflow-hidden w-full rounded-sm font-sans text-xs font-medium h-1">
-                                        <div class="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
-                                            style="width: 10%;"></div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <div class="flex items-center gap-4">
-                                    <p
-                                        class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-bold">
-                                        Fix Platform Errors</p>
-                                </div>
-                            </td>
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600">
-                                    Not set</p>
-                            </td>
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <div class="w-10/12">
-                                    <p class="antialiased font-sans mb-1 block text-xs font-medium text-blue-gray-600">
-                                        100%</p>
-                                    <div
-                                        class="flex flex-start bg-blue-gray-50 overflow-hidden w-full rounded-sm font-sans text-xs font-medium h-1">
-                                        <div class="flex justify-center items-center h-full bg-gradient-to-tr from-green-600 to-green-400 text-white"
-                                            style="width: 100%;"></div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <div class="flex items-center gap-4">
-                                    <p
-                                        class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-bold">
-                                        Launch our Mobile App</p>
-                                </div>
-                            </td>
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600">
-                                    $20,500</p>
-                            </td>
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <div class="w-10/12">
-                                    <p class="antialiased font-sans mb-1 block text-xs font-medium text-blue-gray-600">
-                                        100%</p>
-                                    <div
-                                        class="flex flex-start bg-blue-gray-50 overflow-hidden w-full rounded-sm font-sans text-xs font-medium h-1">
-                                        <div class="flex justify-center items-center h-full bg-gradient-to-tr from-green-600 to-green-400 text-white"
-                                            style="width: 100%;"></div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <div class="flex items-center gap-4">
-                                    <p
-                                        class="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-bold">
-                                        Add the New Pricing Page</p>
-                                </div>
-                            </td>
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <p class="block antialiased font-sans text-xs font-medium text-blue-gray-600">
-                                    $500</p>
-                            </td>
-                            <td class="py-3 px-5 border-b border-blue-gray-50">
-                                <div class="w-10/12">
-                                    <p class="antialiased font-sans mb-1 block text-xs font-medium text-blue-gray-600">
-                                        25%</p>
-                                    <div
-                                        class="flex flex-start bg-blue-gray-50 overflow-hidden w-full rounded-sm font-sans text-xs font-medium h-1">
-                                        <div class="flex justify-center items-center h-full bg-gradient-to-tr from-blue-600 to-blue-400 text-white"
-                                            style="width: 25%;"></div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                {{-- Chart --}}
+                <div class="flex items-center gap-3 p-4 h-72">
+                    <div class="w-1/3">
+                        <canvas id="data-total-profit" style="width:100%;max-width:600px"></canvas>
+                    </div>
+                    <div class="w-1/3">
+                        <canvas id="data-user-services" style="width:100%;max-width:600px"></canvas>
+                    </div>
+                    <div class="w-1/3">
+                        <canvas id="data-user-normal" style="width:100%;max-width:600px"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+                // Months use to set in chart data
+        var xValues = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+            "November", "December"
+        ];
+
+        // Months use to set in chart for log access value
+        var months = [01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12];
+
+        // Get current year
+        let realYear = new Date().getFullYear();
+
+        // Profit data
+        let totalProfitAllMonths = [0, 0, , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+        // user servicee data
+        let totalUserServicesAllMonths = [0, 0, , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+        // User normal data
+        let totalUsersNormalAllMonths = [0, 0, , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+        // Background corlor of chart
+        var barColors = ["rgb(188, 42, 149)", "rgb(141, 32, 149)", "rgb(93, 23, 147)",
+            "rgb(21, 83, 204)", "rgb(77, 177, 192)", "rgb(64, 150, 41)", "rgb(127, 199, 61)", "rgb(255, 254, 84)", "rgba(249, 205, 70)", "rgb(243, 157, 56)", "rgb(239, 111, 46)", "rgb(240, 37, 47)"
+        ];
+
+
+        // Get data by axios for total profit
+        $.ajax({
+                type: 'GET',
+                url: '{{ route('admin.all.total.profit') }}', // Use a relative URL instead of a hardcoded one
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the request headers
+                },
+                success: function(response) {
+
+                    // Handle the successful response
+                    let totalProfit = response.data;
+
+                    // Loop data
+                    for(let i = 0; i < months.length; i++) {
+
+                        // filter to find the data of services user on each month
+                        let totaProfitInMonth = totalProfit.filter(item => new Date(item.created_at).getMonth() + 1 === months[i]);
+
+                        //   Set conditions
+                        if (totaProfitInMonth.length != 0) {
+
+                            // filter to find the services user who create with the current year
+                            let filterTotalProfitCurrently = totaProfitInMonth.filter(item => new Date(item.created_at).getFullYear() === realYear);
+
+                            // Sum all amount in a month
+                            let totalProfitInEachMonth = filterTotalProfitCurrently.map(transaction => transaction.amount).reduce((acc, curr) => acc +
+                            curr, 0);
+
+                            // access value into data of profit
+                            totalProfitAllMonths[i] = totalProfitInEachMonth;
+                        }else{
+                            totalProfitAllMonths[i] = 0;
+                        }
+
+                    };
+
+                    // Access data to profit mock up
+                    let allProfit = document.getElementById('profit');
+                    allProfit.textContent = `$${totalProfitAllMonths.reduce((acc, curr) => acc + curr, 0)}`;
+
+                    // Chart data of profit
+                    new Chart("data-total-profit", {
+                        type: "bar",
+                        data: {
+                            labels: xValues,
+                            datasets: [{
+                                label: '',
+                                backgroundColor: barColors,
+                                data: totalProfitAllMonths
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: "Data of Profit"
+                            }
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error response
+                    console.error('Error:', error);
+                }
+        });
+
+        // Get data by axios for user service
+        $(document).ready(function() {
+            $.ajax({
+                type: 'GET',
+                url: '{{ route('admin.all.users.service') }}', // Use a relative URL instead of a hardcoded one
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the request headers
+                },
+                success: function(response) {
+
+                    // Handle the successful response
+                    let allDataOfUsersService = response.data;
+
+                    // Loop data
+                    for (var i = 0; i < months.length; i++) {
+
+                        // filter to find the data of services user on each month
+                        let totalUserServicesInMonth = allDataOfUsersService.filter(item =>
+                            new Date(
+                                item.created_at).getMonth() + 1 === months[i]);
+
+                        if (totalUserServicesInMonth.length != 0) {
+
+                            // filter to find the services user who create with the current year
+                            let filterTotalUserServiceCurrently = totalUserServicesInMonth
+                                .filter(item => new Date(item.created_at).getFullYear() ===
+                                    realYear);
+
+                            totalUserServicesAllMonths[i] = (filterTotalUserServiceCurrently
+                                .length);
+                        } else {
+                            // if no has value in array
+                            totalUserServicesAllMonths[i] = (totalUserServicesInMonth.length);
+                        }
+                    };
+
+                    // All services user in all months
+                    let allServiceUsers = document.getElementById('totalUsersOwner');
+                    allServiceUsers.textContent = totalUserServicesAllMonths.reduce((acc, curr) => acc +
+                        curr, 0);
+
+                    // Chart of data of services user on each month
+                    new Chart("data-user-services", {
+                        type: "bar",
+                        data: {
+                            labels: xValues,
+                            datasets: [{
+                                backgroundColor: barColors,
+                                data: totalUserServicesAllMonths
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: "Data of User Services"
+                            }
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error response
+                    console.error('Error:', error);
+                }
+            });
+
+
+            // Get data data normal user by ajax
+            $.ajax({
+                type: 'GET',
+                url: '{{ route('admin.all.users.normal') }}', // Use a relative URL instead of a hardcoded one
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the request headers
+                },
+                success: function(response) {
+
+                    // Handle the successful response
+                    let allUsersNormal = response.data;
+
+                    // Loop data
+                    for (var i = 0; i < months.length; i++) {
+
+                        // filter to find the data of services user on each month
+                        let totalUsersNormalInMonth = allUsersNormal.filter(item => new Date(
+                            item.created_at).getMonth() + 1 === months[i]);
+
+                        // Set conditions
+                        if (totalUsersNormalInMonth.length != 0) {
+
+                            // filter to find the services user who create with the current year
+                            let filterTotalUsersNormalCurrently = totalUsersNormalInMonth
+                                .filter(item => new Date(item.created_at).getFullYear() ===
+                                    realYear);
+
+                            totalUsersNormalAllMonths[i] = (filterTotalUsersNormalCurrently
+                                .length);
+                        } else {
+                            // if no has value in array
+                            totalUsersNormalAllMonths[i] = (totalUsersNormalInMonth.length);
+                        }
+                    };
+
+                    // All services user in all months
+                    let totalUsersNormal = document.getElementById('totalUsersNormal');
+                    totalUsersNormal.textContent = totalUsersNormalAllMonths.reduce((acc, curr) => acc +
+                        curr, 0);
+
+                    // Chart of data of user normal on each month
+                    new Chart("data-user-normal", {
+                        type: "bar",
+                        data: {
+                            labels: xValues,
+                            datasets: [{
+                                backgroundColor: barColors,
+                                data: totalUsersNormalAllMonths
+                            }]
+                        },
+                        options: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: "Data of User Normal"
+                            }
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error response
+                    console.error('Error:', error);
+                }
+            });
+        });
+    </script>
 </x-app-layout>
-
-{{-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load('current', {
-        'packages': ['corechart']
-    });
-    google.charts.setOnLoadCallback(drawChart);
-
-    function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Year', 'Total price'],
-            ['2004', 1000],
-            ['2005', 1170],
-            ['2006', 660],
-            ['2007', 1030]
-        ]);
-
-        var options = {
-            curveType: 'function',
-            content: 'Dealy total price',
-            backgroundColor: '#818181',
-            colors: ['red', 'green', 'purple'],
-            legend: {
-                position: 'bottom'
-            }
-
-        };
-
-        var data1 = google.visualization.arrayToDataTable([
-            ['Year', 'Total users'],
-            ['2004', 10],
-            ['2005', 20],
-            ['2006', 30],
-            ['2007', 40]
-        ]);
-
-        var options1 = {
-            curveType: 'function',
-            content: 'Dealy total price',
-            backgroundColor: '#818181',
-            colors: ['green', 'purple'],
-            legend: {
-                position: 'bottom'
-            }
-        };
-
-        var data2 = google.visualization.arrayToDataTable([
-            ['Year', 'Total users'],
-            ['2004', 10],
-            ['2005', 50],
-            ['2006', 30],
-            ['2007', 40]
-        ]);
-
-        var options2 = {
-            curveType: 'function',
-            content: 'Dealy total price',
-            backgroundColor: '#818181',
-            colors: ['purple'],
-            legend: {
-                position: 'bottom'
-            }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart_tolal'));
-        var chart1 = new google.visualization.LineChart(document.getElementById('curve_chart_user'));
-        var chart2 = new google.visualization.LineChart(document.getElementById('curve_chart_owner'));
-
-        chart.draw(data, options);
-        chart1.draw(data1, options1);
-        chart2.draw(data2, options2);
-    }
-</script>
-
-
-<style>
-    .custom-shape-divider-top {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-        height: 20px;
-        /* Smaller height for a subtle curve */
-        line-height: 0;
-    }
-
-    .custom-shape-divider-top svg {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    .custom-shape-divider-top .shape-fill {
-        fill: #000000;
-    }
-
-    .card1 {
-        background-color: #0017E3;
-    }
-
-    .card2 {
-        background-color: #7500E0;
-    }
-
-    .card3 {
-        background-color: #DA5D5B;
-    }
-
-    .total_content {
-        font-size: small;
-
-    }
-
-    .border-hr-solid {
-        border: 1px solid gray;
-        width: 93%;
-        /* padding-left: 15px; */
-        margin: 10px;
-    }
-</style> --}}

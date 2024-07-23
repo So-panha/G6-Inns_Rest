@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CommentFeedbackResource;
+use App\Http\Resources\ShowCommentFeedbackResource;
 use App\Models\CommentFeedback;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentFeedbackApiController extends Controller
 {
@@ -15,9 +17,8 @@ class CommentFeedbackApiController extends Controller
     public function index()
     {
         $comment_feedback = CommentFeedback::with('userNormal', 'guestHouse')->get();
-        $comment_feedback =CommentFeedbackResource::collection($comment_feedback);
-        return response()->json($comment_feedback);
-
+        $comment_feedback = CommentFeedbackResource::collection($comment_feedback);
+        return response()->json(["success" => true, "comment_feedback" => $comment_feedback, "Message" => "comment list successfully"], 200);
     }
 
     /**
@@ -25,30 +26,40 @@ class CommentFeedbackApiController extends Controller
      */
     public function store(Request $request)
     {
-        // 
+        //
     }
+    
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function showComments($guestHouseId)
     {
-        $comment_feedback = CommentFeedback::with('userNormal', 'guestHouse')->find($id);
-        if (!$comment_feedback) {
-            return response()->json(['message' => 'Comment not found'], 404);
+        try {
+            $comments = CommentFeedback::with('userNormal')
+                ->where('guestHouse_id', $guestHouseId)
+                // Order by created_at in descending order
+                ->orderBy('created_at', 'desc') 
+                ->get();
+
+            $comments = ShowCommentFeedbackResource::collection($comments);
+
+            return response()->json(['comments' => $comments], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch comments'], 500);
         }
-        return response()->json($comment_feedback);
     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'comment' => 'required|string|max:255',
-            'userNormal_id' => 'required|exists:user_normals,id',
-        ]);
+        // $request->validate([
+        //     'comment' => 'required|string|max:255',
+        //     'userNormal_id' => 'required|exists:user_normals,id',
+        // ]);
 
         $comment_feedback = CommentFeedback::find($id);
         if (!$comment_feedback) {
@@ -57,8 +68,9 @@ class CommentFeedbackApiController extends Controller
 
         $comment_feedback->comment = $request->comment;
         $comment_feedback->save();
+
         $comment_feedback->load('userNormal', 'guestHouse');
-        return response()->json(["success"=> true, "comment_feedback"=> $comment_feedback, "Message" =>"comment update successfully"], 200) ;
+        return response()->json(["success" => true, "comment_feedback" => $comment_feedback, "Message" => "comment updated successfully"], 200);
     }
 
     /**
@@ -67,17 +79,10 @@ class CommentFeedbackApiController extends Controller
     public function destroy(string $id)
     {
         $comment_feedback = CommentFeedback::find($id);
-        $comment_feedback =new CommentFeedbackResource($comment_feedback);
         if (!$comment_feedback) {
             return response()->json(['message' => 'Comment not found'], 404);
         }
-
-        if ($comment_feedback->userNormal_id !== (int)request()->userNormal_id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
         $comment_feedback->delete();
-
         return response()->json(['success' => true, 'message' => 'Comment removed']);
     }
 
@@ -86,24 +91,21 @@ class CommentFeedbackApiController extends Controller
      */
     public function commentGuestHouse(Request $request)
     {
+
+        // dd($request);
         $request->validate([
             'guestHouse_id' => 'required|exists:guest_houses,id',
             'comment' => 'required|string|max:255',
-            'userNormal_id' => 'required|exists:user_normals,id',
         ]);
 
         try {
             $comment_feedback = CommentFeedback::create([
                 'guestHouse_id' => $request->guestHouse_id,
                 'comment' => $request->comment,
-                'userNormal_id' => $request->userNormal_id,
+                'userNormal_id' => Auth::id(),
             ]);
-
             $comment_feedback->load('guestHouse', 'userNormal');
-
-            return response()->json([
-                'comment_feedback' => $comment_feedback,
-            ], 201);
+            return response()->json(['comment_feedback' => $comment_feedback], 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to create comment', 'error' => $e->getMessage()], 500);
         }

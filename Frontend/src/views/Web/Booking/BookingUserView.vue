@@ -1,16 +1,20 @@
 <template>
-  <form @submit.prevent="PostBooking" method="POST">
-    {{ selectedRoomId }}
+  <form @submit.prevent="PostBooking">
+    <!-- {{ selectedRoomId }} -->
+
     <div class="container">
       <div class="image-gallery">
         <div class="image-item">
-          <img src="https://i.pinimg.com/736x/9d/d9/e8/9dd9e8449a07a4e942ace34f86771b16.jpg" alt="Room 1" class="zoom">
+          <img src="https://i.pinimg.com/736x/9d/d9/e8/9dd9e8449a07a4e942ace34f86771b16.jpg" alt="Room 1"
+            class="zoom" />
         </div>
         <div class="image-item">
-          <img src="https://i.pinimg.com/736x/8d/bf/86/8dbf8697536b7fb44e444c52d856f52f.jpg" alt="Room 2" class="zoom">
+          <img src="https://i.pinimg.com/736x/8d/bf/86/8dbf8697536b7fb44e444c52d856f52f.jpg" alt="Room 2"
+            class="zoom" />
         </div>
         <div class="image-item">
-          <img src="https://i.pinimg.com/736x/d8/0d/8f/d80d8f9aae74097a28f023ba25547d43.jpg" alt="Room 3" class="zoom">
+          <img src="https://i.pinimg.com/736x/d8/0d/8f/d80d8f9aae74097a28f023ba25547d43.jpg" alt="Room 3"
+            class="zoom" />
         </div>
       </div>
     </div>
@@ -18,24 +22,25 @@
       <div class="row">
         <div class="col-md-6 mb-3 mt-3">
           <label for="numRooms">Number of rooms user booking</label>
-          <input type="number" class="form-control" id="numRooms" v-model.number="form.numRooms" placeholder="Number Of Rooms">
+          <input type="number" class="form-control" id="numRooms" v-model.number="form.numRooms"
+            placeholder="Number Of Rooms" />
           <span v-if="errors.numRooms" class="error">{{ errors.numRooms }}</span>
         </div>
         <div class="col-md-6 mb-3 mt-3">
           <label for="price">Price</label>
-          <input type="number" class="form-control" id="price" v-model.number="form.price" placeholder="Price">
+          <input type="number" class="form-control" id="price" v-model.number="form.price" placeholder="Price" />
           <span v-if="errors.price" class="error">{{ errors.price }}</span>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6 mb-3 mt-3">
           <label for="user">User ID</label>
-          <input type="number" class="form-control" id="user" v-model.number="form.user_id" placeholder="User Id">
+          <input type="number" class="form-control" id="user" v-model.number="form.user_id" placeholder="User Id" />
           <span v-if="errors.user_id" class="error">{{ errors.user_id }}</span>
         </div>
         <div class="col-md-6 mb-3 mt-3">
-          <label for="room">Room name</label>
-          <input type="text" class="form-control" id="room" v-model="form.room_id" placeholder="Room Name">
+          <label for="room">Room Id</label>
+          <input type="text" class="form-control" id="room" v-model.number="form.room_id" placeholder="Room Id" />
           <span v-if="errors.room_id" class="error">{{ errors.room_id }}</span>
         </div>
       </div>
@@ -48,10 +53,10 @@
 </template>
 
 <script setup>
-import { ref, toRefs, watch } from 'vue';
-import * as yup from 'yup';
-import { useRouter } from 'vue-router';
-import axios from 'axios';
+import { ref, toRefs, watch } from 'vue'
+import * as yup from 'yup'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 const props = defineProps({
   startDate: {
@@ -64,85 +69,81 @@ const props = defineProps({
   },
   selectedRoomId: {
     type: Object,
-    default: () => ({ id: null, user_id: { id: null }, price: null })
+    default: () => ({ id: null, user_id: null, price: null, name: '' })
+  },
+  images: {
+    type: Array,
+    default: () => []
   }
-});
+})
 
-const { startDate, endDate, selectedRoomId } = toRefs(props);
-const router = useRouter();
+const { startDate, endDate, selectedRoomId, images } = toRefs(props)
+const router = useRouter()
 
 const form = ref({
   price: selectedRoomId.value.price || '',
   numRooms: '',
-  numGuests: '',
   departuredate: startDate.value,
   arrivaldate: endDate.value,
   user_id: selectedRoomId.value.user_id.id || '',
-  room_id: selectedRoomId.value.name || ''
-});
+  room_id: selectedRoomId.value.id || ''
+})
 
-const errors = ref({});
-const availableRooms = ref(0);
+const errors = ref({})
 
 const schema = yup.object().shape({
-  numRooms: yup.number().integer().min(1, 'At least one room is required').required('Number of rooms is required'),
+  numRooms: yup
+    .number()
+    .integer()
+    .min(1, 'At least one room is required')
+    .required('Number of rooms is required'),
   price: yup.number().required('Price is required'),
   user_id: yup.number().required('User ID is required'),
-  name: yup.string().required('Name is required')
-});
+  room_id: yup.number().required('Room name is required')
+})
 
 const validateForm = async () => {
-  errors.value = {}; // Clear previous errors
+  errors.value = {} // Clear previous errors
   try {
-    await schema.validate(form.value, { abortEarly: false });
-    return true;
+    await schema.validate(form.value, { abortEarly: false })
+    return true
   } catch (err) {
     if (err.inner) {
       errors.value = err.inner.reduce((acc, error) => {
-        acc[error.path] = error.message;
-        return acc;
-      }, {});
+        acc[error.path] = error.message
+        return acc
+      }, {})
     }
-    return false;
+    return false
   }
-};
-
-const fetchAvailableRooms = async () => {
-  try {
-    const response = await axios.get('http://127.0.0.1:8000/api/available-rooms', {
-      params: {
-        arrival_date: form.value.arrivaldate,
-        departure_date: form.value.departuredate
-      }
-    });
-    availableRooms.value = response.data.available_rooms;
-  } catch (error) {
-    console.error('Error fetching available rooms:', error);
-  }
-};
+}
 
 const PostBooking = async () => {
-  const isValid = await validateForm();
+  const isValid = await validateForm()
 
   if (isValid) {
     try {
       const payload = {
-        price: form.value.price ,
-        number_of_rooms: form.value.numRooms,
+        price: form.value.price,
+        number_of_rooms: form.value.numRooms, // Ensure this matches with what the backend expects
         departure_date: form.value.departuredate,
         arrival_date: form.value.arrivaldate,
         user_id: form.value.user_id,
-        room_id: form.value.name
-      };
+        room_id: form.value.room_id
+      }
 
-      console.log('Payload:', payload);
+      console.log('Payload:', payload)
 
-      const response = await axios.post('http://127.0.0.1:8000/api/booking_user_rooms/create', payload);
+      const response = await axios.post(
+        'http://127.0.0.1:8000/api/booking_user_rooms/create',
+        payload
+      )
 
-      console.log('Response:', response);
+      console.log('Response Status:', response.status)
+      console.log('Response Data:', response.data)
 
       if (response.status === 201) {
-        console.log('Booking successful:', response.data);
+        console.log('Booking successful:', response.data)
         router.push({
           name: 'qrCode',
           params: {
@@ -150,42 +151,27 @@ const PostBooking = async () => {
             departuredate: form.value.departuredate,
             arrivaldate: form.value.arrivaldate
           }
-        });
+        })
       } else {
-        throw new Error('Failed to submit the form');
+        throw new Error('Failed to submit the form')
       }
     } catch (error) {
-      console.error('Error during booking submission:', error.message);
-
-      if (error.response) {
-        console.error('Response status:', error.response.status);
-        console.error('Response data:', error.response.data);
-      } else if (error.request) {
-        console.error('No response received:', error.request);
-      } else {
-        console.error('Error setting up the request:', error.message);
-      }
+      console.error(
+        'Error during booking submission:',
+        error.response ? error.response.data : error.message
+      )
+      // Optionally show error message to user
     }
   } else {
-    console.log('Form validation failed');
+    console.log('Form validation failed')
+    // Optionally show validation errors to user
   }
-};
+}
 
-const cancelForm = () => {
-  // Reset form values or navigate to another page
-  router.push({ name: 'home' }); // Redirect to home or reset the form values
-};
-
-watch([startDate, endDate], () => {
-  if (startDate.value && endDate.value) {
-    fetchAvailableRooms();
-  }
-}, { immediate: true });
+const cancelForm = () => { }
 </script>
 
 <style scoped>
-/* Your styles here */
-
 body,
 html {
   margin: 0;
@@ -199,35 +185,12 @@ html {
   flex-direction: column;
   align-items: center;
   min-height: 50vh;
-  /* Ensure full viewport height */
   background-image: url('https://i.pinimg.com/564x/6a/fd/29/6afd297faea93c71cd076ade13b2b767.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   padding-bottom: 50px;
   position: relative;
-}
-
-.content {
-  margin-top: 20px;
-  position: relative;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 20px;
-  width: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin: 0 auto;
-}
-
-.error {
-  color: red;
-}
-
-.text-right {
-  text-align: right;
-}
-
-.btn {
-  margin-top: 10px;
 }
 
 .image-gallery {
@@ -241,7 +204,6 @@ html {
   padding: 20px;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
   z-index: 2;
-  /* Ensure gallery is above the content */
 }
 
 .image-item {
@@ -250,42 +212,30 @@ html {
 
 .image-item img {
   width: 150px;
-  /* Adjusted smaller image size */
   height: 150px;
-  /* Adjusted smaller image size */
   border-radius: 8px;
   border: 5px solid white;
-  transition: transform .2s;
+  transition: transform 0.2s;
 }
 
 .image-item img:hover {
   transform: scale(1.1);
 }
 
-.flatpickr {
-  border: 2px solid #d1d5db; /* Light gray border for flatpickr */
-  border-radius: 0.375rem; /* Rounded corners */
-  padding: 0.5rem; /* Padding inside the input */
-  width: 14rem; /* Set a fixed width for the flatpickr input */
+.contain {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
 }
 
-.flatpickr input {
-  border: none; /* Remove the default border */
-  outline: none; /* Remove the default outline */
+.error {
+  color: red;
 }
 
-.label {
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem; 
-}
-
-.flex {
-  display: flex;
-}
-
-.space-x-4 {
-  margin-right: 1rem;
+.text-right {
+  text-align: right;
 }
 
 .btn {
@@ -297,6 +247,22 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* height: 100vh; */
+}
+
+.col-md-6 {
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid #ced4da;
+}
+
+label {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 </style>

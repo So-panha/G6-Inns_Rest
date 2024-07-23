@@ -12,7 +12,7 @@ use Spatie\MediaLibrary\HasMedia;
 class Room extends Model implements HasMedia
 {
     use HasFactory, SoftDeletes, InteractsWithMedia;
-    protected $fillable = ['name', 'price', 'capacity', 'status', 'bed_type', 'type_of_room', 'number_of_rooms','description','guest_house_id','user_id'];
+    protected $fillable = ['name', 'price', 'capacity', 'status', 'bed_type_id', 'type_of_room_id', 'number_of_rooms','description','guest_house_id','user_id'];
 
     public function registerMediaConversions(Media $media = null): void
     {
@@ -23,20 +23,21 @@ class Room extends Model implements HasMedia
 
     public function getPhotosAttribute()
     {
-        return $this->getMedia('photos')->map(function ($media) {
-            return [
-                'url' => $media->getUrl(),
-                'thumbnail' => $media->getUrl('thumb'),
-            ];
+        $files = $this->getMedia('photos');
+        $files->each(function ($item) {
+            $item->url       = $item->getUrl();
+            $item->thumbnail = $item->getUrl('thumb');
         });
+
+        return $files;
     }
 
     public function bedType(){
-        return $this->belongsTo(BedType::class,'id');
+        return $this->belongsTo(BedType::class,'bed_type_id');
     }
 
     public function roomType(){
-        return $this->belongsTo(TypeOfRoom::class,'id');
+        return $this->belongsTo(TypeOfRoom::class,'type_of_room_id');
     }
 
     public function user(){
