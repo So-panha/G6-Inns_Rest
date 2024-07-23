@@ -22,7 +22,7 @@ class AdminSeeder extends Seeder
             'email'=>'admin@gmail.com',
             'phone_number'=>'023 220 097',
             'password'=>bcrypt('password'),
-            'profile' => 'user.avif',
+            'profile' => '/images/Profile.jpg',
         ]);
 
         $writer = User::create([
@@ -30,6 +30,7 @@ class AdminSeeder extends Seeder
             'email'=>'user@gmail.com',
             'phone_number'=>'012 786 688',
             'password'=>bcrypt('password'),
+            'profile' => '/images/Profile.jpg',
         ]);
 
         $writer1 = User::create([
@@ -37,6 +38,7 @@ class AdminSeeder extends Seeder
             'email'=>'dany@gmail.com',
             'phone_number'=>'012 389 989',
             'password'=>bcrypt('password'),
+            'profile' => '/images/Profile.jpg',
         ]);
 
 
@@ -73,6 +75,36 @@ class AdminSeeder extends Seeder
         $permission = Permission::create(['name' => 'Dashboard_admin edit']);
         $permission = Permission::create(['name' => 'Dashboard_admin create']);
         $permission = Permission::create(['name' => 'Dashboard_admin delete']);
+
+        $permission = Permission::create(['name' => 'Dashboard_service access']);
+        $permission = Permission::create(['name' => 'Dashboard_service edit']);
+        $permission = Permission::create(['name' => 'Dashboard_service create']);
+        $permission = Permission::create(['name' => 'Dashboard_service delete']);
+
+        $permission = Permission::create(['name' => 'Check_transaction access']);
+        $permission = Permission::create(['name' => 'Check_transaction edit']);
+        $permission = Permission::create(['name' => 'Check_transaction create']);
+        $permission = Permission::create(['name' => 'Check_transaction delete']);
+
+        $permission = Permission::create(['name' => 'Request_account_service access']);
+        $permission = Permission::create(['name' => 'Request_account_service edit']);
+        $permission = Permission::create(['name' => 'Request_account_service create']);
+        $permission = Permission::create(['name' => 'Request_account_service delete']);
+
+        $permission = Permission::create(['name' => 'Check_account_request access']);
+        $permission = Permission::create(['name' => 'Check_account_request edit']);
+        $permission = Permission::create(['name' => 'Check_account_request create']);
+        $permission = Permission::create(['name' => 'Check_account_request delete']);
+
+        $permission = Permission::create(['name' => 'Check_booking access']);
+        $permission = Permission::create(['name' => 'Check_booking edit']);
+        $permission = Permission::create(['name' => 'Check_booking create']);
+        $permission = Permission::create(['name' => 'Check_booking delete']);
+
+        $permission = Permission::create(['name' => 'history access']);
+        $permission = Permission::create(['name' => 'history edit']);
+        $permission = Permission::create(['name' => 'history create']);
+        $permission = Permission::create(['name' => 'history delete']);
 
         $permission = Permission::create(['name' => 'Mail access']);
         $permission = Permission::create(['name' => 'Mail edit']);
