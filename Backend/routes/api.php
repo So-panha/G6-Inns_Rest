@@ -37,6 +37,7 @@ Route::get('/post/list', [PostController::class, 'index'])->middleware('auth:san
 
 
 Route::get('/Guest_House', [GuestHouseApiController::class, 'index'])->name('guest_house');
+Route::get('/Guest_House/show/{id}', [GuestHouseApiController::class, 'show'])->name('show_guest_house');
 // Route::get('/Show_Guest_House/{id}', [GuestHouseApiController::class, 'showCommentFeedback'])->name('show_guest_house');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth:sanctum');
 
@@ -70,15 +71,15 @@ Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->
 Route::get('/guest_house/show/{id}', [GuestHouseApiController::class, 'show'])->name('rooms');
 
  //-------------Comment-Feedback-Routes----------------------------------------
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/commentGuestHouse', [CommentFeedbackApiController::class, 'commentGuestHouse']);
-    Route::put('/updateComment/{id}', [CommentFeedbackApiController::class, 'update']);
-    Route::delete('/deleteComment/{id}', [CommentFeedbackApiController::class, 'destroy']);
 
-});
-// Route::post('/commentGuestHouse', [CommentFeedbackApiController::class, 'commentGuestHouse'])->name('commentGuestHouse');
+// Route::get('commentOther/{guestHouseId}', [CommentFeedbackApiController::class, 'getCommentsByGuestHouse'])->name('commentOther');
+
+// Route::get('/comments/{id}', [CommentFeedbackApiController::class, 'getCommentsForGuestHouse'])->name('comments');
+Route::put('/updateComment/{id}', [CommentFeedbackApiController::class, 'update'])->middleware('auth:sanctum');
+Route::delete('/deleteComment/{id}', [CommentFeedbackApiController::class, 'destroy'])->name('deleteComment');
+Route::post('/commentGuestHouse', [CommentFeedbackApiController::class, 'commentGuestHouse'])->middleware('auth:sanctum');
 Route::get('/commentOther', [CommentFeedbackApiController::class, 'index'])->name('commentOther');
-// Route::get('/commentOther', [CommentFeedbackApiController::class, 'index'])->name('commentOther');
+Route::get('/comment/show/{id}', [CommentFeedbackApiController::class, 'showComments'])->name('showComments');
 // -----------------route add like-------------------------------
 
 Route::post('/add-like', [GuestHouseApiController::class, 'addLike'])->name('addLike');

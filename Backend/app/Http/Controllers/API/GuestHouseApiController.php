@@ -11,7 +11,6 @@ use App\Models\GuestHouse;
 use App\Models\Like;
 use App\Models\Room;
 use Illuminate\Http\Request;
-
 class GuestHouseApiController extends Controller
 {
     /**
