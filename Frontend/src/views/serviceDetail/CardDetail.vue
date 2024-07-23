@@ -1,50 +1,25 @@
 <template>
   <div class="container">
-    <div
-      class="card mb-3 m-8"
-      v-for="(listImage, index) in ListImages"
-      :key="listImage.id"
-      style="width: 98%"
-    >
+    <div class="card mb-3 ml-4" v-for="(listImage, index) in ListImages" :key="listImage.id" style="width: 98%">
       <div class="row p-5">
         <div class="col-md-4">
-          <div class="card h-100 position-relative">
-            <div
-              class="overflow-auto"
-              :id="'scrollContainer-' + listImage.id"
-              style="white-space: nowrap; scroll-behavior: smooth"
-            >
-              <div
-                v-for="image in listImage.images"
-                :key="image.url"
-                class="d-inline-block"
-                style="width: 430px; height: 320px; object-fit: cover; position: relative"
-              >
-                <img
-                  :src="getImage(image.url)"
-                  class="card-img"
-                  alt="Room Image"
-                  style="width: 100%; height: 100%; object-fit: cover"
-                />
-                <button
-                  class="position-absolute top-20 start-15 translate-middle-y heart-button"
-                  :class="{
-                    'btn-outline-light': !listImage.isFavorite,
-                    'btn-danger': listImage.isFavorite
-                  }"
-                  @click="toggleFavorite(index)"
-                ></button>
+          <div class="card h-100 position-relative" id="imageslide">
+            <div class="overflow-auto" :id="'scrollContainer-' + listImage.id" 
+              style="white-space: nowrap; scroll-behavior: smooth">
+              <div v-for="image in listImage.images" :key="image.url" class="d-inline-block" 
+                style="width: 430px; height: 320px; object-fit: cover; position: relative">
+                <img :src="getImage(image.url)" class="card-img" alt="Room Image"  style="width: 100%; height: 100%; object-fit: cover" />
+                <button class="position-absolute top-20 start-15 translate-middle-y heart-button" :class="{
+                  'btn-outline-light': !listImage.isFavorite,
+                  'btn-danger': listImage.isFavorite
+                }" @click="toggleFavorite(index)"></button>
               </div>
-              <button
-                @click="scrollLeft(listImage.id)"
-                class="position-absolute top-50 start-0 translate-middle-y btn btn-outline-dark border-0"
-              >
+              <button @click="scrollLeft(listImage.id)"
+                class="position-absolute top-50 start-0 translate-middle-y btn btn-outline-dark border-0">
                 <span class="material-symbols-outlined">chevron_left</span>
               </button>
-              <button
-                @click="scrollRight(listImage.id)"
-                class="position-absolute top-50 end-0 translate-middle-y btn btn-outline-dark border-0"
-              >
+              <button @click="scrollRight(listImage.id)"
+                class="position-absolute top-50 end-0 translate-middle-y btn btn-outline-dark border-0">
                 <span class="material-symbols-outlined">chevron_right</span>
               </button>
             </div>
@@ -67,13 +42,13 @@
               </div>
               <div class="flex">
                 <span class="wifi material-symbols-outlined" style="font-size: 30px">wifi</span>
-                <p class="card-text mt-1 ml-4">WiFi</p>
+                <p class="card-text mt-1 ml-4" id="wifi">WiFi</p>
               </div>
               <h5 class="card-text mb-0">${{ listImage.price }} USD total</h5>
             </div>
             <div class="d-flex justify-content-end mt-5">
               <button class="btn btn-danger mr-2 bookorganize">Booked</button>
-              <button class="btn btn-primary" @click="openBookingModal(index,listImage.id)">Booking</button>
+              <button class="btn btn-primary" @click="openBookingModal(index, listImage.id)">Booking</button>
             </div>
           </div>
         </div>
@@ -89,14 +64,8 @@
             <button type="button" class="btn-close" @click="closeBookingModal"></button>
           </div>
           <div class="modal-body">
-            <BookingUserView
-              @close="closeBookingModal"
-              @submit="handleFormSubmit"
-              :selectedImage="selectedImage"
-              :ListImages="ListImages"
-              :roomId="selectedRoomId"
-
-            />
+            <BookingUserView @close="closeBookingModal" @submit="handleFormSubmit" :selectedImage="selectedImage"
+              :ListImages="ListImages" :roomId="selectedRoomId" />
           </div>
         </div>
       </div>
@@ -125,14 +94,14 @@ export default {
       urlImage: 'http://127.0.0.1:8000',
       showBookingModal: false,
       selectedImage: null,
-      selectedRoomId:null
+      selectedRoomId: null
     }
   },
   methods: {
     toggleFavorite(index) {
       this.ListImages[index].isFavorite = !this.ListImages[index].isFavorite
     },
-    openBookingModal(index,roomId) {
+    openBookingModal(index, roomId) {
       this.selectedImage = this.ListImages[index]
       this.selectedRoomId = roomId
       this.showBookingModal = true
@@ -241,6 +210,104 @@ export default {
   background-color: #97004a;
 }
 
+/* Media Queries for Responsiveness */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  #imageslide{
+    width: 125%;
 
+  }
+  .container {
+    padding: 10px;
+    margin-right: 50%;
+  }
 
+  h1 {
+    font-size: 24px;
+  }
+
+  .card-body {
+    padding: 15px;
+    margin-left: 40px;
+  }
+
+  .card-img {
+    /* font-size: 50%; */
+    height: 50%;
+    width: 50%;
+  }
+
+  .heart-button {
+    width: 25px;
+    height: 25px;
+  }
+
+  .heart-button::before,
+  .heart-button::after {
+    width: 12px;
+    height: 20px;
+  }
+
+  .bookorganize,
+  .btn-primary {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .modal-dialog {
+    max-width: 80%;
+  }
+  #wifi{
+    display: none;
+  }
+
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    padding: 5px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .card {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .card-body {
+    padding: 10px;
+  }
+
+  .card-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .heart-button {
+    width: 20px;
+    height: 20px;
+  }
+
+  .heart-button::before,
+  .heart-button::after {
+    width: 10px;
+    height: 16px;
+  }
+
+  .bookorganize,
+  .btn-primary {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .modal-dialog {
+    max-width: 95%;
+  }
+  #wifi{
+    display: none;
+  }
+}
 </style>

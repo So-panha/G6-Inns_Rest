@@ -346,7 +346,7 @@ export default {
 
   #cards-container {
     height: 80%;
-    width: 140%;
+    width: 145%;
     justify-items: center;
   }
 

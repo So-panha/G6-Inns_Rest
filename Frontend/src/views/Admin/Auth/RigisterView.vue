@@ -81,7 +81,7 @@
       </form>
     </div>
     <div
-      class="hidden lg:block lg:w-1/2 bg-cover"
+      class="hidden lg:block lg:w-1/2 bg-cover tablet-image"
       style="
         background-image: url('https://img.freepik.com/premium-photo/smartphone-with-map-3d-map-pin-checking-points_172976-5319.jpg');
       "
@@ -152,4 +152,9 @@ export default {
 
 <style>
 /* Add any custom styles here */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .form-container {
+    margin: 2rem;
+  }
+}
 </style>

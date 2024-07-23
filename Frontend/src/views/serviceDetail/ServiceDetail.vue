@@ -13,8 +13,7 @@
 
     <!-- Header -->
     <header class="bg-image mr-2 ml-2" :style="{ backgroundImage: `url(${currentImage})` }">
-      
-      <h1 class="text-white pt-120 pl-5">Paradise Cozy Guesthouse Sihanoukville</h1>
+      <h1 class="text-white pt-120 pl-5" id="cozy">Paradise Cozy Guesthouse Sihanoukville</h1>
       <div class="overlay-form d-flex">
         <input type="text" class="Frontend form-control-name" placeholder="  House name ..." />
         <input type="date" class="form-control" ref="checkInInput" />
@@ -100,13 +99,18 @@ export default {
 <style scoped>
 .bg-image {
   position: relative;
-  height: 500px; /* Adjust height as needed */
+  height: 500px;
+  /* Adjust height as needed */
   background-size: cover;
   background-position: center;
-  margin: 0 10px; /* Adjust as needed */
-  border-radius: 10px; /* Optional for rounded corners */
-  overflow: hidden; /* Ensures child elements are contained */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+  margin: 0 10px;
+  /* Adjust as needed */
+  border-radius: 10px;
+  /* Optional for rounded corners */
+  overflow: hidden;
+  /* Ensures child elements are contained */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Adds a subtle shadow */
 }
 
 .text-white {
@@ -134,19 +138,20 @@ export default {
   transform: translate(-50%, -50%);
   z-index: 3;
   /* margin-right: 50%; */
-  
+
 }
 
 .form-control {
   width: 190%;
   padding: 3.5%;
   border: 4px solid #7606ff;
-  border-left:none ;
+  border-left: none;
   font-size: 25px;
   transform: translateY(330%);
   animation: flyIn 0.5s forwards;
 
 }
+
 .form-control-name {
   /* width: 300%; */
 
@@ -170,6 +175,7 @@ export default {
   from {
     transform: translateY(-50%);
   }
+
   to {
     transform: translateY(320%);
   }
@@ -181,6 +187,65 @@ export default {
   border: 3px solid #7606ff;
   border-left: none;
 }
+@media (min-width: 768px) and (max-width: 1024px) {
+  .bg-image {
+    height: 500px;
+  }
+
+  .pt-120 {
+    padding-top: 80px;
+  }
+
+  .pl-5 {
+    padding-left: 3rem;
+  }
+
+  .form-control-name,
+  .form-control {
+    width: 150px;
+  }
+
+  .button-control {
+    width: 80px;
+  }
+  #cozy {
+    font-size: 200%;
+    text-align: center;
+    justify-items: center;
+  }
+  .overlay-form {
+    margin-top: 50%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+  /* Mobile */
+  .bg-image {
+    height: 500px;
+    /* Adjust for mobile */
+  }
+
+  .text-white {
+    padding-top: 80px;
+    font-size: 1.2rem;
+  }
+
+  .overlay-form {
+    top: 30%;
+    margin-top: 5%;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+  }
+
+  .form-control,
+  .form-control-name,
+  .button-control {
+    width: 140%;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+}
 </style>
-
-

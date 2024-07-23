@@ -170,4 +170,13 @@ footer a:hover img {
     text-align: left;
   }
 }
+@media screen and (max-width: 767px) {
+  .col-lg-3{
+    display: none;
+  }
+  .text-start{
+    text-align: center;
+    margin-left: 20%;
+  }
+}
 </style>

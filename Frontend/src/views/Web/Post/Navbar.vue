@@ -19,7 +19,7 @@
       </div>
       <div class="flex mt-8 profile-cart">
         <div @click="$emit('toggleTicketNotiPopup')">
-          <span class="material-symbols-outlined mr-6 shopping-cart-icon" style="font-size: 45px">
+          <span class="material-symbols-outlined mr-6 shopping-cart-icon" id="shopping" style="font-size: 40px">
             shopping_cart
           </span>
         </div>
@@ -120,9 +120,7 @@ onMounted(() => {
   }
 
   .shopping-cart-icon {
-    font-size: 4rem;
-    margin-top: 8%;
-    /* 32px */
+    margin-top: 10%;
   }
 
   .profile-cart {

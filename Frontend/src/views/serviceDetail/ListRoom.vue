@@ -50,6 +50,22 @@ export default {
 }
 </script>
 
-<style>
-/* Add your component-specific styles here if needed */
+<style scoped>
+
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .card-img-top {
+    width: 300px; /* Set the desired width for tablet */
+    height: 150px; /* Set the desired height for tablet */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  /* Mobile */
+  .card-img-top {
+    width: 200px;
+    height: 100px;
+  }
+}
+
 </style>

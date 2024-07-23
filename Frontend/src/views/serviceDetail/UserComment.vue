@@ -12,19 +12,15 @@
         </div>
         <form class="p-6">
           <div class="form-group">
-            <textarea
-              class="form-control ml-25"
-              rows="2"
-              placeholder="Write your message here"
-              style="width: 80%"
-            ></textarea>
+            <textarea class="form-control ml-25" rows="2" placeholder="Write your message here"
+              style="width: 80%"></textarea>
           </div>
-          <button type="button" class="btn mt-3 ml-248 btn-primary">Submit</button>
+          <button type="button" class="btn mt-3 ml-300 btn-primary">Submit</button>
         </form>
       </div>
     </div>
     <!-- --------------------------------------------------------------- -->
-   <div class="row mt-4 scroll-container">
+    <div class="row mt-4 scroll-container">
       <div class="col-md-4" v-for="comment in comments" :key="comment.id">
         <div class="card">
           <div class="card-body">
@@ -99,3 +95,54 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* Tablet Styles */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .container {
+    padding: 2rem;
+    margin-left: 1rem;
+  }
+
+  .form-control {
+    width: 70%;
+    margin-left: 15%;
+  }
+
+  .btn {
+    margin-left: 83%;
+  }
+
+  .profile-img,
+  .comment-img {
+    height: 50px;
+    width: 50px;
+  }
+  .card{
+    width: 100%;
+  }
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 767px) {
+  .container {
+    padding: 1rem;
+    margin-left: 0;
+  }
+
+  .form-control {
+    width: 90%;
+    margin-left: 5%;
+  }
+
+  .btn {
+    margin-left: 5%;
+  }
+
+  .profile-img,
+  .comment-img {
+    height: 40px;
+    width: 40px;
+  }
+}
+</style>
