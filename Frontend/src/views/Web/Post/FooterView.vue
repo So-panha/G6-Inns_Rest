@@ -1,10 +1,10 @@
 <template>
-  <footer class="footer text-black pt-5 pb-2 mt-3">
-    <div class="container text-center text-md-left">
+  <footer class="footer text-black pt-5 pb-2 mt-3" style="width: 100%;">
+    <div class="container text-center text-md-left" style="background-color: #D9D9D9">
       <div class="row text-center text-md-left">
         <h5 style="background-color:#001063;" class="text-white p-3 mb-5">List of property <hr></h5>
         
-        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto head">
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto head" >
 
             <img src="../../../Image/InnsRest.png" class="logo">
          
@@ -37,7 +37,7 @@
         </div>
         <div class="row mt-10 content">
           <div class="col-lg-3">
-            <h5 >BRANCH</h5>
+            <h6 >BRANCH</h6>
             <br>
             <p>System builder</p>
             <p>Guest Houses</p>
@@ -46,21 +46,20 @@
             <p>Suggest feature</p>
           </div>
           <div class="col-lg-3">
-            <h5 >RESOUCES</h5>
+            <h6 >RESOUCES</h6>
             <br>
             <p>System House</p>
             <p>General Active</p>
           </div>
-          <div class="col-lg-2">
-            <h5 >INFO</h5>
+          <div class="col-lg-3">
+            <h6 >INFO</h6>
             <br>
             <p>View Map derictory</p>
             <p>Find house here</p>
             <p>Security & Safe</p>
           </div>
-          <div class="col-lg-2">
-            <h5 >CONTRY</h5>
-
+          <div class="col-lg-3">
+            <h6 >CONTRY</h6>
             <br>
             <p>Every Place</p>
             <p>Inside contry</p>
@@ -144,15 +143,15 @@ footer a img {
 
 .media{
   filter: grayscale(100%);
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56 px;
 }
 .socialmedai{
   display: flex;
   justify-content: space-around;
 }
 .content{
-  margin-left: 17rem;
+  margin-left: 0rem;
   color: #7606ff;
 }
 .content p{

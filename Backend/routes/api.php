@@ -13,6 +13,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Front\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,7 +27,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-
 });
 
 Route::post('/register', [RegisteredUserController::class, 'registerUser']);
@@ -49,12 +49,11 @@ Route::delete('/user/delete/{id}', [APIUserController::class, 'destroy'])->name(
 Route::get('/guest_house/list', [GuestHouseApiController::class, 'index'])->name('guest_house');
 Route::get('/room/list', [RoomAPIController::class, 'index'])->name('rooms');
 
-
-
-
-
 // Create a new booking user room
 Route::post('/booking_user_rooms/create', [BookingUserRoomAPIController::class, 'create'])->name('booking_user_rooms.create');
+Route::post('/booking_user_rooms/search', [BookingUserRoomAPIController::class, 'search'])->name('booking_user_rooms.search');
+Route::get('/booking_user_rooms/available-rooms', [BookingUserRoomAPIController::class, 'getNumberRooms'])->name('booking_user_rooms.Number_Room');
+Route::get('/booking_user_rooms/views', [BookingUserRoomAPIController::class, 'getAllUser'])->name('booking_user_rooms.view');
 
 // Get a specific booking user room
 Route::get('/booking_user_rooms/{id}', [BookingUserRoomAPIController::class, 'show'])->name('booking_user_rooms.show');
@@ -74,3 +73,4 @@ Route::put('/updateComment/{id}', [CommentFeedbackApiController::class, 'update'
 Route::delete('/deleteComment/{id}', [CommentFeedbackApiController::class, 'destroy'])->name('destroy');
 Route::get('/commentOther', [CommentFeedbackApiController::class, 'index'])->name('commentOther');
 Route::get('/commentOther', [CommentFeedbackApiController::class, 'index'])->name('commentOther');
+

@@ -1,65 +1,63 @@
 <template>
   <div class="container">
-    <div
-      class="card mb-3 m-8"
-      v-for="(listImage, index) in ListImages"
-      :key="listImage.id"
-      style="width: 98%"
-    >
+    <!-- {{ bookings }} -->
+
+    <!-- {{ bookings.length }} -->
+    <div class="card mb-3 m-8" v-for="(listImage, index) in ListImages" :key="listImage.id" style="width: 98%">
       <div class="row p-5">
+        <!-- Image Section -->
         <div class="col-md-4">
           <div class="card h-100 position-relative">
-            <div
-              class="overflow-auto"
-              :id="'scrollContainer-' + listImage.id"
-              style="white-space: nowrap; scroll-behavior: smooth"
-            >
-              <div
-                v-for="image in listImage.images"
-                :key="image.url"
-                class="d-inline-block"
-                style="width: 430px; height: 320px; object-fit: cover; position: relative"
-              >
-                <img
-                  :src="getImage(image.url)"
-                  class="card-img"
-                  alt="Room Image"
-                  style="width: 100%; height: 100%; object-fit: cover"
-                />
-                <button
-                  class="position-absolute top-20 start-15 translate-middle-y heart-button"
-                  :class="{
-                    'btn-outline-light': !listImage.isFavorite,
-                    'btn-danger': listImage.isFavorite
-                  }"
-                  @click="toggleFavorite(index)"
-                ></button>
+            <div class="overflow-auto" :id="'scrollContainer-' + listImage.id"
+              style="white-space: nowrap; scroll-behavior: smooth">
+              <div v-for="image in listImage.images" :key="image.url" class="d-inline-block"
+                style="width: 430px; height: 320px; position: relative">
+                <img :src="getImage(image.url)" class="card-img" alt="Room Image"
+                  style="width: 100%; height: 100%; object-fit: cover" />
+                <button class="position-absolute top-20 start-15 translate-middle-y heart-button" :class="{
+                  'btn-outline-light': !listImage.isFavorite,
+                  'btn-danger': listImage.isFavorite
+                }" @click="toggleFavorite(index)"></button>
               </div>
-              <button
-                @click="scrollLeft(listImage.id)"
-                class="position-absolute top-50 start-0 translate-middle-y btn btn-outline-dark border-0"
-              >
+              <button @click="scrollLeft(listImage.id)"
+                class="position-absolute top-50 start-0 translate-middle-y btn btn-outline-dark border-0">
                 <span class="material-symbols-outlined">chevron_left</span>
               </button>
-              <button
-                @click="scrollRight(listImage.id)"
-                class="position-absolute top-50 end-0 translate-middle-y btn btn-outline-dark border-0"
-              >
+              <button @click="scrollRight(listImage.id)"
+                class="position-absolute top-50 end-0 translate-middle-y btn btn-outline-dark border-0">
                 <span class="material-symbols-outlined">chevron_right</span>
               </button>
             </div>
           </div>
         </div>
 
+        <!-- Details Section -->
+
         <div class="col-md-7">
           <div class="card-body">
             <h5 class="card-title">{{ listImage.name }}</h5>
-            <p class="card-text">Type Room :</p>
+
+            <div v-if="bookings.length > 0">
+              <div v-if="bookings[index] != undefined">
+                <p v-if="bookings[index].number_rooms > 0" class="text-green-500">
+                  {{ bookings[index].number_rooms }} available rooms.
+                </p>
+                <p v-if="bookings[index].number_rooms == 0" class="text-red-500">
+                  This room is fully booked.
+                </p>
+              </div>
+              <div v-else>
+                <p class="text-orange-500">No bookings available.</p>
+              </div>
+            </div>
+            <div v-if="bookings.success == false">
+              <p class="text-orange-500">No bookings available.</p>
+            </div>
+
             <p class="card-text">
               <span class="locate material-symbols-outlined" style="font-size: 40px">home_pin</span>
               <small class="text-muted">5 minute walk from University in Phnom Penh</small>
             </p>
-
             <div class="d-flex justify-content-between align-items-center ml-1">
               <div class="flex">
                 <span class="home material-symbols-outlined" style="font-size: 30px">home</span>
@@ -71,14 +69,40 @@
               </div>
               <h5 class="card-text mb-0">${{ listImage.price }} USD total</h5>
             </div>
-            <div class="d-flex justify-content-end mt-5">
-              <button class="btn btn-danger mr-2 bookorganize">Booked</button>
-              <button class="btn btn-primary" @click="openBookingModal(index,listImage.id)">Booking</button>
+
+            <div v-if="bookings.length > 0">
+              <div class="d-flex justify-content-end mt-5">
+                <div v-if="bookings[index] != undefined">
+                  <button v-if="bookings[index].number_rooms > 0" class="btn btn-primary"
+                    @click="openBookingModal(index, listImage)">
+                    Booking Rooms
+                  </button>
+                  <button v-if="bookings[index].number_rooms == 0" style="background-color: #bfdbfe"
+                    class="btn text-white">
+                    Booking Rooms
+                  </button>
+                </div>
+                <div v-else>
+                  <button style="background-color: #bfdbfe" class="btn text-white">
+                    Booking Rooms
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div v-if="bookings.success == false">
+              <div class="d-flex justify-content-end mt-5">
+                <button class="btn btn-primary" @click="openBookingModal(index, listImage)">
+                  Booking Rooms
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- <h1 v-if="bookings != []">{{ bookings }}</h1>
+    <h1 v-else>null</h1> -->
 
     <!-- Modal for booking user -->
     <div v-if="showBookingModal" class="modal" tabindex="-1" style="display: block">
@@ -89,34 +113,42 @@
             <button type="button" class="btn-close" @click="closeBookingModal"></button>
           </div>
           <div class="modal-body">
-            <BookingUserView
-              @close="closeBookingModal"
-              @submit="handleFormSubmit"
-              :selectedImage="selectedImage"
-              :ListImages="ListImages"
-              :roomId="selectedRoomId"
-
-            />
+            <BookingUserView @close="closeBookingModal" @submit="handleFormSubmit" :selectedImage="selectedImage"
+              :ListImages="ListImages" :selectedRoomId="selectedRoomId" :startDate="startDate" :endDate="endDate" />
           </div>
         </div>
       </div>
     </div>
-
-    {{ selectedRoomId }}
   </div>
 </template>
 
 <script>
 import BookingUserView from '@/views/Web/Booking/BookingUserView.vue'
+import axios from 'axios'
+import { array, object } from 'yup'
 
 export default {
   name: 'CardDetail',
+  // bookings:null,
   props: {
     ListImages: {
       type: Array,
       required: true
+    },
+    startDate: {
+      type: String,
+      default: null
+    },
+    endDate: {
+      type: String,
+      default: null
+    },
+    bookings: {
+      type: String,
+      default: null
     }
   },
+
   components: {
     BookingUserView
   },
@@ -125,14 +157,50 @@ export default {
       urlImage: 'http://127.0.0.1:8000',
       showBookingModal: false,
       selectedImage: null,
-      selectedRoomId:null
+      selectedRoomId: null,
+      startdate: null,
+      enddate: null,
+      profileImageUrl : ref(''),
+      name : ref('')
     }
   },
+  mounted() {
+    this.fetchRoomDetails()
+    this.getUserProfile()
+
+  },
   methods: {
+    async fetchRoomDetails() {
+      try {
+        const id = this.$route.params.id
+
+        const response = await axios.get(`http://127.0.0.1:8000/api/guest_house/show/1`)
+        console.log(response)
+        if (response.data.meeesager) {
+          this.ListImages = response.data.rooms
+          console.log('Fetched room details:', this.ListImages)
+        } else {
+          console.error('No rooms data found in the response')
+        }
+      } catch (error) {
+        console.error('Error fetching room details:', error)
+      }
+    },
+    async getUserProfile () {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/user/show/1');
+        profileImageUrl.value = `http://127.0.0.1:8000/storage/${response.data.user.profile}`;
+        name.value = response.data.user.name;
+
+        console.log(this.name.value)
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    },
     toggleFavorite(index) {
       this.ListImages[index].isFavorite = !this.ListImages[index].isFavorite
     },
-    openBookingModal(index,roomId) {
+    openBookingModal(index, roomId) {
       this.selectedImage = this.ListImages[index]
       this.selectedRoomId = roomId
       this.showBookingModal = true
@@ -240,7 +308,4 @@ export default {
 .bookorganize {
   background-color: #97004a;
 }
-
-
-
 </style>

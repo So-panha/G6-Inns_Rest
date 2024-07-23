@@ -17,10 +17,9 @@ return new class extends Migration
             $table->integer('number_of_rooms');
             $table->date('departure_date');
             $table->date('arrival_date');
-
+            $table->string('paymented')->default(0);
             $table->foreignId('user_id')->references('id')->on('user_normals');
             $table->foreignId('room_id')->references('id')->on('rooms')->onDelete('cascade');
-
 
             $table->timestamps();
         });

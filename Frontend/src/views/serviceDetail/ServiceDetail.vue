@@ -1,30 +1,73 @@
 <template>
   <div>
-
+    
     <!-- Navbar -->
-    <nav class="navbar navbar-light bg-white">
-      <div class="flex mt-2 mb-2 ml-2">
+    <nav class="navbar navbar-light bg-white"> 
+      <div class="flex mt-2 mb-2 ml-2"> 
         <router-link to="/home">
-          <span class="material-symbols-outlined" style="font-size: 30px">arrow_back</span>
+          <span class="material-symbols-outlined" style="font-size: 30px">arrow_back</span> 
         </router-link>
         <h4 class="pt-2 pl-1"></h4>
       </div>
     </nav>
 
-    <!-- Header -->
-    <header class="bg-image mr-2 ml-2" :style="{ backgroundImage: `url(${currentImage})` }">
-      
-      <h1 class="text-white pt-120 pl-5">Paradise Cozy Guesthouse Sihanoukville</h1>
-      <div class="overlay-form d-flex">
-        <input type="text" class="Frontend form-control-name" placeholder="  House name ..." />
-        <input type="date" class="form-control" ref="checkInInput" />
-        <input type="date" class="form-control" placeholder="Check Out" />
+    <!-- Carousel Header -->
+    <!-- carouselExampleIndicators -->
+    <div id="carouselExampleIndicators" class="carousel slide mr-2 ml-2" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li v-for="(image, index) in images" :key="index" :data-target="'#carouselExampleIndicators'" :data-slide-to="index" :class="{ active: index === currentIndex }"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div v-for="(image, index) in images" :key="index" :class="['carousel-item', { active: index === currentIndex }]">
+          <img :src="image" class="d-block w-100" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h1 class="text-white pt-120 pl-5">Paradise Cozy Guesthouse Sihanoukville</h1>
+            <div class="overlay-form d-flex">
+              <div class="w-auto">
+                <div class="px-2 formDate ml-5.2 mr-2">
+                  <label class="text-lg font-semibold" style="color: black">Select Date Range</label>
+                  <br />
+                  <div class="flex items-center space-x-4">
+                    <flat-pickr
+                      v-model="startDate"
+                      :config="startConfig"
+                      :class="{ 'border-red-500': !isValidDate(startDate) }"
+                      class="border-2 border-gray-300 rounded px-3 py-2 w-56 date text-black"
+                      placeholder="Start Date"
+                      @input="validateDates"
+                    ></flat-pickr>
 
-        <button class="btn btn-primary button-control" id="search" style="padding: 14px;">
-          Search
-        </button>
+                    <flat-pickr
+                      v-model="endDate"
+                      :config="endConfig"
+                      :class="{ 'border-red-500': !isValidDate(endDate) }"
+                      class="border-2 border-gray-300 rounded px-3 py-2 w-56 date text-black"
+                      placeholder="End Date"
+                      @input="validateDates"
+                    ></flat-pickr>
+                    <button
+                      class="btn btn-primary"
+                      :disabled="!isValidDateRange(startDate, endDate)"
+                      @click="submitForm"
+                    >
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </header>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
 
     <!-- Container -->
     <div class="container">
@@ -36,151 +79,230 @@
         </h6>
         <h6>looking at its layout.</h6>
       </div>
-
       <!-- Card Detail Component -->
-      <ListRoom />
+      <ListRoom :startDate="startDate" :endDate="endDate" :bookings="bookings"/>
       <UserComment />
     </div>
-
     <!-- Footer Layout -->
     <FooterView />
   </div>
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted } from 'vue'
-import FooterView from '../Web/Post/FooterView.vue'
-import ListRoom from './ListRoom.vue'
-import UserComment from './UserComment.vue'
-import image1 from '@/assets/image1.jpg'
-import image2 from '@/assets/image2.jpg'
-import image3 from '@/assets/image3.jpg'
-import image4 from '@/assets/image4.jpg'
-import image5 from '@/assets/image5.jpg'
+import { ref, onMounted, onUnmounted } from 'vue';
+import axios from 'axios';
+import FooterView from '../Web/Post/FooterView.vue';
+import ListRoom from './ListRoom.vue';
+import UserComment from './UserComment.vue';
+import flatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
 
+import image1 from '@/assets/image1.jpg';
+import image2 from '@/assets/image2.jpg';
+import image3 from '@/assets/image3.jpg';
+import image4 from '@/assets/image4.jpg';
+import image5 from '@/assets/image5.jpg';
 
 export default {
   name: 'ServiceDetail',
   components: {
     ListRoom,
     UserComment,
-    FooterView
+    FooterView,
+    flatPickr
   },
   setup() {
-    const images = [image1, image2, image3, image4, image5]
-    const currentIndex = ref(0)
-    const currentImage = ref(images[currentIndex.value])
+    const images = [image1, image2, image3, image4, image5];
+    const currentIndex = ref(0);
+    const currentImage = ref(images[currentIndex.value]);
+    const startDate = ref(null);
+    const endDate = ref(null);
+    const bookings = ref([]);
 
-    let intervalId
+    let intervalId;
 
     const startImageCarousel = () => {
       intervalId = setInterval(() => {
-        currentIndex.value = (currentIndex.value + 1) % images.length
-        currentImage.value = images[currentIndex.value]
-      }, 3000) // Change image every 3 seconds
+        currentIndex.value = (currentIndex.value + 1) % images.length;
+        currentImage.value = images[currentIndex.value];
+      }, 3000); // Change image every 3 seconds
+    };
+
+    const handleStartDateChange = (selectedDates) => {
+      if (selectedDates.length > 0 && endDate.value) {
+        validateDates();
+      }
+    };
+
+    const handleEndDateChange = (selectedDates) => {
+      if (selectedDates.length > 0 && startDate.value) {
+        validateDates();
+      }
+    };
+
+    const startConfig = {
+      dateFormat: 'Y-m-d',
+      onChange: handleStartDateChange
+    };
+
+    const endConfig = {
+      dateFormat: 'Y-m-d',
+      onChange: handleEndDateChange
+    };
+
+    const isValidDate = (date) => {
+      return date instanceof Date && !isNaN(date);
+    };
+
+    // const isValidDateRange = (startDate, endDate) => {
+    //   return isValidDate(startDate) && isValidDate(endDate) && startDate <= endDate;
+    // };
+
+    const validateDates = () => {
+      // Trigger validation logic
+    };
+    const isValidDateRange = (startDate, endDate) => {
+  // Example validation logic
+  return startDate && endDate && new Date(startDate) <= new Date(endDate);
+};
+
+const submitForm = async () => {
+  if (isValidDateRange(startDate.value, endDate.value)) {
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/booking_user_rooms/search', {
+        departure_date: startDate.value,
+        arrival_date: endDate.value
+      });
+
+      if (response.status === 200) {
+        bookings.value = response.data;
+        console.log( bookings.value);
+     
+      } else {
+        console.error('Unexpected response status:', response.status);
+      }
+    } catch (error) {
+      if (error.response) {
+        console.error('Error response data:', error.response.data);
+        console.error('Error response status:', error.response.status);
+        console.error('Error response headers:', error.response.headers);
+      } else if (error.request) {
+        console.error('Error request data:', error.request);
+      } else {
+        console.error('Error message:', error.message);
+      }
+      console.error('Error config:', error.config);
     }
+  } else {
+    console.error('Invalid date range');
+  }
+};
+
 
     onMounted(() => {
-      startImageCarousel()
-    })
+      startImageCarousel();
+    });
 
     onUnmounted(() => {
-      clearInterval(intervalId)
-    })
+      clearInterval(intervalId);
+    });
 
     return {
-      currentImage
-    }
+      images,
+      currentIndex,
+      currentImage,
+      startDate,
+      endDate,
+      bookings,
+      startConfig,
+      endConfig,
+      isValidDate,
+      isValidDateRange,
+      validateDates,
+      submitForm
+    };
   }
-}
-
+};
 </script>
 
-
 <style scoped>
-.bg-image {
-  position: relative;
-  height: 500px; /* Adjust height as needed */
+.carousel-item {
+  height: 500px;
   background-size: cover;
   background-position: center;
-  margin: 0 10px; /* Adjust as needed */
-  border-radius: 10px; /* Optional for rounded corners */
-  overflow: hidden; /* Ensures child elements are contained */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+  transition: transform 1s ease-in-out;
 }
 
-.text-white {
-  position: relative;
-  z-index: 2;
-  padding-top: 120px;
-  padding-left: 20px;
+.carousel-item img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  filter: brightness(0.7); /* Darken the images slightly for better text contrast */
+}
+
+.carousel-caption {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
   text-align: center;
   color: #fff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.form-outside-image {
-  position: relative;
-  text-align: center;
-  margin-top: -50px;
-  z-index: 3;
-  background-color: #fff;
 }
 
 .overlay-form {
   position: absolute;
   top: 50%;
-  left: 45%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 3;
-  /* margin-right: 50%; */
-  
+  z-index: 10;
 }
 
-.form-control {
-  width: 190%;
-  padding: 3.5%;
-  border: 4px solid #7606ff;
-  border-left:none ;
-  font-size: 25px;
-  transform: translateY(330%);
-  animation: flyIn 0.5s forwards;
-
-}
-.form-control-name {
-  /* width: 300%; */
-
-  border: 4px solid #7606ff;
-  font-size: 25px;
-  transform: translateY(200%);
-  animation: flyIn 0.5s forwards;
-  border-radius: 6px;
+.formDate {
+  background: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 8px;
 }
 
-.button-control {
-  /* width: 140%; */
-
-  /* border: 5px solid #40008f; */
-  font-size: 25px;
-  transform: translateY(330%);
-  animation: flyIn 0.5s forwards;
+.date {
+  border: 2px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 10px;
 }
 
-@keyframes flyIn {
-  from {
-    transform: translateY(-50%);
-  }
-  to {
-    transform: translateY(320%);
-  }
+.btn-primary {
+  padding: 10px 20px;
+  font-size: 16px;
 }
 
-#search {
-  font-weight: bold;
-  font-size: 13px;
-  border: 3px solid #7606ff;
-  border-left: none;
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.flatpickr {
+  border: 2px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 10px;
+  width: 200px;
+}
+
+.date input {
+  border: none;
+  outline: none;
+}
+
+.label {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.space-x-4 {
+  margin-right: 1rem;
 }
 </style>
-
-

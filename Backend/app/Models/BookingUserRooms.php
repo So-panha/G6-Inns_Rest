@@ -14,9 +14,22 @@ class BookingUserRooms extends Model
         'number_of_rooms',
         'departure_date',
         'arrival_date',
+        'paymented',
         'user_id',
         'room_id',
     ];
+
+
+    // public function setPaymentedAttribute($value)
+    // {
+    //     if ($value !== 'candidate') {
+    //         $this->attributes['paymented'] = null;
+    //     } else {
+    //         $this->attributes['paymented'] = $value;
+    //     }
+    // }
+
+
     public function user()
     {
         return $this->belongsTo(User::class);
