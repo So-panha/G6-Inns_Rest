@@ -128,6 +128,7 @@ Route::middleware('auth')->group(function () {
     Route::namespace('App\Http\Controllers\Auth')->name('auth.')->prefix('auth')
         ->group(function () {
             Route::resource('register', 'RegisteredUserController');
+            Route::resource('register-account', 'RegisterUserServiceController');
         });
 });
 
