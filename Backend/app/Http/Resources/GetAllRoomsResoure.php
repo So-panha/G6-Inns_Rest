@@ -22,11 +22,12 @@ class GetAllRoomsResoure extends JsonResource
             'bed_type' => new GetBedTypeResoure($this->bedType),
             'type_of_room' => new GetRoomTypeResoure($this->roomType),
             'number_of_rooms' => $this->number_of_rooms,
+            'description' => $this->description,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'guest_house' => new GetGuestHouseResoure($this->guestHouse),
             'user_id' => new GetUserResoure($this->user),
-            'images' => $this->photos,
+            'images' => GetImagesRoomResource::collection($this->photos),
         ];
     }
 }

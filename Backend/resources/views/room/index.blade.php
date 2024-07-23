@@ -60,37 +60,56 @@
                     <div class="flex-1 ml-4 h-36">
                         <table class="border-collapse border border-slate-400 w-full h-full">
                             <thead>
-                              <tr>
-                                <th class="border border-slate-300">Name</th>
-                                <th class="border border-slate-300">Price</th>
-                                <th class="border border-slate-300">Capacity</th>
-                                <th class="border border-slate-300">Status</th>
-                                <th class="border border-slate-300">Check in</th>
-                                <th class="border border-slate-300">Number of Room</th>
-                                <th class="border border-slate-300">Description</th>
-                              </tr>
+                                <tr>
+                                    <th class="border border-slate-300">Name</th>
+                                    <th class="border border-slate-300">Price</th>
+                                    <th class="border border-slate-300">Capacity</th>
+                                    <th class="border border-slate-300">Status</th>
+                                    <th class="border border-slate-300">Check in</th>
+                                    <th class="border border-slate-300">Number of Room</th>
+                                    <th class="border border-slate-300">Description</th>
+                                    <th class="border border-slate-300">Bed Type</th>
+                                    <th class="border border-slate-300">Room Type</th>
+                                </tr>
                             </thead>
                             <tbody class="text-center">
-                              <tr>
-                                <td class="border border-slate-300">{{ $room->name }}</td>
-                                <td class="border border-slate-300">{{ $room->price }}</td>
-                                <td class="border border-slate-300">{{ $room->capacity }}</td>
-                                <td class="border border-slate-300 {{($room->status) == 0 ? 'bg-green-400' : 'bg-red-400'}}">{{ ($room->status) == 0 ? 'Has room' : 'Full' }}</td>
-                                <td class="border border-slate-300">{{ $room->check_in }}</td>
-                                <td class="border border-slate-300">{{ $room->number_of_rooms }}</td>
-                                <td class="border border-slate-300">{{ $room->description }}</td>
-                              </tr>
+                                <tr>
+                                    <td class="border border-slate-300">{{ $room->name }}</td>
+                                    <td class="border border-slate-300">${{ $room->price }}</td>
+                                    <td class="border border-slate-300">{{ $room->capacity }}</td>
+                                    <td
+                                        class="border border-slate-300 {{ $room->status == 0 ? 'bg-green-400' : 'bg-red-400' }}">
+                                        {{ $room->status == 0 ? 'Has room' : 'Full' }}</td>
+                                    <td class="border border-slate-300">{{ $room->check_in }}</td>
+                                    <td class="border border-slate-300">{{ $room->number_of_rooms }}</td>
+                                    <td class="border border-slate-300">{{ $room->description }}</td>
+                                    <td class="border border-slate-300">{{ $bedTypes[$room->bed_type_id - 1]->name }}</td>
+                                    <td class="border border-slate-300">{{ $roomTypes[$room->type_of_room_id - 1]->name }}
+                                    </td>
+                                </tr>
                             </tbody>
-                          </table>
+                        </table>
                     </div>
                     <div class="w-24 flex flex-col justify-center gap-2">
-                        <button class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded ml-auto w-20">Edit</button>
-                        <button class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded ml-auto">Delete</button>
+                        {{-- Edit btn --}}
+                        <a href="{{ route('admin.rooms.edit', $room->id) }}"
+                            class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded ml-auto w-20 text-center">{{ trans('cruds.guestHouse.fields.edited_at') }}</a>
+                        {{-- Delete btn --}}
+                        <button data-deleted="{{ $room->id }}"
+                            class="btn-delete bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded ml-auto text-center">{{ trans('cruds.guestHouse.fields.deleted_at') }}</button>
+                        <form action="{{ route('admin.rooms.destroy', $room->id) }}" method="POST" class="hidden py-2 px-4">
+                            @csrf
+                            @method('Delete')
+                            <button data-confirmdeleted="{{ $room->id }}"
+                                class="confirm-delete bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded ml-auto text-center">{{ trans('cruds.guestHouse.fields.deleted_at') }}</button>
+                        </form>
                     </div>
                 </div>
             </div>
         @endforeach
 
+
+        {{-- Modal of create room --}}
         <div style="z-index: 1" id="popup-modal"
             class="fixed left-0 top-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none">
             <div class="flex items-center justify-center min-h-screen text-center sm:block sm:p-0">
@@ -116,7 +135,7 @@
                             <form class="space-y-4" method="POST" action="{{ route('admin.rooms.store') }}"
                                 enctype="multipart/form-data">
                                 @csrf
-                                @method('post')
+                                @method('POST')
                                 <div>
                                     <label for="name"
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name of
@@ -146,8 +165,8 @@
                                 <div>
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                         for="select">Type of Bad</label>
-                                    <select class="w-full" name="bed_type" id="bed_type">
-                                        <option value="">Select Bad Type</option>
+                                    <select class="w-full" name="bed_type_id" id="bed_type">
+                                        <option value="" selected disabled>Select Bad Type</option>
                                         @foreach ($bedTypes as $bedType)
                                             <option value="{{ $bedType->id }}">{{ $bedType->name }}</option>
                                         @endforeach
@@ -156,8 +175,8 @@
                                 <div>
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                         for="type_of_room">Type of Room</label>
-                                    <select class="w-full" name="type_of_room" id="type_of_room">
-                                        <option value="">Select Condition Room</option>
+                                    <select class="w-full" name="type_of_room_id" id="type_of_room">
+                                        <option value="" selected disabled>Select Condition Room</option>
                                         @foreach ($roomTypes as $roomType)
                                             <option value="{{ $roomType->id }}">{{ $roomType->name }}</option>
                                         @endforeach
@@ -170,11 +189,11 @@
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"></textarea>
                                 </div>
                                 <div>
-                                    <input type="guest_house_id" name="guest_house_id" id="guest_house_id" value="{{$guest_house_id}}"
-                                        class="hidden" />
+                                    <input type="guest_house_id" name="guest_house_id" id="guest_house_id"
+                                        value="{{ $guest_house_id }}" class="hidden" />
                                 </div>
                                 <div>
-                                    <input type="user_id" name="user_id" id="user_id" value="{{$user_id}}"
+                                    <input type="user_id" name="user_id" id="user_id" value="{{ $user_id }}"
                                         class="hidden" />
                                 </div>
                                 <div class="mt-4">
@@ -188,13 +207,11 @@
                                                 {{ $errors->first('photos') }}
                                             </div>
                                         @endif
-                                        <span
-                                            class="help-block">{{ trans('cruds.guestHouse.fields.photos_helper') }}</span>
                                     </div>
                                 </div>
                                 <div id="close-create" class="group-from mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                                     <button type="submit"
-                                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">Create</button>
+                                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">{{ trans('cruds.guestHouse.fields.created_at') }}</button>
                                 </div>
                             </form>
                         </div>
@@ -206,7 +223,6 @@
 
     </div>
 
-    <script src="/js/mapInput.js"></script>
     <script>
         // popup modal
         const popupModal = document.getElementById('popup-modal');
@@ -284,6 +300,50 @@
 
         }
 
+        // Alert when deleting
+        // Btn Delete
+        const btnDeletes = document.querySelectorAll('.btn-delete');
+        // Btn Confirm delete
+        const confirmDeletes = document.querySelectorAll('.confirm-delete');
+
+        btnDeletes.forEach(btnDelete => {
+            btnDelete.addEventListener('click', function() {
+                // Get id from btnDelete
+                const id = btnDelete.dataset.deleted;
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn-delete bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ml-auto text-center ml-4",
+                        cancelButton: "btn-delete bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded ml-auto text-center mr-4"
+                    },
+                    buttonsStyling: false
+                });
+                swalWithBootstrapButtons.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "No, cancel!",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirect to delete
+                        confirmDeletes.forEach(confirmDelete => {
+                            confirmId = confirmDelete.dataset.confirmdeleted;
+                            if (confirmId == id) {
+                                confirmDelete.click();
+                            }
+                        });
+
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        // when cancel
+                    }
+                });
+            });
+        });
         // Script slide
         var swiper = new Swiper(".default-carousel", {
             loop: true,
@@ -298,24 +358,26 @@
         });
     </script>
 
-    {{-- alert when delete branch --}}
+    {{-- alert when delete branch success --}}
     @if (Session::has('message'))
         <script>
-            swal("Messages", "{{ Session::get('message') }}", 'success'), {
-                button: true,
-                button: "OK",
-                timer: 3000,
-                dangerMode: true,
-            };
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '{{ session('message') }}',
+                showConfirmButton: false,
+                timer: 1500
+            });
         </script>
     @elseif (Session::has('error'))
         <script>
-            swal("Messages", "{{ Session::get('error') }}", 'error'), {
-                button: true,
-                button: "OK",
-                timer: 3000,
-                dangerMode: true,
-            };
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: '{{ session('error') }}',
+                showConfirmButton: false,
+                timer: 1500
+            });
         </script>
     @endif
 </x-app-layout>

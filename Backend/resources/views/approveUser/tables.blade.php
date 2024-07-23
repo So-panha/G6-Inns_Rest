@@ -1,488 +1,257 @@
 <x-app-layout>
-    <div class="w-full max-w-6mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
-        <header class="px-5 py-4 border-b border-gray-100">
-            <h2 class="font-semibold text-gray-800">Approve User</h2>
-        </header>
-        <div class="p-3">
-            <div class="overflow-x-auto">
-                <table id="userTable" class="table-auto w-full">
-                    <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-                        <tr>
-                            <th class="p-2 whitespace-nowrap">
-                                <div class="font-semibold text-left">Name</div>
-                            </th>
-                            <th class="p-2 whitespace-nowrap">
-                                <div class="font-semibold text-left">Email</div>
-                            </th>
-                            <th class="p-2 whitespace-nowrap">
-                                <div class="font-semibold text-left">Phone</div>
-                            </th>
-                            <th class="p-2 whitespace-nowrap">
-                                <div class="font-semibold text-center">Actions</div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-sm divide-y divide-gray-100">
-                        <tr>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                                        <img class="rounded-full"
-                                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                                            width="40" height="40" alt="Alex Shatov">
-                                    </div>
-                                    <div class="font-medium text-gray-800">Alex Shatov</div>
-                                </div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">alexshatov@gmail.com</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left font-medium text-green-500">087271567</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex justify-center items-center space-x-1">
-                                    <button
-                                        class="bg-red-500 hover:bg-red-700 text-white font-sm px-1 border border-red-500 rounded"
-                                        onclick="showRejectDialog(event, this)">Reject</button>
-                                    <button
-                                        class="bg-green-500 hover:bg-green-700 text-white font-sm px-1 border border-green-500 rounded"
-                                        onclick="showDetailView('Alex Shatov', 'alexshatov@gmail.com', '087271567', 'https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg')">View</button>
-                                    <button
-                                        class="confirmButton bg-blue-500 hover:bg-blue-700 text-white font-sm px-1 border border-blue-500 rounded"
-                                        onclick="handleConfirmButtonClick(event, this)">Confirm</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                                        <img class="rounded-full"
-                                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                                            width="40" height="40" alt="Alex Shatov">
-                                    </div>
-                                    <div class="font-medium text-gray-800">Alex Shatov</div>
-                                </div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">alexshatov@gmail.com</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left font-medium text-green-500">087271567</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex justify-center items-center space-x-1">
-                                    <button
-                                        class="bg-red-500 hover:bg-red-700 text-white font-sm px-1 border border-red-500 rounded"
-                                        onclick="showRejectDialog(event, this)">Reject</button>
-                                    <button
-                                        class="bg-green-500 hover:bg-green-700 text-white font-sm px-1 border border-green-500 rounded"
-                                        onclick="showDetailView('Alex Shatov', 'alexshatov@gmail.com', '087271567', 'https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg')">View</button>
-                                    <button
-                                        class="confirmButton bg-blue-500 hover:bg-blue-700 text-white font-sm px-1 border border-blue-500 rounded"
-                                        onclick="handleConfirmButtonClick(event, this)">Confirm</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                                        <img class="rounded-full"
-                                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                                            width="40" height="40" alt="Alex Shatov">
-                                    </div>
-                                    <div class="font-medium text-gray-800">Alex Shatov</div>
-                                </div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">alexshatov@gmail.com</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left font-medium text-green-500">087271567</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex justify-center items-center space-x-1">
-                                    <button
-                                        class="bg-red-500 hover:bg-red-700 text-white font-sm px-1 border border-red-500 rounded"
-                                        onclick="showRejectDialog(event, this)">Reject</button>
-                                    <button
-                                        class="bg-green-500 hover:bg-green-700 text-white font-sm px-1 border border-green-500 rounded"
-                                        onclick="showDetailView('Alex Shatov', 'alexshatov@gmail.com', '087271567', 'https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg')">View</button>
-                                    <button
-                                        class="confirmButton bg-blue-500 hover:bg-blue-700 text-white font-sm px-1 border border-blue-500 rounded"
-                                        onclick="handleConfirmButtonClick(event, this)">Confirm</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                                        <img class="rounded-full"
-                                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                                            width="40" height="40" alt="Alex Shatov">
-                                    </div>
-                                    <div class="font-medium text-gray-800">Alex Shatov</div>
-                                </div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">alexshatov@gmail.com</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left font-medium text-green-500">087271567</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex justify-center items-center space-x-1">
-                                    <button
-                                        class="bg-red-500 hover:bg-red-700 text-white font-sm px-1 border border-red-500 rounded"
-                                        onclick="showRejectDialog(event, this)">Reject</button>
-                                    <button
-                                        class="bg-green-500 hover:bg-green-700 text-white font-sm px-1 border border-green-500 rounded"
-                                        onclick="showDetailView('Alex Shatov', 'alexshatov@gmail.com', '087271567', 'https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg')">View</button>
-                                    <button
-                                        class="confirmButton bg-blue-500 hover:bg-blue-700 text-white font-sm px-1 border border-blue-500 rounded"
-                                        onclick="handleConfirmButtonClick(event, this)">Confirm</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                                        <img class="rounded-full"
-                                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                                            width="40" height="40" alt="Alex Shatov">
-                                    </div>
-                                    <div class="font-medium text-gray-800">Alex Shatov</div>
-                                </div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">alexshatov@gmail.com</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left font-medium text-green-500">087271567</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex justify-center items-center space-x-1">
-                                    <button
-                                        class="bg-red-500 hover:bg-red-700 text-white font-sm px-1 border border-red-500 rounded"
-                                        onclick="showRejectDialog(event, this)">Reject</button>
-                                    <button
-                                        class="bg-green-500 hover:bg-green-700 text-white font-sm px-1 border border-green-500 rounded"
-                                        onclick="showDetailView('Alex Shatov', 'alexshatov@gmail.com', '087271567', 'https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg')">View</button>
-                                    <button
-                                        class="confirmButton bg-blue-500 hover:bg-blue-700 text-white font-sm px-1 border border-blue-500 rounded"
-                                        onclick="handleConfirmButtonClick(event, this)">Confirm</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                                        <img class="rounded-full"
-                                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                                            width="40" height="40" alt="Alex Shatov">
-                                    </div>
-                                    <div class="font-medium text-gray-800">Alex Shatov</div>
-                                </div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">alexshatov@gmail.com</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left font-medium text-green-500">087271567</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex justify-center items-center space-x-1">
-                                    <button
-                                        class="bg-red-500 hover:bg-red-700 text-white font-sm px-1 border border-red-500 rounded"
-                                        onclick="showRejectDialog(event, this)">Reject</button>
-                                    <button
-                                        class="bg-green-500 hover:bg-green-700 text-white font-sm px-1 border border-green-500 rounded"
-                                        onclick="showDetailView('Alex Shatov', 'alexshatov@gmail.com', '087271567', 'https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg')">View</button>
-                                    <button
-                                        class="confirmButton bg-blue-500 hover:bg-blue-700 text-white font-sm px-1 border border-blue-500 rounded"
-                                        onclick="handleConfirmButtonClick(event, this)">Confirm</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                                        <img class="rounded-full"
-                                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                                            width="40" height="40" alt="Alex Shatov">
-                                    </div>
-                                    <div class="font-medium text-gray-800">Alex Shatov</div>
-                                </div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">alexshatov@gmail.com</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left font-medium text-green-500">087271567</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex justify-center items-center space-x-1">
-                                    <button
-                                        class="bg-red-500 hover:bg-red-700 text-white font-sm px-1 border border-red-500 rounded"
-                                        onclick="showRejectDialog(event, this)">Reject</button>
-                                    <button
-                                        class="bg-green-500 hover:bg-green-700 text-white font-sm px-1 border border-green-500 rounded"
-                                        onclick="showDetailView('Alex Shatov', 'alexshatov@gmail.com', '087271567', 'https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg')">View</button>
-                                    <button
-                                        class="confirmButton bg-blue-500 hover:bg-blue-700 text-white font-sm px-1 border border-blue-500 rounded"
-                                        onclick="handleConfirmButtonClick(event, this)">Confirm</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                                        <img class="rounded-full"
-                                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                                            width="40" height="40" alt="Alex Shatov">
-                                    </div>
-                                    <div class="font-medium text-gray-800">Alex Shatov</div>
-                                </div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">alexshatov@gmail.com</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left font-medium text-green-500">087271567</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex justify-center items-center space-x-1">
-                                    <button
-                                        class="bg-red-500 hover:bg-red-700 text-white font-sm px-1 border border-red-500 rounded"
-                                        onclick="showRejectDialog(event, this)">Reject</button>
-                                    <button
-                                        class="bg-green-500 hover:bg-green-700 text-white font-sm px-1 border border-green-500 rounded"
-                                        onclick="showDetailView('Alex Shatov', 'alexshatov@gmail.com', '087271567', 'https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg')">View</button>
-                                    <button
-                                        class="confirmButton bg-blue-500 hover:bg-blue-700 text-white font-sm px-1 border border-blue-500 rounded"
-                                        onclick="handleConfirmButtonClick(event, this)">Confirm</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                                        <img class="rounded-full"
-                                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                                            width="40" height="40" alt="Alex Shatov">
-                                    </div>
-                                    <div class="font-medium text-gray-800">Alex Shatov</div>
-                                </div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">alexshatov@gmail.com</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left font-medium text-green-500">087271567</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex justify-center items-center space-x-1">
-                                    <button
-                                        class="bg-red-500 hover:bg-red-700 text-white font-sm px-1 border border-red-500 rounded"
-                                        onclick="showRejectDialog(event, this)">Reject</button>
-                                    <button
-                                        class="bg-green-500 hover:bg-green-700 text-white font-sm px-1 border border-green-500 rounded"
-                                        onclick="showDetailView('Alex Shatov', 'alexshatov@gmail.com', '087271567', 'https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg')">View</button>
-                                    <button
-                                        class="confirmButton bg-blue-500 hover:bg-blue-700 text-white font-sm px-1 border border-blue-500 rounded"
-                                        onclick="handleConfirmButtonClick(event, this)">Confirm</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                                        <img class="rounded-full"
-                                            src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                                            width="40" height="40" alt="Alex Shatov">
-                                    </div>
-                                    <div class="font-medium text-gray-800">Alex Shatov</div>
-                                </div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">alexshatov@gmail.com</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left font-medium text-green-500">087271567</div>
-                            </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="flex justify-center items-center space-x-1">
-                                    <button
-                                        class="bg-red-500 hover:bg-red-700 text-white font-sm px-1 border border-red-500 rounded"
-                                        onclick="showRejectDialog(event, this)">Reject</button>
-                                    <button
-                                        class="bg-green-500 hover:bg-green-700 text-white font-sm px-1 border border-green-500 rounded"
-                                        onclick="showDetailView('Alex Shatov', 'alexshatov@gmail.com', '087271567', 'https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg')">View</button>
-                                    <button
-                                        class="confirmButton bg-blue-500 hover:bg-blue-700 text-white font-sm px-1 border border-blue-500 rounded"
-                                        onclick="handleConfirmButtonClick(event, this)">Confirm</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Repeat for other rows -->
-                    </tbody>
-                </table>
+
+        <div class="w-full max-w-6mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
+            <header class="px-5 py-4 border-b border-gray-100">
+                <h1 class="font-semibold text-gray-800 text-2xl">Approve User</h1>
+            </header>
+            <div class="p-3">
+                <div class="overflow-x-auto">
+                    <table id="userTable" class="table-auto w-full">
+                        <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                            <tr>
+                                <th class="p-2 flex justify-center whitespace-nowrap">
+                                    <div class="font-semibold text-left">Profile</div>
+                                </th>
+                                <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-left">Name</div>
+                                </th>
+                                <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-left">Email</div>
+                                </th>
+                                <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-left">Phone</div>
+                                </th>
+                                <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-center">Actions</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-gray-100">
+                            @foreach ($accountRequests as $accountRequest)
+                                <tr>
+                                    <td class="p-2 whitespace-nowrap">
+                                        <div class="flex justify-center items-center">
+                                            <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
+                                                <img class="rounded-full h-12 w-12" src="{{ $accountRequest->user->profile }}"
+                                                    alt="Alex Shatov">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="p-2 whitespace-nowrap">
+                                        <div class="+">{{ $accountRequest->user->name }}</div>
+                                    </td>
+                                    <td class="p-2 whitespace-nowrap">
+                                        <div class="text-left">{{ $accountRequest->user->email }}</div>
+                                    </td>
+                                    <td class="p-2 whitespace-nowrap">
+                                        <div class="text-left font-medium text-green-500">{{ $accountRequest->user->phone_number }}</div>
+                                    </td>
+                                    <td class="p-2 whitespace-nowrap">
+                                        <div class="flex justify-center items-center space-x-1">
+                                            <button
+                                                class="bg-red-500 hover:bg-red-700 text-white font-sm py-1 px-2 border border-red-500 rounded"
+                                                onclick="showRejectDialog({{ $accountRequest->id }})">Reject</button>
+                                            <button
+                                                class="bg-green-500 hover:bg-green-700 text-white font-sm py-1 px-2 border border-green-500 rounded"
+                                                onclick="showDetailView({{ $accountRequest }})">View</button>
+                                            <button
+                                                class="confirmButton bg-blue-500 hover:bg-blue-700 text-white font-sm py-1 px-2 border border-blue-500 rounded"
+                                                onclick="showApproveDialog({{ $accountRequest->id }})">Confirm</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Confirm Dialog -->
-    <div id="confirmDialog"
-        class="fixed inset-0 flex min-h-screen items-center justify-center bg-gray-100 bg-opacity-50 hidden">
-        <div class="rounded-lg bg-gray-50 px-8 py-6">
-            <h3 class="text-center text-lg font-semibold text-gray-700">Are you sure you want to confirm this user?</h3>
-            <div class="flex justify-center space-x-4 mt-4">
-                <button id="confirmOk"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-sm px-1 border border-blue-500 rounded">Ok</button>
-                <button id="confirmCancel"
-                    class="bg-gray-500 hover:bg-gray-700 text-white font-sm px-1 border border-gray-500 rounded">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Congratulatory Form -->
-    <div id="congratsForm"
-        class="fixed inset-0 flex min-h-screen items-center justify-center bg-gray-100 bg-opacity-50 hidden">
-        <div class="rounded-lg bg-gray-50 px-16 py-14">
-            <div class="flex justify-center">
-                <div class="rounded-full bg-green-200 p-6">
-                    <div class="flex h-16 w-16 items-center justify-center rounded-full bg-green-500 p-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="h-8 w-8 text-white">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                        </svg>
+        <!-- Detail View -->
+        <div style="z-index: 20" id="detailView"
+            class="fixed left-0 top-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none">
+            <div style="height: 100%" class="flex items-center justify-center min-h-screen text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle w-2/4">
+                    <div class="w-auto h-8 flex justify-end items-center">
+                        <button onclick="closeDetailView()" type="button"
+                            class="mr-4 absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            data-modal-hide="popup-modal">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal create Guest House -->
+                    <div>
+                        <h1 class="text-3xl text-center font-bold">Request informations</h1>
+                        <div class="w-full p-4 md:p-5">
+                            <div class="flex gap-24 mb-4">
+                                <div class="border border-black h-24 w-24">
+                                    <img alt="Profile" id="profile" class="h-full w-full">
+                                </div>
+                                <div>
+                                    <h2 class="font-bold">User Informations</h2>
+                                    <p id="user-name"></p>
+                                    <p id="user-email"></p>
+                                    <p id="user-phone"></p>
+                                </div>
+                            </div>
+                            <div>
+                                <h2 class="font-bold">User's Identity</h2>
+                                <div class="mb-4 h-96 w-full border">
+                                    <img alt="Identity" class="h-full w-full" id="identity">
+                                </div>
+                                <h2 class="font-bold">User's Image</h2>
+                                <div class="mb-4 h-96 w-full border">
+                                    <img alt="Image" class="h-full w-full" id="image">
+                                </div>
+                                <h2 class="font-bold">User's Purpose</h2>
+                                <div class="mb-4 h-72 w-full border">
+                                    <textarea id="message" class="h-full w-full" disabled></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <h3 class="my-4 text-center text-2xl font-semibold text-gray-700">Successful confirmation</h3>
-            <p class="w-[230px] text-center font-normal text-gray-600">Your confirmation is accepted</p>
-            <button
-                class="mx-auto mt-10 block rounded-xl border-4 border-transparent bg-orange-400 px-6 py-3 text-center text-base font-medium text-orange-100 outline-8 hover:outline hover:duration-300">Track
-                You!</button>
         </div>
-    </div>
 
-    <!-- Detail View -->
-    <div id="detailView"
-        class="fixed inset-0 flex min-h-screen items-center justify-center bg-gray-100 bg-opacity-50 hidden">
-        <div class="rounded-lg bg-gray-50 px-8 py-6">
-            <div class="flex items-center justify-center mb-4">
-                <img id="detailImage" class="w-24 h-24 rounded-full" src="" alt="User Image">
-            </div>
-            <h3 id="detailName" class="text-left text-lg font-semibold text-gray-700 mb-2"></h3>
-            <p id="detailEmail" class="text-left text-gray-600 mb-2"></p>
-            <p id="detailPhone" class="text-left text-gray-600 mb-4"></p>
-            <div class="flex justify-center">
-                <button id="backButton"
-                    class="bg-gray-500 hover:bg-gray-700 text-white font-sm px-1 border border-gray-500 rounded">Back</button>
-            </div>
-        </div>
-    </div>
+        <script>
+            // Reject account requests
+            function showRejectDialog(itemId) {
+                // Show dialog
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn-delete bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ml-auto text-center ml-4",
+                        cancelButton: "btn-delete bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded ml-auto text-center mr-4"
+                    },
+                    buttonsStyling: false
+                });
+                swalWithBootstrapButtons.fire({
+                    title: "Are you sure?",
+                    text: "This user won't be has permission to be a user service!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, Reject this request!",
+                    cancelButtonText: "No, cancel!",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
 
-    <!-- Reject Confirmation Dialog -->
-    <div id="rejectDialog"
-        class="fixed inset-0 flex min-h-screen items-center justify-center bg-gray-100 bg-opacity-50 hidden">
-        <div class="rounded-lg bg-gray-50 px-8 py-6">
-            <h3 class="text-center text-lg font-semibold text-gray-700">Are you sure you want to reject this user?</h3>
-            <div class="flex justify-center space-x-4 mt-4">
-                <button id="rejectOk"
-                    class="bg-red-500 hover:bg-red-700 text-white font-sm px-1 border border-red-500 rounded">Ok</button>
-                <button id="rejectCancel"
-                    class="bg-gray-500 hover:bg-gray-700 text-white font-sm px-1 border border-gray-500 rounded">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let userRowToDelete = null;
-
-        function showConfirmDialog(event, btn) {
-            event.preventDefault();
-            const confirmDialog = document.getElementById('confirmDialog');
-            confirmDialog.classList.remove('hidden');
-
-            // Handle the OK button click
-            document.getElementById('confirmOk').onclick = () => {
-                confirmDialog.classList.add('hidden');
-                const congratsForm = document.getElementById('congratsForm');
-                congratsForm.classList.remove('hidden');
-                setTimeout(() => {
-                    congratsForm.classList.add('hidden');
-                    btn.textContent = 'Unconfirm';
-                    btn.setAttribute('onclick', 'handleConfirmButtonClick(event, this)');
-                }, 1500); // 1500 milliseconds = 1.5 seconds
-            };
-
-            // Handle the Cancel button click
-            document.getElementById('confirmCancel').onclick = () => {
-                confirmDialog.classList.add('hidden');
-            };
-        }
-
-        function handleConfirmButtonClick(event, btn) {
-            event.preventDefault();
-            if (btn.textContent.trim() === 'Confirm') {
-                showConfirmDialog(event, btn);
-            } else if (btn.textContent.trim() === 'Unconfirm') {
-                // Directly handle the Unconfirm action without showing the dialog
-                btn.textContent = 'Confirm';
-                btn.setAttribute('onclick', 'handleConfirmButtonClick(event, this)');
+                        // Redirect to delete
+                        $.ajax({
+                            url: '{{ route('admin.reject.user.service') }}',
+                            method: 'PUT',
+                            data: {
+                                'id': itemId,
+                                '_token': '{{ csrf_token() }}'
+                            },
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            },
+                            success: function(response) {
+                                // Redirect to the index page
+                                console.log(response);
+                            },
+                            error: function(xhr, status, error) {
+                                // Handle error
+                                console.error(error);
+                            }
+                        });
+                        // Redirect to the index page
+                        window.location.reload();
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        // when cancel
+                    }
+                });
             }
-        }
 
-        function showDetailView(name, email, phone, imageUrl) {
-            // Set the detail view content
-            document.getElementById('detailName').textContent = name;
-            document.getElementById('detailEmail').textContent = `Email: ${email}`;
-            document.getElementById('detailPhone').textContent = `Phone: ${phone}`;
-            document.getElementById('detailImage').src = imageUrl;
+            // Approve the user account
+            function showApproveDialog(itemId) {
+                // Show dialog
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: "btn-delete bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded ml-auto text-center ml-4",
+                        cancelButton: "btn-delete bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded ml-auto text-center mr-4"
+                    },
+                    buttonsStyling: false
+                });
+                swalWithBootstrapButtons.fire({
+                    title: "Are you sure?",
+                    text: "This account will be allow by your confirm!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, Approve this request!",
+                    cancelButtonText: "No, cancel!",
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Redirect to delete
+                        $.ajax({
+                            url: '{{ route('admin.approve.user.service') }}',
+                            method: 'PUT',
+                            data: {
+                                'id': itemId,
+                                '_token': '{{ csrf_token() }}'
+                            },
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            },
+                            success: function(response) {
+                                // Redirect to the index page
+                                console.log(response);
+                            },
+                            error: function(xhr, status, error) {
+                                // Handle error
+                                console.error(error);
+                            }
+                        });
+                        // Redirect to the index page
+                        window.location.reload();
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        // when cancel
+                    }
+                });
+            }
 
-            const detailView = document.getElementById('detailView');
-            detailView.classList.remove('hidden');
+            // view details request from the users
+            function showDetailView(item) {
 
-            // Handle the Back button click
-            document.getElementById('backButton').onclick = () => {
-                detailView.classList.add('hidden');
-            };
-        }
+                const dailogViewDetail = document.getElementById('detailView');
+                const userProfile = document.getElementById('profile');
+                const userName = document.getElementById('user-name');
+                const userEmail = document.getElementById('user-email');
+                const userPhone = document.getElementById('user-phone');
+                const identity = document.getElementById('identity');
+                const image = document.getElementById('image');
+                const message = document.getElementById('message');
 
-        function showRejectDialog(event, btn) {
-            event.preventDefault();
-            userRowToDelete = btn.closest('tr'); // Get the row of the button clicked
-            const rejectDialog = document.getElementById('rejectDialog');
-            rejectDialog.classList.remove('hidden');
+                userProfile.src = item.user.profile;
+                userName.textContent = `Name: ${item.user.name}`;
+                userEmail.textContent = `Email: ${item.user.email}`;
+                userPhone.textContent = `Phone: ${item.user.phone_number}`;
+                message.textContent = item.message;
+                identity.src = item.image_1;
+                image.src = item.image_2;
+                dailogViewDetail.classList.remove('hidden');
+            }
 
-            // Handle the OK button click
-            document.getElementById('rejectOk').onclick = () => {
-                rejectDialog.classList.add('hidden');
-                if (userRowToDelete) {
-                    userRowToDelete.remove();
-                    const deleteMessage = document.getElementById('deleteMessage');
-                    deleteMessage.classList.remove('hidden');
-                    document.getElementById('deleteOk').onclick = () => {
-                        deleteMessage.classList.add('hidden');
-                    };
-                }
-            };
-
-            // Handle the Cancel button click
-            document.getElementById('rejectCancel').onclick = () => {
-                rejectDialog.classList.add('hidden');
-            };
-        }
-    </script>
+            // Close the detail view
+            function closeDetailView() {
+                const dailogViewDetail = document.getElementById('detailView');
+                dailogViewDetail.classList.add('hidden');
+            }
+        </script>
 </x-app-layout>

@@ -25,16 +25,19 @@ class RoomController extends Controller
     public function store(CreateRoomRequest $request)
     {
         //
-        if($request->input('photos', [])){
-            $room = Room::create($request->all());
-            foreach ($request->input('photos', []) as $file) {
-                $room->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('photos');
+        try{
+            if($request->input('photos', [])){
+                $room = Room::create($request->all());
+                foreach ($request->input('photos', []) as $file) {
+                    $room->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('photos');
+                }
+                return redirect()->back()->with('message', 'Create successful');
+            }else{
+                return redirect()->back()->with('error', 'Your need to upload with image');
             }
-            return redirect()->back()->with('message', 'Create successful');
-        }else{
-            return redirect()->back()->with('error', 'Your need to upload with image');
+        }catch(\Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
         }
-
     }
 
     // Media photos of the room
@@ -95,12 +98,42 @@ class RoomController extends Controller
         return view('room.index',compact('bedTypes', 'roomTypes','rooms','guest_house_id','user_id'));
     }
 
+
+    /**
+     * edit the specified resource in storage.
+     */
+    public function edit(Room $Room)
+    {
+        //
+        $bedTypes = BedType::all();
+        $roomTypes = TypeOfRoom::all();
+        return view('room.edit',compact('Room', 'bedTypes', 'roomTypes'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Room $Room)
     {
         //
+            $Room->update($request->all());
+
+            if (count($Room->photos) > 0) {
+                foreach ($Room->photos as $media) {
+                    if (!in_array($media->file_name, $request->input('photos', []))) {
+                        $media->delete();
+                    }
+                }
+            }
+
+            $media = $Room->photos->pluck('file_name')->toArray();
+
+            foreach ($request->input('photos', []) as $file) {
+                if (count($media) === 0 || !in_array($file, $media)) {
+                    $Room->addMedia(storage_path('tmp/uploads/' . $file))->toMediaCollection('photos');
+                }
+            }
+            return redirect()->route('admin.rooms.show',$Room->guest_house_id)->with('message', 'Updated successfully');
     }
 
     /**
@@ -108,6 +141,15 @@ class RoomController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //Get user id
+        $user_id = Auth()->user()->id;
+        //Check if the room belongs to the user
+        $room = Room::find($id);
+        if($room && $room->user_id == $user_id){
+            $room->delete();
+            return redirect()->back()->with('message', 'Deleted successfully');
+        } else {
+            return redirect()->back()->with('error', 'Deleted failed');
+        }
     }
 }
