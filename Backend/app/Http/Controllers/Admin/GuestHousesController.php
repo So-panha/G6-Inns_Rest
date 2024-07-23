@@ -37,8 +37,8 @@ class GuestHousesController extends Controller
             $this->validate($request, [
                 'file' => sprintf(
                     'image|dimensions:max_width=%s,max_height=%s',
-                    $request->input('width', 400000),
-                    $request->input('height', 400000)
+                    $request->input('width', 800000),
+                    $request->input('height', 800000)
                 ),
             ]);
         }
@@ -108,7 +108,7 @@ class GuestHousesController extends Controller
             }
         }
 
-        return redirect()->route('admin.guest-houses.index');
+        return redirect()->route('admin.guest-houses.index')->with('message', 'Updated successful');;
     }
 
     // delete guest house

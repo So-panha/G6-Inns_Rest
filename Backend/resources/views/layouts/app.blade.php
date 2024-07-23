@@ -31,6 +31,7 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     {{-- sweet alert --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- link stripe js --}}
     <script src="https://js.stripe.com/v3/"></script>
@@ -38,6 +39,9 @@
     {{-- date flatpcker --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    {{-- script jquery --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Livewire Styles -->
     @livewireStyles

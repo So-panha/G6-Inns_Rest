@@ -27,8 +27,8 @@ class ShowCommentFeedbackResource extends JsonResource
                 'name' => $this->userNormal->name,
                 'profile' => $this->userNormal->profile,
             ] : null,
-            'created_at' => $this->created_at->format('d-m-Y'),
-            'updated_at' => $this->updated_at->format('d-m-Y'),
+            'created_at_human' => $this->created_at->diffForHumans(),
+            'updated_at_human' => $this->updated_at->diffForHumans(),
         ];
     }
 }

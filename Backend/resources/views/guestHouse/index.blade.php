@@ -108,14 +108,30 @@
                 // Call the updateDayInData function with the updated 'realDay' value
                 updateDayInData(totalDays, guestHouseId, daysSpent + 1, real_day_rest);
             }
+
+            // Set conditions for the guest house when calculating the to day has equal to zero
+            if (dayHas == 0) {
+
+                // Update the day of the guest house has
+                let active = 0;
+                let totalDays = 0;
+                let daysSpent = 0;
+                let realDay = 0;
+
+                //  Call the updateDayInData function with the updated 'realDay' value
+                unactiveGuestHouse(totalDays, guestHouseId, daysSpent, realDay, active);
+            }
+
+
         });
 
+        // update data of date of guest house
         function updateDayInData(realDay, guestHouseId, daysSpent, real_day_rest) {
             // Retrieve the CSRF token from a meta tag in the HTML
             const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
             // Make the AJAX request
-            fetch('{{ route('admin.update-time-guestHouse') }}', {
+            fetch('{{ route('admin.update.time.guestHouse') }}', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -137,6 +153,41 @@
                 });
         }
 
+
+        // Update the license of the guest house
+        function unactiveGuestHouse(totalDays, guestHouseId, daysSpent, realDay, active) {
+
+            // Retrieve the CSRF token from a meta tag in the HTML
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
+            // Make the AJAX request
+            fetch('{{ route('admin.unactive.guestHouse') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                    body: JSON.stringify({
+                        guest_house_id: guestHouseId,
+                        active: active,
+                        dayHas: totalDays,
+                        spend_day: daysSpent,
+                        real_day: realDay
+                    }),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+            window.location.reload();
+        }
+
+
+
         // Script slide
         var swiper = new Swiper(".progress-slide-carousel", {
             loop: true,
@@ -155,21 +206,23 @@
     {{-- alert when delete branch --}}
     @if (Session::has('message'))
         <script>
-            swal("Messages", "{{ Session::get('message') }}", 'success'), {
-                button: true,
-                button: "OK",
-                timer: 3000,
-                dangerMode: true,
-            };
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '{{ session('message') }}',
+                showConfirmButton: false,
+                timer: 1500
+            });
         </script>
     @elseif (Session::has('error'))
         <script>
-            swal("Messages", "{{ Session::get('error') }}", 'error'), {
-                button: true,
-                button: "OK",
-                timer: 3000,
-                dangerMode: true,
-            };
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: '{{ session('error') }}',
+                showConfirmButton: false,
+                timer: 1500
+            });
         </script>
     @endif
 </x-app-layout>

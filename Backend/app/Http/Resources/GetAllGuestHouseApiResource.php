@@ -27,6 +27,9 @@ class GetAllGuestHouseApiResource extends JsonResource
             'created_by_id' => $this->created_by_id,
             'photos' => GetAllPhotosResource::collection($this->photos),
             'thumbnail' => $this->thumbnail,
+            'like' => $this->getAllLike,
+            'likes_count' => $this->countLikes(),
+            'commentFeedback' =>CommentFeedbackResource::collection($this->commentFeedback),
             'media' => MediaResource::collection($this->media),
         ];
     }
