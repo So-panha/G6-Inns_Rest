@@ -239,7 +239,6 @@
             error: function(xhr, status, error) {
                 // Handle the error response
                 console.error('Error:', error);
-                alert('An error occurred while processing the alert request.');
             }
             });
     }, 500);

@@ -32,7 +32,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
                 'profile' => $proImage,
-                'phoneNumber' => $request->phoneNumber
+                'phoneNumber' => $request->phoneNumber,
             ]);
 
             Storage::disk('public')->put($proImage, file_get_contents($request->profile));
@@ -71,7 +71,7 @@ class UserController extends Controller
                     'message' => 'User Not Found.'
                 ], 404);
             }
-    
+
             // Update user data
             $userNormals->name = $request->name;
             $userNormals->email = $request->email;
@@ -79,21 +79,21 @@ class UserController extends Controller
                 $userNormals->password = bcrypt($request->password);
             }
             $userNormals->phoneNumber = $request->phoneNumber;
-    
+
             // Handle profile image update
             if ($request->hasFile('profile')) {
                 $storage = Storage::disk('public');
-    
+
                 // Delete old profile image if exists and is not null
                 if ($userNormals->profile && $storage->exists($userNormals->profile)) {
                     $storage->delete($userNormals->profile);
                 }
-    
+
                 // Store new profile image
                 $proImage = Str::random(32) . "." . $request->file('profile')->getClientOriginalExtension();
                 $userNormals->profile = $proImage;
                 $storage->put($proImage, file_get_contents($request->file('profile')));
-    
+
                 // Save user with updated profile image
                 $userNormals->save();
             } else if ($request->profile === ' ' || $request->profile === null) {
@@ -107,7 +107,7 @@ class UserController extends Controller
                 // Save user without updating profile image
                 $userNormals->save();
             }
-    
+
             // Return response
             return response()->json([
                 'message' => "User successfully updated.",
@@ -120,7 +120,7 @@ class UserController extends Controller
             ], 500);
         }
     }
-    
+
 
     public function destroy($id)
     {

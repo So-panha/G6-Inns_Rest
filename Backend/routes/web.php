@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardAdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RegisterToUser;
 
@@ -103,6 +104,11 @@ Route::
         // Approve user services
         Route::put('/approve-user', [ApproveUserController::class, 'approve'])->name('approve.user.service');
         Route::put('/reject-user', [ApproveUserController::class, 'reject'])->name('reject.user.service');
+
+        // Route of dashboard admin
+        Route::get('/get-total-users-service',[DashboardAdminController::class,'getTotalUsersService'])->name('all.users.service');
+        Route::get('/get-total-users-normal',[DashboardAdminController::class,'getTotalUsersNormal'])->name('all.users.normal');
+        Route::get('/get-total-profit',[DashboardAdminController::class,'getTotalProfit'])->name('all.total.profit');
     });
 
 

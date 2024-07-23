@@ -20,7 +20,7 @@ class UserNormal extends Model
         'email',
         'password',
         'phoneNumber',
-        'profile'
+        'profile',
     ];
     public function commentFeedback(){
         return $this->hasMany(CommentFeedback::class);
