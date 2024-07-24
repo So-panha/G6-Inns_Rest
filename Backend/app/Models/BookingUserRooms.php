@@ -17,6 +17,8 @@ class BookingUserRooms extends Model
         'paymented',
         'user_id',
         'room_id',
+        'create_by',
+        'checked'
     ];
 
 
