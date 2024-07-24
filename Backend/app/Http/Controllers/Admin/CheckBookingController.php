@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BookingUserRooms;
 use Illuminate\Http\Request;
 
 class CheckBookingController extends Controller
@@ -13,15 +14,21 @@ class CheckBookingController extends Controller
     public function index()
     {
         //
-        return view('checkbooking.index');
+        //User ID
+        $userId = Auth()->user()->id;
+        $dataBookings = BookingUserRooms::all()->where('create_by', $userId)->where('checked', null);
+        return view('checkbooking.index', compact('dataBookings'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function alertBooking()
     {
-        //
+        //User ID
+        $userId = Auth()->user()->id;
+        $dataBookings = BookingUserRooms::all()->where('create_by', $userId)->where('checked', null);
+        return view('checkingRoom.index', compact('dataBookings'));
     }
 
     /**

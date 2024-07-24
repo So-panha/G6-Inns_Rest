@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BookingUserRooms;
 use Illuminate\Http\Request;
 
 class CheckingRoomController extends Controller
@@ -12,16 +13,16 @@ class CheckingRoomController extends Controller
      */
     public function index()
     {
-        //
+
         return view('checkingRoom.index');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function alertBooking()
     {
-        //
+
     }
 
     /**
