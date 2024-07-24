@@ -31,32 +31,17 @@ class BookingUserRooms extends Model
     {
         return $this->belongsTo(Room::class,'room_id');
     }
+
+
+    public static function list($params)
+    {
+
+        $list = self::query();
+
+        if (isset($params['searchDate']) && filled($params['searchDate'])) {
+            $list->where('created_at', 'LIKE', '%' . $params['searchDate'] . '%');
+        }
+
+        return $list->get();
+    }
 }
-
-// <?php
-
-// namespace App\Models;
-
-// use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Illuminate\Database\Eloquent\Model;
-
-// class BookingUserRoom extends Model
-// {
-//     use HasFactory;
-
-//     protected $fillable = [
-//         'first_name', 'last_name', 'email', 'phone_number', 'price',
-//         'number_of_rooms', 'departure_date', 'arrival_date', 'user_id', 'room_id',
-//     ];
-
-//     // Define relationships
-//     public function user()
-//     {
-//         return $this->belongsTo(User::class);
-//     }
-
-//     public function room()
-//     {
-//         return $this->belongsTo(Room::class);
-//     }
-// }

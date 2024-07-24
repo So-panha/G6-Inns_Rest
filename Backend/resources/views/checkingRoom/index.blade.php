@@ -32,26 +32,32 @@
         </div>
 
         <!-- Messages Section -->
-        @if (count($confirmedBooking) != 0)
-            @foreach($confirmedBooking as $booking)
+        @if (count($stayInRooms) != 0)
+            @foreach($stayInRooms as $stayInRoom)
                 <div class="bg-white rounded-lg shadow p-6 mb-6">
                     <div class="flex justify-between items-center">
                         <div class="flex items-center">
-                            <img src="https://i.pinimg.com/564x/03/eb/d6/03ebd625cc0b9d636256ecc44c0ea324.jpg"
+                            <img src="/storage/{{ $stayInRoom->user->profile }}"
                                 alt="User Image" class="w-12 h-12 rounded-full mr-4">
                             <div>
-                                <p class="font-bold">Srey Ny</p>
+                                <p class="font-bold">{{ $stayInRoom->user->name }}</p>
                             </div>
                         </div>
-                        <div class="text-center">
-                            <p>Tell: Hello everyone</p>
-                            <p>Time: 8:30 PM</p>
-                            <p>Date: 05/07/2024</p>
+                        <div class="text-center flex gap-8">
+                            <p class="p-1 bg-blue-200 rounded-lg font-bold">Tell: {{ $stayInRoom->user->phoneNumber }}</p>
+                            <p class="p-1 bg-blue-200 rounded-lg font-bold">Time: {{ $stayInRoom->user->phoneNumber }}</p>
+                            <p class="p-1 bg-blue-200 rounded-lg font-bold">Date Stay: {{ $stayInRoom->departure_date }}</p>
+                            <p class="p-1 bg-blue-200 rounded-lg font-bold">Date Leave: {{ $stayInRoom ->arrival_date }}</p>
                         </div>
-                        <div>
+                        <div class="flex gap-2">
                             <button
                                 class="bg-green-500 hover:bg-green-700 text-white py-1 px-3 rounded mr-2">Update</button>
-                            <button class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded">Leave</button>
+                            <form action="{{ route('admin.leave.confirmed.booking') }}" method="POST" class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded">
+                                @csrf
+                                @method("POST")
+                                <input type="text" value="{{ $stayInRoom->id }}" name="stayingID" class="hidden">
+                                <button>Leave</button>
+                            </form>
                         </div>
                     </div>
                 </div>

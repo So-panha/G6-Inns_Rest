@@ -18,17 +18,23 @@ class CheckingRoomController extends Controller
         $userID = auth()->user()->id;
 
         // Check booking for the user
-        $confirmedBooking = BookingUserRooms::all()->where('create_by_id', $userID)->where('checked', 1);
+        $stayInRooms = BookingUserRooms::all()->where('create_by_id', $userID)->where('checked', 1);
 
-        return view('checkingRoom.index',compact('confirmedBooking'));
+        return view('checkingRoom.index',compact('stayInRooms'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function leaveConfirmed(Request $request)
     {
-        //
+        //Update booking with checked status
+        $booking = BookingUserRooms::find($request->stayingID);
+        $booking->checked = 2;
+        $booking->save();
+
+        //Return success message
+        return redirect()->back();
     }
 
     /**
