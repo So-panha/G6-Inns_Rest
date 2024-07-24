@@ -155,8 +155,19 @@ export default {
       // Trigger validation logic
     };
     const isValidDateRange = (startDate, endDate) => {
-  // Example validation logic
-  return startDate && endDate && new Date(startDate) <= new Date(endDate);
+      const currentDate = new Date()
+      const year = currentDate.getFullYear()
+      const month = currentDate.getMonth() + 1 // Months are zero-indexed, so we add 1
+      const day = currentDate.getDate()
+      const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+      
+      // Example validation logic
+      return (
+        startDate &&
+        endDate &&
+        new Date(startDate) <= new Date(endDate) &&
+        new Date(startDate) >= new Date(formattedDate)
+      )
 };
 
 const submitForm = async () => {

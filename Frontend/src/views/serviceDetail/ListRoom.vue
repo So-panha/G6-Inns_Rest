@@ -4,7 +4,7 @@
       <CardDetail :ListImages="ListImages" :startDate="startDate" :endDate="endDate" :bookings="bookings" />
     </div>
     <div v-else>
-      <h1>This Guest House doesn't have any room</h1>
+      <h1 class="text-center p-12">This Guest House doesn't have any room</h1>
     </div>
   </div>
 </template>
