@@ -54,7 +54,7 @@ class RegisterUserServiceController extends Controller
             $user->syncRoles($roles[1]->id);
 
             // Set specific permissions to the user
-            $user->givePermissionTo(['Chat access', 'Chat user', 'Request_account_service access', 'Request_account_service create','Dashboard_service access']);
+            $user->givePermissionTo(['Chat access', 'Chat user', 'Request_account_service access', 'Request_account_service create','Dashboard_service access','Dashboard access']);
 
             // Switch to the account auto
             event(new Registered($user));

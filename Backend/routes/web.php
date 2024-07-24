@@ -83,6 +83,7 @@ Route::
         Route::resource('approve-user', 'ApproveUserController');
 
         // Alert when user request account to the admin
+        Route::post('start-account', 'RequestAccountServiceController@startAccount')->name('start.account');
         Route::get('/alert-request', 'ApproveUserController@alertRequest')->name('alert.request');
         Route::post('guestHouses/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
         Route::post('edit/guestHouses/media', 'GuestHousesController@editStoreMedia')->name('guestHouses.storeMedia.edit');
@@ -92,7 +93,6 @@ Route::
         Route::get('/mail', [MailSettingController::class, 'index'])->name('mail.index');
         Route::put('/mail-update/{mailsetting}', [MailSettingController::class, 'update'])->name('mail.update');
         Route::get('/payment', [PaymentController::class, 'showPaymentForm']);
-        // Route::post('/payment', 'PaymentController@createStripePaymentIntent')->name('stripe.paymentIntent.create');
         Route::post('/process-payment', [PaymentController::class, 'createStripePaymentIntent'])->name('stripe.paymentIntent.create');
         Route::post('/paid-guestHouse', [PaymentController::class, 'paid'])->name('paid.guestHouse');
         Route::post('/update-real-time-guestHouse', [PaymentController::class, 'update'])->name('update.time.guestHouse');

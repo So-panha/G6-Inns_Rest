@@ -247,7 +247,11 @@
                     </div>
 
                     <div class="mt-20 flex justify-center">
-                        <button class="btn bg-blue-500 text-white py-2 px-4">Start your account</button>
+                        <form action="{{ route('admin.start.account') }}" method="POST">
+                            @csrf
+                            <input class="hidden" name="user_id" value="{{ Auth::user()->id }}" type="text">
+                            <button class="btn bg-blue-500 text-white py-2 px-4">Start your account</button>
+                        </form>
                     </div>
                 </div>
             @else
