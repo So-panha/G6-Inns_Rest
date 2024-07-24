@@ -2,8 +2,8 @@
   <form @submit.prevent="PostBooking">
     <!-- Display Selected Room for debugging -->
     <!-- {{ selectedRoomId }} -->
-    {{ selectedRoomId.user_id.id }}
-    {{  selectedRoomId.id }}
+    <!-- {{ selectedRoomId.user_id.id }}
+    {{  selectedRoomId.id }} -->
 
     <div class="container">
       <div class="image-gallery">
@@ -31,7 +31,7 @@
             type="number"
             class="form-control"
             id="price_per_room"
-            v-model.number="form.price_per_room"
+            v-model.number="form.price"
             placeholder="Price"
             readonly
           />
