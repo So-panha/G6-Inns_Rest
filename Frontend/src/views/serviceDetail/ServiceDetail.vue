@@ -21,13 +21,13 @@
         <div v-for="(image, index) in images" :key="index" :class="['carousel-item', { active: index === currentIndex }]">
           <img :src="image" class="d-block w-100" alt="...">
           <div class="carousel-caption d-none d-md-block">
-            <h1 class="text-white pt-120 pl-5">Paradise Cozy Guesthouse Sihanoukville</h1>
             <div class="overlay-form d-flex">
-              <div class="w-auto">
+              <div class="w-auto mt-76">
+              
                 <div class="px-2 formDate ml-5.2 mr-2">
                   <label class="text-lg font-semibold" style="color: black">Select Date Range</label>
                   <br />
-                  <div class="flex items-center space-x-4">
+                  <div class="flex items-center space-x-6">
                     <flat-pickr
                       v-model="startDate"
                       :config="startConfig"

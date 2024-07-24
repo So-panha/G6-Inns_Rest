@@ -1,9 +1,9 @@
 <template>
   <form @submit.prevent="PostBooking">
-<!-- 
-    {{ selectedRoomId }}
 
-    {{ authStore.user.id }} -->
+    <!-- {{ selectedRoomId }} -->
+
+    {{ authStore.user.name }}
     <div class="container">
       <div class="image-gallery">
         <div class="image-item" v-for="(image, index) in images" :key="index">
@@ -85,7 +85,7 @@ const form = ref({
   numRooms: '',
   departuredate: startDate.value,
   arrivaldate: endDate.value,
-  user_id: authStore.user.id || '',
+  user_id: authStore.user.name || '',
   room_id: selectedRoomId.value.id || ''
 })
 
@@ -98,7 +98,7 @@ const schema = yup.object().shape({
     .min(1, 'At least one room is required')
     .required('Number of rooms is required'),
   price: yup.number().required('Price is required'),
-  user_id: yup.number().required('User ID is required'),
+  user_id: yup.string().required('User ID is required'),
   room_id: yup.number().required('Room ID is required')
 })
 
@@ -187,7 +187,7 @@ const cancelForm = () => {
     numRooms: '',
     departuredate: startDate.value,
     arrivaldate: endDate.value,
-    user_id: authStore.user.id || '',
+    user_id: authStore.user.name || '',
     room_id: selectedRoomId.value.id || ''
   }
   errors.value = {}
