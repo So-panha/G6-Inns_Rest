@@ -46,7 +46,6 @@
         </a>
         @endcanany
 
-
         @canany('Chat admin')
         <a class="flex items-center mt-4 py-2 px-6 text-color hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('chat.index') ? 'active' : '' }}" href="{{ route('chat.index')}}">
             <span class="inline-flex justify-center items-center">
@@ -70,9 +69,6 @@
             <span class="mx-3">Chatting</span>
         </a>
         @endcanany
-
-
-
 
         @canany('Check_account_request access','Check_account_request add','Check_account_request edit','Check_account_request delete')
         <a class="flex items-center mt-4 py-2 px-6 text-color hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.approve-user.index') ? 'active' : '' }}" href="{{ route('admin.approve-user.index') }}">
@@ -123,7 +119,7 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9.54961 17.9996L3.84961 12.2996L5.27461 10.8746L9.54961 15.1496L18.7246 5.97461L20.1496 7.39961L9.54961 17.9996Z" fill="#5F6368" />
             </svg>
-
+            <p class="hidden bg-red-500 text-white text-center text-xs rounded-md w-4 h-4 relative bottom-1.5" id="alert-booking"></p>
             <span class="mx-3">Check Booking</span>
         </a>
         @endcanany
@@ -207,6 +203,7 @@
 
 <script>
     {{-- Set variable --}}
+    let alertNoticeBooking = document.getElementById('alert-booking');
     let alertNoticeRequest = document.getElementById('alert-request');
     const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
@@ -235,6 +232,32 @@
                 console.error('Error:', error);
             }
             });
+
+
+             {{-- Get data request by using ajax --}}
+            $.ajax({
+                type: 'GET',
+                url: '{{ route('admin.alert.booking') }}', // Use a relative URL instead of a hardcoded one
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the request headers
+                },
+                success: function(response) {
+                    // Handle the successful response
+                    if (response.data != []) {
+                        // Update the UI or perform additional processing
+                        alertNoticeBooking.classList.remove('hidden');
+                        alertNoticeBooking.textContent = response.data;
+                    } else {
+                        // remove the notification from alert request
+                        alertNoticeBooking.classList.add('hidden');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle the error response
+                    console.error('Error:', error);
+                }
+            });
+
     }, 500);
 </script>
 

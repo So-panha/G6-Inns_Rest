@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BookingUserRooms;
 use Illuminate\Http\Request;
 
 class CheckingRoomController extends Controller
@@ -13,7 +14,13 @@ class CheckingRoomController extends Controller
     public function index()
     {
         //
-        return view('checkingRoom.index');
+        //Get user ID
+        $userID = auth()->user()->id;
+
+        // Check booking for the user
+        $confirmedBooking = BookingUserRooms::all()->where('create_by_id', $userID)->where('checked', 1);
+
+        return view('checkingRoom.index',compact('confirmedBooking'));
     }
 
     /**

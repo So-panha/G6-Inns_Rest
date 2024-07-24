@@ -83,8 +83,11 @@ Route::
         Route::resource('approve-user', 'ApproveUserController');
 
         // Alert when user request account to the admin
-        Route::post('start-account', 'RequestAccountServiceController@startAccount')->name('start.account');
+        Route::post('/confirm-booking', 'CheckBookingController@confirmBooking')->name('confirm.booking');
         Route::get('/alert-booking', 'CheckBookingController@alertBooking')->name('alert.booking');
+        Route::get('/list-confirmed-booking', 'CheckBookingController@listConfirmedBooking')->name('list.confirmed.booking');
+
+        Route::post('/start-account', 'RequestAccountServiceController@startAccount')->name('start.account');
         Route::get('/alert-request', 'ApproveUserController@alertRequest')->name('alert.request');
         Route::post('guestHouses/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
         Route::post('edit/guestHouses/media', 'GuestHousesController@editStoreMedia')->name('guestHouses.storeMedia.edit');
@@ -98,6 +101,7 @@ Route::
         Route::post('/paid-guestHouse', [PaymentController::class, 'paid'])->name('paid.guestHouse');
         Route::post('/update-real-time-guestHouse', [PaymentController::class, 'update'])->name('update.time.guestHouse');
         Route::post('/unactive-guest-house', [PaymentController::class, 'unactivate'])->name('unactive.guestHouse');
+
 
         // Table Payment
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');

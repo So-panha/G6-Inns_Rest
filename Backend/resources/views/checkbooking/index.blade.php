@@ -21,12 +21,16 @@
                             <input id="departureDate" class="w-fit m-1 rounded-lg" type="text" value="{{ $booking->departure_date }}" disabled>
                             <input id="arriveDate" class="w-fit m-1 rounded-lg" type="text" value="{{ $booking->arrival_date }}" disabled>
                         </div>
-                        <div>
+                        <div class="flex gap-2">
                             <button type="button"
-                                class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-6 rounded ml-auto"
+                                class="bg-gray-500 hover:bg-gray-700 text-white py-2 px-6 rounded ml-auto"
                                 onclick="userDetail(this)">Detail</button>
-                            <button class="bg-red-500 hover:bg-red-700 text-white py-2 px-6 rounded ml-auto"
-                                onclick="changeColor(this)">Confirm</button>
+                            <form action="{{ route('admin.confirm.booking') }}" method="POST" class="bg-red-500 hover:bg-red-700 text-white py-2 px-6 rounded ml-auto">
+                                @csrf
+                                @method("POST")
+                                <input type="text" value="{{ $booking->id }}" name="bookingID" class="hidden">
+                                <button>Confirm</button>
+                            </form>
                         </div>
                     </div>
                 </div>

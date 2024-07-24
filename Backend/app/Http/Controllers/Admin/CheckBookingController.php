@@ -17,7 +17,7 @@ class CheckBookingController extends Controller
         $userID = Auth()->user()->id;
 
         // Check booking for the user
-        $bookings = BookingUserRooms::all()->where('create_by_id', $userID);
+        $bookings = BookingUserRooms::all()->where('create_by_id', $userID)->where('checked', null);
 
         // Return view with bookings
         return view('checkbooking.index', compact('bookings'));
@@ -28,7 +28,7 @@ class CheckBookingController extends Controller
      */
     public function alertBooking()
     {
-        //
+
         //Get user ID
         $userID = auth()->user()->id;
 
@@ -45,17 +45,31 @@ class CheckBookingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function confirmBooking(Request $request)
     {
-        //
+
+        //Update booking with checked status
+        $booking = BookingUserRooms::find($request->bookingID);
+        $booking->checked = 1;
+        $booking->save();
+
+        //Return success message
+        return redirect()->back();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function listConfirmedBooking()
     {
         //
+        //Get user ID
+        $userID = auth()->user()->id;
+
+        // Check booking for the user
+        $confirmBooking = BookingUserRooms::all()->where('create_by_id', $userID)->where('checked', 1);
+
+        return response()->json(['success' => true, 'data' => $confirmBooking]);
     }
 
     /**
