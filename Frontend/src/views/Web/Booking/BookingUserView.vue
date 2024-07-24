@@ -58,6 +58,7 @@ import * as yup from 'yup'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
+
 const props = defineProps({
   startDate: {
     type: String,
@@ -118,6 +119,8 @@ const validateForm = async () => {
   }
 }
 
+// const router = useRouter()
+
 const PostBooking = async () => {
   const isValid = await validateForm()
 
@@ -125,7 +128,7 @@ const PostBooking = async () => {
     try {
       const payload = {
         price: form.value.price,
-        number_of_rooms: form.value.numRooms, // Ensure this matches with what the backend expects
+        number_of_rooms: form.value.numRooms,
         departure_date: form.value.departuredate,
         arrival_date: form.value.arrivaldate,
         user_id: form.value.user_id,
@@ -136,7 +139,12 @@ const PostBooking = async () => {
 
       const response = await axios.post(
         'http://127.0.0.1:8000/api/booking_user_rooms/create',
-        payload
+        payload,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
       )
 
       console.log('Response Status:', response.status)
@@ -156,15 +164,22 @@ const PostBooking = async () => {
         throw new Error('Failed to submit the form')
       }
     } catch (error) {
-      console.error(
-        'Error during booking submission:',
-        error.response ? error.response.data : error.message
-      )
-      // Optionally show error message to user
+      if (error.response) {
+        // Server responded with a status other than 2xx
+        console.error('Error Response:', error.response.data)
+        console.error('Error Status:', error.response.status)
+        console.error('Error Headers:', error.response.headers)
+      } else if (error.request) {
+        // No response received
+        console.error('Error Request:', error.request)
+      } else {
+        // Something happened in setting up the request
+        console.error('Error Message:', error.message)
+      }
+      console.error('Error Config:', error.config)
     }
   } else {
     console.log('Form validation failed')
-    // Optionally show validation errors to user
   }
 }
 

@@ -69,7 +69,7 @@
         {{-- chatlist  --}}
 
         <ul class="p-2 grid w-full spacey-y-2">
-{{$conversations}}
+
             @if ($conversations)
                 
             @foreach ($conversations as $key=> $conversation) 
