@@ -17,10 +17,23 @@ class BookingUserRoomAPIController extends Controller
     {
         
         $validatedData = $request->validated();
+    
+        // Log validated data
+        \Log::info('Validated Data:', $validatedData);
+    
+        // Check if the user_id exists
+        $userExists = \App\Models\UserNormal::find($validatedData['user_id']);
+        if (!$userExists) {
+            \Log::error('Invalid user_id:', ['user_id' => $validatedData['user_id']]);
+            return response()->json(['message' => 'The selected user id is invalid.'], 400);
+        }
+    
         $bookingUserRoom = BookingUserRooms::create($validatedData);
         return response()->json(new GetBookingUserRoomTypeResource($bookingUserRoom), 201);
 
     }
+
+    
 
     // Search range date
     public function search(Request $request)

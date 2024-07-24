@@ -26,7 +26,7 @@ class CreateBookingUserRoomRequest extends FormRequest
             'number_of_rooms' => 'required|integer',
             'arrival_date' => 'required|date',
             'departure_date' => 'required|date',
-            'user_id' => 'required|integer',
+            'user_id' => 'required|exists:user_normals,id',
             'room_id' => 'required|integer',
            
         ];

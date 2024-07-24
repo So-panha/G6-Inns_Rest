@@ -12,7 +12,7 @@ class GetBookingUserRoomTypeResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+            // 'id' => $this->id,
             'price' => $this->price,
             'number_of_rooms' => $this->number_of_rooms,
             'departure_date' => $this->departure_date,

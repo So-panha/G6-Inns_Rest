@@ -1,20 +1,13 @@
 <template>
   <form @submit.prevent="PostBooking">
-    <!-- {{ selectedRoomId }} -->
+<!-- 
+    {{ selectedRoomId }}
 
+    {{ authStore.user.id }} -->
     <div class="container">
       <div class="image-gallery">
-        <div class="image-item">
-          <img src="https://i.pinimg.com/736x/9d/d9/e8/9dd9e8449a07a4e942ace34f86771b16.jpg" alt="Room 1"
-            class="zoom" />
-        </div>
-        <div class="image-item">
-          <img src="https://i.pinimg.com/736x/8d/bf/86/8dbf8697536b7fb44e444c52d856f52f.jpg" alt="Room 2"
-            class="zoom" />
-        </div>
-        <div class="image-item">
-          <img src="https://i.pinimg.com/736x/d8/0d/8f/d80d8f9aae74097a28f023ba25547d43.jpg" alt="Room 3"
-            class="zoom" />
+        <div class="image-item" v-for="(image, index) in images" :key="index">
+          <img :src="image.url" :alt="'Room ' + (index + 1)" class="zoom" />
         </div>
       </div>
     </div>
@@ -40,7 +33,7 @@
         </div>
         <div class="col-md-6 mb-3 mt-3">
           <label for="room">Room Id</label>
-          <input type="text" class="form-control" id="room" v-model.number="form.room_id" placeholder="Room Id" />
+          <input type="number" class="form-control" id="room" v-model.number="form.room_id" placeholder="Room Id" />
           <span v-if="errors.room_id" class="error">{{ errors.room_id }}</span>
         </div>
       </div>
@@ -53,11 +46,13 @@
 </template>
 
 <script setup>
-import { ref, toRefs, watch } from 'vue'
+import { ref, toRefs } from 'vue'
 import * as yup from 'yup'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
+import { useAuthStore } from '../../../stores/auth-store.ts'
+const authStore = useAuthStore()
 
 const props = defineProps({
   startDate: {
@@ -74,7 +69,11 @@ const props = defineProps({
   },
   images: {
     type: Array,
-    default: () => []
+    default: () => [
+      { url: 'https://i.pinimg.com/736x/9d/d9/e8/9dd9e8449a07a4e942ace34f86771b16.jpg' },
+      { url: 'https://i.pinimg.com/736x/8d/bf/86/8dbf8697536b7fb44e444c52d856f52f.jpg' },
+      { url: 'https://i.pinimg.com/736x/d8/0d/8f/d80d8f9aae74097a28f023ba25547d43.jpg' }
+    ]
   }
 })
 
@@ -86,7 +85,7 @@ const form = ref({
   numRooms: '',
   departuredate: startDate.value,
   arrivaldate: endDate.value,
-  user_id: selectedRoomId.value.user_id.id || '',
+  user_id: authStore.user.id || '',
   room_id: selectedRoomId.value.id || ''
 })
 
@@ -100,7 +99,7 @@ const schema = yup.object().shape({
     .required('Number of rooms is required'),
   price: yup.number().required('Price is required'),
   user_id: yup.number().required('User ID is required'),
-  room_id: yup.number().required('Room name is required')
+  room_id: yup.number().required('Room ID is required')
 })
 
 const validateForm = async () => {
@@ -118,8 +117,6 @@ const validateForm = async () => {
     return false
   }
 }
-
-// const router = useRouter()
 
 const PostBooking = async () => {
   const isValid = await validateForm()
@@ -183,7 +180,18 @@ const PostBooking = async () => {
   }
 }
 
-const cancelForm = () => { }
+const cancelForm = () => {
+  // Reset form values and clear errors
+  form.value = {
+    price: selectedRoomId.value.price || '',
+    numRooms: '',
+    departuredate: startDate.value,
+    arrivaldate: endDate.value,
+    user_id: authStore.user.id || '',
+    room_id: selectedRoomId.value.id || ''
+  }
+  errors.value = {}
+}
 </script>
 
 <style scoped>
