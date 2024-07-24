@@ -29,7 +29,7 @@ const router = createRouter({
     {
       path: '/qrCode',
       name: 'qrCode',
-      component: () => import('../views/Web/QrCode/QRCodeGeneratorView.vue'),
+      component: () => import('../views/Web/QrCode/QRCodeGeneratorView.vue')
     },
     {
       path: '/ticket',
@@ -66,8 +66,12 @@ const router = createRouter({
       path: '/ListRoom',
       name: 'ListRoom',
       component: () => import('../views/serviceDetail/ListRoom.vue')
+    },
+    {
+      path: '/guesthouse-card',
+      name: 'guesthouse-card',
+      component: () => import('../views/Web/guesthousetCardDetail/guesthouseCardDetailView.vue')
     }
-
   ]
 })
 
