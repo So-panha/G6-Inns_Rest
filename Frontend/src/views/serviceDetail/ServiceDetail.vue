@@ -1,11 +1,10 @@
 <template>
   <div>
-    
     <!-- Navbar -->
-    <nav class="navbar navbar-light bg-white"> 
-      <div class="flex mt-2 mb-2 ml-2"> 
+    <nav class="navbar navbar-light bg-white">
+      <div class="flex mt-2 mb-2 ml-2">
         <router-link to="/home">
-          <span class="material-symbols-outlined" style="font-size: 30px">arrow_back</span> 
+          <span class="material-symbols-outlined" style="font-size: 30px">arrow_back</span>
         </router-link>
         <h4 class="pt-2 pl-1"></h4>
       </div>
@@ -15,17 +14,29 @@
     <!-- carouselExampleIndicators -->
     <div id="carouselExampleIndicators" class="carousel slide mr-2 ml-2" data-ride="carousel">
       <ol class="carousel-indicators">
-        <li v-for="(image, index) in images" :key="index" :data-target="'#carouselExampleIndicators'" :data-slide-to="index" :class="{ active: index === currentIndex }"></li>
+        <li
+          v-for="(image, index) in images"
+          :key="index"
+          :data-target="'#carouselExampleIndicators'"
+          :data-slide-to="index"
+          :class="{ active: index === currentIndex }"
+        ></li>
       </ol>
       <div class="carousel-inner">
-        <div v-for="(image, index) in images" :key="index" :class="['carousel-item', { active: index === currentIndex }]">
-          <img :src="image" class="d-block w-100" alt="...">
+        <div
+          v-for="(image, index) in images"
+          :key="index"
+          :class="['carousel-item', { active: index === currentIndex }]"
+        >
+          <img :src="image" class="d-block w-100" alt="..." />
           <div class="carousel-caption d-none d-md-block">
             <h1 class="text-white pt-120 pl-5">Paradise Cozy Guesthouse Sihanoukville</h1>
             <div class="overlay-form d-flex">
               <div class="w-auto">
                 <div class="px-2 formDate ml-5.2 mr-2">
-                  <label class="text-lg font-semibold" style="color: black">Select Date Range</label>
+                  <label class="text-lg font-semibold" style="color: black"
+                    >Select Date Range</label
+                  >
                   <br />
                   <div class="flex items-center space-x-4">
                     <flat-pickr
@@ -34,7 +45,7 @@
                       :class="{ 'border-red-500': !isValidDate(startDate) }"
                       class="border-2 border-gray-300 rounded px-3 py-2 w-56 date text-black"
                       placeholder="Start Date"
-                      @input="validateDates"
+                      @change="validateDates"
                     ></flat-pickr>
 
                     <flat-pickr
@@ -43,7 +54,7 @@
                       :class="{ 'border-red-500': !isValidDate(endDate) }"
                       class="border-2 border-gray-300 rounded px-3 py-2 w-56 date text-black"
                       placeholder="End Date"
-                      @input="validateDates"
+                      @change="validateDates"
                     ></flat-pickr>
                     <button
                       class="btn btn-primary"
@@ -59,7 +70,6 @@
           </div>
         </div>
       </div>
-     
     </div>
 
     <!-- Container -->
@@ -73,7 +83,7 @@
         <h6>looking at its layout.</h6>
       </div>
       <!-- Card Detail Component -->
-      <ListRoom :startDate="startDate" :endDate="endDate" :bookings="bookings"/>
+      <ListRoom :startDate="startDate" :endDate="endDate" :bookings="bookings" />
       <UserComment />
     </div>
     <!-- Footer Layout -->
@@ -82,19 +92,19 @@
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted } from 'vue';
-import axios from 'axios';
-import FooterView from '../Web/Post/FooterView.vue';
-import ListRoom from './ListRoom.vue';
-import UserComment from './UserComment.vue';
-import flatPickr from 'vue-flatpickr-component';
-import 'flatpickr/dist/flatpickr.css';
+import { ref, onMounted, onUnmounted } from 'vue'
+import axios from 'axios'
+import FooterView from '../Web/Post/FooterView.vue'
+import ListRoom from './ListRoom.vue'
+import UserComment from './UserComment.vue'
+import flatPickr from 'vue-flatpickr-component'
+import 'flatpickr/dist/flatpickr.css'
 
-import image1 from '@/assets/image1.jpg';
-import image2 from '@/assets/image2.jpg';
-import image3 from '@/assets/image3.jpg';
-import image4 from '@/assets/image4.jpg';
-import image5 from '@/assets/image5.jpg';
+import image1 from '@/assets/image1.jpg'
+import image2 from '@/assets/image2.jpg'
+import image3 from '@/assets/image3.jpg'
+import image4 from '@/assets/image4.jpg'
+import image5 from '@/assets/image5.jpg'
 
 export default {
   name: 'ServiceDetail',
@@ -105,47 +115,47 @@ export default {
     flatPickr
   },
   setup() {
-    const images = [image1, image2, image3, image4, image5];
-    const currentIndex = ref(0);
-    const currentImage = ref(images[currentIndex.value]);
-    const startDate = ref(null);
-    const endDate = ref(null);
-    const bookings = ref([]);
+    const images = [image1, image2, image3, image4, image5]
+    const currentIndex = ref(0)
+    const currentImage = ref(images[currentIndex.value])
+    const startDate = ref(null)
+    const endDate = ref(null)
+    const bookings = ref([])
 
-    let intervalId;
+    let intervalId
 
     const startImageCarousel = () => {
       intervalId = setInterval(() => {
-        currentIndex.value = (currentIndex.value + 1) % images.length;
-        currentImage.value = images[currentIndex.value];
-      }, 3000); // Change image every 3 seconds
-    };
+        currentIndex.value = (currentIndex.value + 1) % images.length
+        currentImage.value = images[currentIndex.value]
+      }, 3000) // Change image every 3 seconds
+    }
 
     const handleStartDateChange = (selectedDates) => {
       if (selectedDates.length > 0 && endDate.value) {
-        validateDates();
+        validateDates()
       }
-    };
+    }
 
     const handleEndDateChange = (selectedDates) => {
       if (selectedDates.length > 0 && startDate.value) {
-        validateDates();
+        validateDates()
       }
-    };
+    }
 
     const startConfig = {
       dateFormat: 'Y-m-d',
       onChange: handleStartDateChange
-    };
+    }
 
     const endConfig = {
       dateFormat: 'Y-m-d',
       onChange: handleEndDateChange
-    };
+    }
 
     const isValidDate = (date) => {
-      return date instanceof Date && !isNaN(date);
-    };
+      return date instanceof Date && !isNaN(date)
+    }
 
     // const isValidDateRange = (startDate, endDate) => {
     //   return isValidDate(startDate) && isValidDate(endDate) && startDate <= endDate;
@@ -153,52 +163,62 @@ export default {
 
     const validateDates = () => {
       // Trigger validation logic
-    };
-    const isValidDateRange = (startDate, endDate) => {
-  // Example validation logic
-  return startDate && endDate && new Date(startDate) <= new Date(endDate);
-};
-
-const submitForm = async () => {
-  if (isValidDateRange(startDate.value, endDate.value)) {
-    try {
-      const response = await axios.post('http://127.0.0.1:8000/api/booking_user_rooms/search', {
-        departure_date: startDate.value,
-        arrival_date: endDate.value
-      });
-
-      if (response.status === 200) {
-        bookings.value = response.data;
-        console.log( bookings.value);
-     
-      } else {
-        console.error('Unexpected response status:', response.status);
-      }
-    } catch (error) {
-      if (error.response) {
-        console.error('Error response data:', error.response.data);
-        console.error('Error response status:', error.response.status);
-        console.error('Error response headers:', error.response.headers);
-      } else if (error.request) {
-        console.error('Error request data:', error.request);
-      } else {
-        console.error('Error message:', error.message);
-      }
-      console.error('Error config:', error.config);
     }
-  } else {
-    console.error('Invalid date range');
-  }
-};
+    const isValidDateRange = (startDate, endDate) => {
+      const currentDate = new Date()
+      const year = currentDate.getFullYear()
+      const month = currentDate.getMonth() + 1 // Months are zero-indexed, so we add 1
+      const day = currentDate.getDate()
+      const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+      // console.log(startDate);
+      console.log(formattedDate)
+      // Example validation logic
+      return (
+        startDate &&
+        endDate &&
+        new Date(startDate) <= new Date(endDate) &&
+        new Date(startDate) >= new Date(formattedDate)
+      )
+    }
 
+    const submitForm = async () => {
+      if (isValidDateRange(startDate.value, endDate.value)) {
+        try {
+          const response = await axios.post('http://127.0.0.1:8000/api/booking_user_rooms/search', {
+            departure_date: startDate.value,
+            arrival_date: endDate.value
+          })
+
+          if (response.status === 200) {
+            bookings.value = response.data
+            console.log(bookings.value)
+          } else {
+            console.error('Unexpected response status:', response.status)
+          }
+        } catch (error) {
+          if (error.response) {
+            console.error('Error response data:', error.response.data)
+            console.error('Error response status:', error.response.status)
+            console.error('Error response headers:', error.response.headers)
+          } else if (error.request) {
+            console.error('Error request data:', error.request)
+          } else {
+            console.error('Error message:', error.message)
+          }
+          console.error('Error config:', error.config)
+        }
+      } else {
+        console.error('Invalid date range')
+      }
+    }
 
     onMounted(() => {
-      startImageCarousel();
-    });
+      startImageCarousel()
+    })
 
     onUnmounted(() => {
-      clearInterval(intervalId);
-    });
+      clearInterval(intervalId)
+    })
 
     return {
       images,
@@ -213,9 +233,9 @@ const submitForm = async () => {
       isValidDateRange,
       validateDates,
       submitForm
-    };
+    }
   }
-};
+}
 </script>
 
 <style scoped>
