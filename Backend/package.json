@@ -30,4 +30,5 @@
             "App\\Http\\Livewire\\": "app/Http/Livewire/"
         }
     }
+  
 }

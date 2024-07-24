@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="ListImages.length > 0">
-      <CardDetail :ListImages="ListImages" :startDate="startDate" :endDate="endDate" :bookings="bookings" />
+      <CardDetail :ListImages="ListImages" :startDate="startDate" :endDate="endDate" :bookings="bookings" :daysBetween="daysBetween"/>
     </div>
     <div v-else>
       <h1>This Guest House doesn't have any room</h1>
@@ -30,6 +30,10 @@ export default {
     bookings: {
       type: Array,
       default: () => []
+    },
+    daysBetween:{
+      type: String,
+      default: null
     }
   },
   data() {

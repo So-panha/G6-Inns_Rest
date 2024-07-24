@@ -15,23 +15,28 @@ class BookingUserRoomAPIController extends Controller
 {
     public function create(CreateBookingUserRoomRequest $request)
     {
-        
-        $validatedData = $request->validated();
+        try {
+            $validatedData = $request->validated();
+            \Log::info('Validated Data:', $validatedData);
     
-        // Log validated data
-        \Log::info('Validated Data:', $validatedData);
+            $userExists = \App\Models\UserNormal::find($validatedData['user_id']);
+            if (!$userExists) {
+                \Log::error('Invalid user_id:', ['user_id' => $validatedData['user_id']]);
+                return response()->json(['message' => 'The selected user id is invalid.'], 400);
+            }
     
-        // Check if the user_id exists
-        $userExists = \App\Models\UserNormal::find($validatedData['user_id']);
-        if (!$userExists) {
-            \Log::error('Invalid user_id:', ['user_id' => $validatedData['user_id']]);
-            return response()->json(['message' => 'The selected user id is invalid.'], 400);
+            $validatedData['paymented'] = floatval($validatedData['paymented']);
+    
+            $bookingUserRoom = BookingUserRooms::create($validatedData);
+            \Log::info('Booking User Room Created:', $bookingUserRoom->toArray());
+            return response()->json(new GetBookingUserRoomTypeResource($bookingUserRoom), 200);
+        } catch (\Exception $e) {
+            \Log::error('Error Creating Booking User Room:', ['error' => $e->getMessage()]);
+            return response()->json(['message' => 'Failed to create booking.'], 500);
         }
-    
-        $bookingUserRoom = BookingUserRooms::create($validatedData);
-        return response()->json(new GetBookingUserRoomTypeResource($bookingUserRoom), 201);
-
     }
+    
+    
 
     // Search range date
     public function search(Request $request)

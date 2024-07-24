@@ -22,14 +22,13 @@ class CreateBookingUserRoomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'price' => 'required|integer',
-            'number_of_rooms' => 'required|integer',
-            'arrival_date' => 'required|date',
+            'number_of_rooms' => 'required|integer|min:1',
             'departure_date' => 'required|date',
-            'user_id' => 'required|exists:user_normals,id',
-            'room_id' => 'required|integer',
-            'create_by_id' => 'required|integer|exists:users,id',
-           
+            'arrival_date' => 'required|date',
+            'paymented' => 'nullable|numeric',
+            'user_id' => 'required|exists:users,id',
+            'room_id' => 'required|exists:rooms,id',
+            'create_by_id' => 'required|exists:users,id',
         ];
     }
 }

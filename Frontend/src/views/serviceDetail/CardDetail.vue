@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    
+  
     <div class="card mb-3 m-8" v-for="(listImage, index) in ListImages" :key="listImage.id" style="width: 98%">
       <div class="row p-5">
         <!-- Image Section -->
@@ -33,34 +33,33 @@
         <div class="col-md-7">
           <div class="card-body">
             <h5 class="card-title">{{ listImage.name }}</h5>
-           
+
             <div v-if="bookings.length > 0">
               <div v-if="bookings[index] !== undefined">
                 <p v-if="bookings[index].number_rooms > 0" class="text-green-500">
                   {{ bookings[index].number_rooms }} available rooms.
                 </p>
                 <p v-if="bookings[index].number_rooms == 0" class="text-red-500">
-                  This room is fully booked.
+                  Fully booked.
                 </p>
               </div>
               <div v-else>
-                <p class="text-orange-500">No bookings available.</p>
+                <p class="text-orange-500">Fully room available.</p>
               </div>
             </div>
             <div v-if="bookings.success == false">
-              <p class="text-orange-500">No bookings available.</p>
+              <p class="text-orange-500">Fully room available.</p>
             </div>
 
             <p>Type room : <span style="text-decoration: underline;">{{ listImage.type_of_room.name }}</span></p>
-            <h6 >{{ listImage.description }}</h6><br>
+            <h6>{{ listImage.description }}</h6><br>
 
-            <p class="card-text">
-              <span class="locate material-symbols-outlined" style="font-size: 40px">home_pin</span>
-              <small class="text-muted">5 minute walk from University in Phnom Penh</small>
-            </p>
+          
             <div class="d-flex justify-content-between align-items-center ml-1">
               <div class="flex">
-                <span class="home material-symbols-outlined" style="font-size: 30px">home</span>
+                <span class="material-symbols-outlined" style="font-size: 28px">
+                  bedroom_child
+                </span>
                 <p class="card-text mt-1 ml-4">{{ listImage.bed_type.name }}</p>
               </div>
               <div class="flex">
@@ -68,8 +67,11 @@
                 <p class="card-text mt-1 ml-4">WiFi</p>
               </div>
               <h5 class="card-text mb-0">${{ listImage.price }} USD total</h5>
+            </div><br>
+            <div class="card-text">
+              <span class="home material-symbols-outlined" style="font-size: 30px">home</span>
+              <span class="text-muted"> {{ listImage.number_of_rooms }} rooms </span>
             </div>
-
             <div v-if="bookings.length > 0">
               <div class="d-flex justify-content-end mt-5">
                 <div v-if="bookings[index] !== undefined">
@@ -110,7 +112,7 @@
           </div>
           <div class="modal-body">
             <BookingUserView @close="closeBookingModal" @submit="handleFormSubmit" :selectedImage="selectedImage"
-              :ListImages="ListImages" :selectedRoomId="selectedRoomId" :startDate="startDate" :endDate="endDate" />
+              :ListImages="ListImages" :selectedRoomId="selectedRoomId" :startDate="startDate" :endDate="endDate" :daysBetween="daysBetween"/>
           </div>
         </div>
       </div>
@@ -122,6 +124,7 @@
 <script>
 import BookingUserView from '@/views/Web/Booking/BookingUserView.vue'
 import axios from 'axios'
+import ListRoom from './ListRoom.vue';
 
 export default {
   name: 'CardDetail',
@@ -140,6 +143,10 @@ export default {
     },
     bookings: {
       type: Array,
+      default: null
+    },
+    daysBetween:{
+      type: String,
       default: null
     }
   },

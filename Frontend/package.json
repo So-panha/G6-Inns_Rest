@@ -21,6 +21,7 @@
     "@syncfusion/ej2-vue-calendars": "^26.1.41",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "date-fns": "^3.6.0",
     "element-plus": "^2.7.4",
     "flatpickr": "^4.6.13",
     "google-maps-api-loader": "^1.1.1",

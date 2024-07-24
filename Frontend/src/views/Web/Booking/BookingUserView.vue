@@ -1,10 +1,5 @@
 <template>
   <form @submit.prevent="PostBooking">
-    <!-- Display Selected Room for debugging -->
-    <!-- {{ selectedRoomId }} -->
-    <!-- {{ selectedRoomId.user_id.id }}
-    {{  selectedRoomId.id }} -->
-
     <div class="container">
       <div class="image-gallery">
         <div class="image-item" v-for="(image, index) in images" :key="index">
@@ -65,15 +60,13 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-12 mb-3 mt-3">
+        <div class="col-md-6 mb-3 mt-3">
           <label for="totalPrice">Total Price</label>
-          <input
-            type="text"
-            class="form-control"
-            id="totalPrice"
-            :value="totalPrice"
-            readonly
-          />
+          <input type="text" class="form-control" id="totalPrice" :value="totalPrice" readonly />
+        </div>
+        <div class="col-md-6 mb-3 mt-3">
+          <label for="daysBetween">Number of the day</label>
+          <input type="text" class="form-control" id="daysBetween" :value="daysBetween" readonly />
         </div>
       </div>
       <div class="text-right">
@@ -103,6 +96,10 @@ const props = defineProps({
     type: String,
     default: null
   },
+  daysBetween: {
+    type: Number,
+    default: 0
+  },
   selectedRoomId: {
     type: Object,
     default: () => ({ id: null, price: null, name: '', user_id: { id: null } })
@@ -122,8 +119,9 @@ const { startDate, endDate, selectedRoomId, images } = toRefs(props)
 const form = ref({
   price: selectedRoomId.value.price || '',
   numRooms: '',
-  departuredate: startDate.value,
-  arrivaldate: endDate.value,
+  departuredate: '', // Will be set in onMounted
+  arrivaldate: '', // Will be set in onMounted
+  paymented: '', // Set paymented to be totalPrice initially
   user_name: authStore.user.name || '', // Set user_name from authStore
   room_name: selectedRoomId.value.name || '',
   user_id: authStore.user.id || '', // Set user_name from authStore
@@ -166,15 +164,15 @@ const PostBooking = async () => {
 
   if (isValid) {
     try {
+      // Ensure totalPrice is computed
       const payload = {
-        price: form.value.price,
-        number_of_rooms: form.value.numRooms,
-        total_price: totalPrice.value,
-        departure_date: form.value.departuredate,
-        arrival_date: form.value.arrivaldate,
-        user_id: form.value.user_id,
-        room_id: form.value.room_id,
-        create_by_id: form.value.create_by_id,
+        number_of_rooms: Number(form.value.numRooms), // Ensure this is a number
+        departure_date: form.value.departuredate, // Ensure format is YYYY-MM-DD
+        arrival_date: form.value.arrivaldate, // Ensure format is YYYY-MM-DD
+        paymented: Number(totalPrice.value), // Ensure this is a number
+        user_id: form.value.user_id, // Should be a number
+        room_id: form.value.room_id, // Should be a number
+        create_by_id: form.value.create_by_id // Should be a number
       }
 
       console.log('Payload:', payload)
@@ -189,10 +187,7 @@ const PostBooking = async () => {
         }
       )
 
-      console.log('Response Status:', response.status)
-      console.log('Response Data:', response.data)
-
-      if (response.status === 201) {
+      if (response.status === 200) {
         console.log('Booking successful:', response.data)
         router.push({
           name: 'qrCode',
@@ -207,15 +202,12 @@ const PostBooking = async () => {
       }
     } catch (error) {
       if (error.response) {
-        // Server responded with a status other than 2xx
         console.error('Error Response:', error.response.data)
         console.error('Error Status:', error.response.status)
         console.error('Error Headers:', error.response.headers)
       } else if (error.request) {
-        // No response received
         console.error('Error Request:', error.request)
       } else {
-        // Something happened in setting up the request
         console.error('Error Message:', error.message)
       }
       console.error('Error Config:', error.config)
@@ -232,6 +224,7 @@ const cancelForm = () => {
     numRooms: '',
     departuredate: startDate.value,
     arrivaldate: endDate.value,
+    paymented: totalPrice.value,
     user_name: authStore.user.name || '', // Reset user_name from authStore
     room_name: selectedRoomId.value.name || '',
     create_by_id: selectedRoomId.value.user_id.id
@@ -240,11 +233,26 @@ const cancelForm = () => {
 }
 
 const totalPrice = computed(() => {
-  return form.value.numRooms === '' ? form.value.price : form.value.price * form.value.numRooms
+  // Ensure numeric calculations
+  const numRooms = Number(form.value.numRooms) || 0
+  const price = Number(form.value.price) || 0
+  const days = Number(props.daysBetween) || 0
+
+  // Calculate the total price
+  const calculatedTotalPrice = numRooms * price * days
+
+  // Return price if the calculated total is 0
+  return calculatedTotalPrice === 0 ? price : calculatedTotalPrice
 })
 
-onMounted(async () => {
-  await getUserProfile()
+onMounted(() => {
+  // Set today's date and tomorrow's date
+  const today = new Date()
+  const tomorrow = new Date(today)
+  tomorrow.setDate(today.getDate() + 1)
+
+  form.value.departuredate = today.toISOString().split('T')[0] // Format YYYY-MM-DD
+  form.value.arrivaldate = tomorrow.toISOString().split('T')[0] // Format YYYY-MM-DD
 })
 
 const getUserProfile = async () => {
@@ -256,6 +264,8 @@ const getUserProfile = async () => {
   }
 }
 </script>
+
+
 
 <style scoped>
 body,

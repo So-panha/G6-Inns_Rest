@@ -10,7 +10,6 @@ class BookingUserRooms extends Model
     use HasFactory;
 
     protected $fillable = [
-        'price',
         'number_of_rooms',
         'departure_date',
         'arrival_date',
@@ -31,6 +30,11 @@ class BookingUserRooms extends Model
     {
         return $this->belongsTo(Room::class);
     }
+
+    public function create_by()
+{
+    return $this->belongsTo(UserNormal::class, 'create_by_id');
+}
 }
 
 // <?php
