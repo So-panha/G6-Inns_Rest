@@ -44,10 +44,28 @@ class Room extends Model implements HasMedia
         return $this->belongsTo(User::class);
     }
 
-    public function guestHouse(){
-        return $this->belongsTo(GuestHouse::class);
+    public function guestHouse()
+    {
+        return $this->belongsTo(GuestHouse::class, 'guest_house_id');
     }
 
+    public function countLikes()
+    {
+        return $this->hasMany(LikeGuesthouse::class, 'rooms_id')->count();
+    }
+
+    public function getAllLike()
+    {
+        return $this->hasMany(LikeGuesthouse::class, 'rooms_id');
+    }
+
+
+    // -------------like----------------
+
+    public function likes()
+    {
+        return $this->hasMany(LikeGuesthouse::class, 'rooms_id');
+    }
 
 
 }

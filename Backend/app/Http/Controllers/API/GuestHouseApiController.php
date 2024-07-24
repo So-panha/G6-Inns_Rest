@@ -11,6 +11,8 @@ use App\Models\GuestHouse;
 use App\Models\Like;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use App\Models\LikeGuesthouse;
+
 class GuestHouseApiController extends Controller
 {
     /**
@@ -91,54 +93,48 @@ class GuestHouseApiController extends Controller
         return response()->json(['guest_house' => $guestHouse, 'comment_feedback' =>  $comment_feedback], 200);
     }
 
-    // -----------------like-------------------------------
-    public function addLike(Request $request)
-    {
-        // Retrieve userNormal_id from the request
-        $userNormalId = $request->input('userNormal_id');
+    // -----------------like GuestHouse and Room------------------------------
 
-        // Check if the userNormal_id is provided
-        if (!$userNormalId) {
-            return response()->json([
-                "data" => false,
-                "message" => "User not authenticated"
-            ], 401);
-        }
+      // -----------------like-------------------------------
 
-        try {
-            $like = Like::where('userNormal_id', $userNormalId)
-                ->where('guestHouse_id', $request->guestHouse_id)
-                ->first();
-
-            if ($like) {
-                $like->delete();
-                return response()->json([
-                    "data" => true,
-                    "message" => "Unlike success"
-                ]);
-            } else {
-                $like = new Like();
-                $like->userNormal_id = $userNormalId;
-                $like->guestHouse_id = $request->guestHouse_id;
-
-                if ($like->save()) {
-                    return response()->json([
-                        "data" => true,
-                        // "message" => "liked it"
-                        "like" => $like->load('userNormal') 
-                    ]);
-                } else {
-                    return response()->json([
-                        "data" => false,
-                        "message" => "Something went wrong"
-                    ]);
-                }
-            }
-        } catch (\Exception $e) {
-            return response()->json([
-                "data" => false,
-                "message" => "Error occurred: " . $e->getMessage()
-            ]);
-        }
-    }
+      public function getLikeRoomFromGuesthouses($id)
+      {
+          // Fetch all rooms for the given guest house
+          $rooms = Room::where('guest_house_id', $id)->get();
+  
+          // Transform rooms using resource (assuming you have a resource defined)
+          $rooms = GetAllRoomsResoure::collection($rooms);
+  
+          // Fetch likes for these rooms
+          $likes = LikeGuesthouse::whereIn('rooms_id', $rooms->pluck('id'))->get();
+  
+          $countLikes = $likes->count();
+  
+          // Return JSON response with likes and count
+          return response()->json([
+              'likes' => $rooms,
+              'count_likes' => $countLikes
+          ]);
+      }
+  
+      public function countLikesByGuesthouse($guesthouseId)
+      {
+          try {
+              // Retrieve likes count for rooms that belong to a specific guesthouse
+              $likesCount = LikeGuesthouse::whereHas('room', function ($query) use ($guesthouseId) {
+                  $query->where('guesthouse_id', $guesthouseId);
+              })
+                  ->count();
+  
+              return response()->json([
+                  'guesthouse_id' => $guesthouseId,
+                  'likes_count' => $likesCount,
+              ]);
+          } catch (\Exception $e) {
+              return response()->json([
+                  'error' => $e->getMessage()
+              ], 500);
+          }
+      }
+ 
 }
