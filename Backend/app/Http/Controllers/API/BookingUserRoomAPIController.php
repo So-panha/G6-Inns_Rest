@@ -33,8 +33,6 @@ class BookingUserRoomAPIController extends Controller
 
     }
 
-    
-
     // Search range date
     public function search(Request $request)
     {

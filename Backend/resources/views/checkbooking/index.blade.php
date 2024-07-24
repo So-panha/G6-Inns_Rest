@@ -1,5 +1,6 @@
 <x-app-layout>
 
+    @if(count($bookings) != 0)
     <div class="container mx-auto mt-12 px-5">
         <!-- History Entries Section -->
         <div>
@@ -32,6 +33,11 @@
             @endforeach
         </div>
     </div>
+    @else
+        <div class="flex justify-center items-center w-full h-full">
+            <h1 class="text-center text-4xl font-bold">No booking found.</h1>
+        </div>
+    @endif
 
     <!-- Pop-up Detail Modal -->
     <div class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center hidden" id="detailModal">

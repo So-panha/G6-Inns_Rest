@@ -1,9 +1,10 @@
 <template>
   <form @submit.prevent="PostBooking">
-<!-- 
-    {{ selectedRoomId }}
+    <!-- Display Selected Room for debugging -->
+    <!-- {{ selectedRoomId }} -->
+    {{ selectedRoomId.user_id.id }}
+    {{  selectedRoomId.id }}
 
-    {{ authStore.user.id }} -->
     <div class="container">
       <div class="image-gallery">
         <div class="image-item" v-for="(image, index) in images" :key="index">
@@ -15,26 +16,64 @@
       <div class="row">
         <div class="col-md-6 mb-3 mt-3">
           <label for="numRooms">Number of rooms user booking</label>
-          <input type="number" class="form-control" id="numRooms" v-model.number="form.numRooms"
-            placeholder="Number Of Rooms" />
+          <input
+            type="number"
+            class="form-control"
+            id="numRooms"
+            v-model.number="form.numRooms"
+            placeholder="Number Of Rooms"
+          />
           <span v-if="errors.numRooms" class="error">{{ errors.numRooms }}</span>
         </div>
         <div class="col-md-6 mb-3 mt-3">
-          <label for="price">Price</label>
-          <input type="number" class="form-control" id="price" v-model.number="form.price" placeholder="Price" />
+          <label for="price_per_room">Price per Room</label>
+          <input
+            type="number"
+            class="form-control"
+            id="price_per_room"
+            v-model.number="form.price_per_room"
+            placeholder="Price"
+            readonly
+          />
           <span v-if="errors.price" class="error">{{ errors.price }}</span>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6 mb-3 mt-3">
-          <label for="user">User ID</label>
-          <input type="number" class="form-control" id="user" v-model.number="form.user_id" placeholder="User Id" />
-          <span v-if="errors.user_id" class="error">{{ errors.user_id }}</span>
+          <label for="user">User Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="user"
+            v-model="form.user_name"
+            placeholder="User Name"
+            readonly
+          />
+          <span v-if="errors.user_name" class="error">{{ errors.user_name }}</span>
         </div>
         <div class="col-md-6 mb-3 mt-3">
-          <label for="room">Room Id</label>
-          <input type="number" class="form-control" id="room" v-model.number="form.room_id" placeholder="Room Id" />
-          <span v-if="errors.room_id" class="error">{{ errors.room_id }}</span>
+          <label for="room">Room Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="room"
+            v-model="form.room_name"
+            placeholder="Room Name"
+            readonly
+          />
+          <span v-if="errors.room_name" class="error">{{ errors.room_name }}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mb-3 mt-3">
+          <label for="totalPrice">Total Price</label>
+          <input
+            type="text"
+            class="form-control"
+            id="totalPrice"
+            :value="totalPrice"
+            readonly
+          />
         </div>
       </div>
       <div class="text-right">
@@ -46,13 +85,14 @@
 </template>
 
 <script setup>
-import { ref, toRefs } from 'vue'
+import { ref, toRefs, computed, onMounted } from 'vue'
 import * as yup from 'yup'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
-
 import { useAuthStore } from '../../../stores/auth-store.ts'
+
 const authStore = useAuthStore()
+const router = useRouter()
 
 const props = defineProps({
   startDate: {
@@ -65,7 +105,7 @@ const props = defineProps({
   },
   selectedRoomId: {
     type: Object,
-    default: () => ({ id: null, user_id: null, price: null, name: '' })
+    default: () => ({ id: null, price: null, name: '', user_id: { id: null } })
   },
   images: {
     type: Array,
@@ -78,15 +118,17 @@ const props = defineProps({
 })
 
 const { startDate, endDate, selectedRoomId, images } = toRefs(props)
-const router = useRouter()
 
 const form = ref({
   price: selectedRoomId.value.price || '',
   numRooms: '',
   departuredate: startDate.value,
   arrivaldate: endDate.value,
-  user_id: authStore.user.id || '',
-  room_id: selectedRoomId.value.id || ''
+  user_name: authStore.user.name || '', // Set user_name from authStore
+  room_name: selectedRoomId.value.name || '',
+  user_id: authStore.user.id || '', // Set user_name from authStore
+  room_id: selectedRoomId.value.id || '',
+  create_by_id: selectedRoomId.value.user_id.id
 })
 
 const errors = ref({})
@@ -98,8 +140,9 @@ const schema = yup.object().shape({
     .min(1, 'At least one room is required')
     .required('Number of rooms is required'),
   price: yup.number().required('Price is required'),
-  user_id: yup.number().required('User ID is required'),
-  room_id: yup.number().required('Room ID is required')
+  user_name: yup.string().required('User Name is required'),
+  room_name: yup.string().required('Room Name is required'),
+  create_by_id: yup.number().required('User ID is required')
 })
 
 const validateForm = async () => {
@@ -126,10 +169,12 @@ const PostBooking = async () => {
       const payload = {
         price: form.value.price,
         number_of_rooms: form.value.numRooms,
+        total_price: totalPrice.value,
         departure_date: form.value.departuredate,
         arrival_date: form.value.arrivaldate,
         user_id: form.value.user_id,
-        room_id: form.value.room_id
+        room_id: form.value.room_id,
+        create_by_id: form.value.create_by_id,
       }
 
       console.log('Payload:', payload)
@@ -187,10 +232,28 @@ const cancelForm = () => {
     numRooms: '',
     departuredate: startDate.value,
     arrivaldate: endDate.value,
-    user_id: authStore.user.id || '',
-    room_id: selectedRoomId.value.id || ''
+    user_name: authStore.user.name || '', // Reset user_name from authStore
+    room_name: selectedRoomId.value.name || '',
+    create_by_id: selectedRoomId.value.user_id.id
   }
   errors.value = {}
+}
+
+const totalPrice = computed(() => {
+  return form.value.numRooms === '' ? form.value.price : form.value.price * form.value.numRooms
+})
+
+onMounted(async () => {
+  await getUserProfile()
+})
+
+const getUserProfile = async () => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/user/show/${authStore.user.id}`)
+    // Use response data if needed
+  } catch (error) {
+    console.error('Error fetching user data:', error)
+  }
 }
 </script>
 

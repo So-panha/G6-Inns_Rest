@@ -18,7 +18,8 @@ class GetBookingUserRoomTypeResource extends JsonResource
             'departure_date' => $this->departure_date,
             'arrival_date' => $this->arrival_date,
             'user' => new UserNormalResource($this->user), // Assuming $this->user is the user object
-            'room' => new GetAllRoomsResoure($this->room)
+            'room' => new GetAllRoomsResoure($this->room),
+            'create_by' => new GetUserResoure($this->user)
         ];
     }
 }

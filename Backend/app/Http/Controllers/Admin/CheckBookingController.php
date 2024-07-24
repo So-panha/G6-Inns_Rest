@@ -17,7 +17,7 @@ class CheckBookingController extends Controller
         $userID = Auth()->user()->id;
 
         // Check booking for the user
-        $bookings = BookingUserRooms::all()->where('create_by', $userID);
+        $bookings = BookingUserRooms::all()->where('create_by_id', $userID);
 
         // Return view with bookings
         return view('checkbooking.index', compact('bookings'));
@@ -33,7 +33,7 @@ class CheckBookingController extends Controller
         $userID = auth()->user()->id;
 
         // Check booking for the user
-        $bookings = BookingUserRooms::all()->where('create_by', $userID)->where('checked', null);
+        $bookings = BookingUserRooms::all()->where('create_by_id', $userID)->where('checked', null);
 
         $countBooking = count($bookings);
 
