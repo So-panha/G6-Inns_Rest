@@ -22,7 +22,7 @@
           <img :src="image" class="d-block w-100" alt="...">
           <div class="carousel-caption d-none d-md-block">
             <div class="overlay-form d-flex">
-              <div class="w-auto mt-76">
+              <div class="w-auto">
               
                 <div class="px-2 formDate ml-5.2 mr-2">
                   <label class="text-lg font-semibold" style="color: black">Select Date Range</label>
@@ -50,7 +50,7 @@
                       :disabled="!isValidDateRange(startDate, endDate)"
                       @click="submitForm"
                     >
-                      Search
+                      Check
                     </button>
                   </div>
                 </div>

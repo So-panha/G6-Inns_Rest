@@ -28,6 +28,7 @@ class CreateBookingUserRoomRequest extends FormRequest
             'departure_date' => 'required|date',
             'user_id' => 'required|exists:user_normals,id',
             'room_id' => 'required|integer',
+            'create_by_id' => 'required|integer|exists:users,id',
            
         ];
     }

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('paymented')->default(0);
             $table->foreignId('user_id')->constrained('user_normals');
             $table->foreignId('room_id')->references('id')->on('rooms')->onDelete('cascade');
-            $table->integer('create_by')->nullable();
+            $table->foreignId('create_by_id')->constrained('users');
             $table->integer('checked')->nullable();
             $table->timestamps();
         });

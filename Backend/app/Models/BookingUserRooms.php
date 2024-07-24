@@ -17,19 +17,9 @@ class BookingUserRooms extends Model
         'paymented',
         'user_id',
         'room_id',
-        'create_by',
+        'create_by_id',
         'checked'
     ];
-
-
-    // public function setPaymentedAttribute($value)
-    // {
-    //     if ($value !== 'candidate') {
-    //         $this->attributes['paymented'] = null;
-    //     } else {
-    //         $this->attributes['paymented'] = $value;
-    //     }
-    // }
 
 
     public function user()
