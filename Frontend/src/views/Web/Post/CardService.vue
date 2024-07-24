@@ -1,10 +1,8 @@
 <template>
-
   <div>
-
     <div class="container mt-2 mb-10 group_text flex items-center justify-between">
       <div>
-        <h2 class=" ml-3">Popular Booking</h2>
+        <h2 class="ml-3">Popular Booking</h2>
         <p class="mb-13 ml-3">Find the Gest House that near your here</p>
       </div>
 
@@ -95,7 +93,38 @@
                 <h6 class="card-title">{{ house.name }}</h6>
                 <div class="d-flex">
                   <!-- Star ratings -->
-                  <span v-for="n in 5" :key="n" class="material-symbols-outlined">star</span>
+                  <div class="stars-container">
+                    <span
+                      class="material-symbols-outlined star"
+                      :class="{ 'text-yellow-500': house.likesCount >= 10 }"
+                    >
+                      star
+                    </span>
+                    <span
+                      class="material-symbols-outlined star"
+                      :class="{ 'text-yellow-500': house.likesCount >= 20 }"
+                    >
+                      star
+                    </span>
+                    <span
+                      class="material-symbols-outlined star"
+                      :class="{ 'text-yellow-500': house.likesCount >= 30 }"
+                    >
+                      star
+                    </span>
+                    <span
+                      class="material-symbols-outlined star"
+                      :class="{ 'text-yellow-500': house.likesCount >= 40 }"
+                    >
+                      star
+                    </span>
+                    <span
+                      class="material-symbols-outlined star"
+                      :class="{ 'text-yellow-500': house.likesCount >= 50 }"
+                    >
+                      star
+                    </span>
+                  </div>
                 </div>
               </div>
               <!-- Guest house address with link -->
@@ -142,14 +171,15 @@
 <script>
 import axiosInstance from '@/plugins/axios'
 
-
 export default {
   data() {
     return {
       houses: [],
       searchQuery: '',
       showSuggestions: false,
-      userLocation: null
+      userLocation: null,
+      likeRoom: {},
+      idGuesthouse: null
     }
   },
 
@@ -203,13 +233,39 @@ export default {
   mounted() {
     this.fetchHouses()
     this.getUserLocation()
+    this.fetchLikeRoom()
   },
 
   methods: {
+    async fetchLikeRoom(guesthouseId) {
+      try {
+        const response = await axiosInstance.get(`/like/${guesthouseId}`)
+        const countLikes = response.data.count_likes
+
+        const houseToUpdate = this.houses.find((house) => house.id === guesthouseId)
+        if (houseToUpdate) {
+          houseToUpdate.likesCount = countLikes
+        }
+      } catch (error) {
+        console.error('Error fetching likes:', error)
+      }
+    },
+
+    async mounted() {
+      // Assuming you have fetched houses already and stored them in this.houses
+      this.houses.forEach((house) => {
+        this.fetchLikeRoom(house.id)
+      })
+    },
+
     async fetchHouses() {
       try {
         const response = await axiosInstance.get('/guest_house/list')
         this.houses = response.data.data.filter((house) => house.active !== 0)
+        this.houses.forEach((house) => {
+          this.fetchLikeRoom(house.id)
+          // console.log(this.fetchLikeRoom(house.id))
+        })
       } catch (error) {
         console.error(error)
       }

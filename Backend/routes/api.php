@@ -80,6 +80,8 @@ Route::post('/commentGuestHouse', [CommentFeedbackApiController::class, 'comment
 Route::get('/commentOther', [CommentFeedbackApiController::class, 'index'])->name('commentOther');
 
 Route::get('/comment/show/{id}', [CommentFeedbackApiController::class, 'showComments'])->name('showComments');
-// -----------------route add like-------------------------------
 
-Route::post('/add-like', [GuestHouseApiController::class, 'addLike'])->name('addLike');
+// -----------------route add like-------------------------------
+Route::post('/addLike', [RoomAPIController::class, 'addLike']);
+Route::delete('/guesthouse/delete/{id}', [RoomAPIController::class, 'removeLikes']);
+Route::get('/like/{id}', [GuestHouseApiController::class, 'getlikeRoomFromGuesthouses']);

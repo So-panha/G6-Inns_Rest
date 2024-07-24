@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BookingUserRooms;
 use Illuminate\Http\Request;
 
 class HistoryController extends Controller
@@ -10,10 +11,14 @@ class HistoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        return view('history.index');
+        // You can pass data to the view if needed
+        $this->params = $request->only('searchDate');
+        $allHistories = BookingUserRooms::list($this->params,1,1);
+
+
+        return view('history.index', compact('allHistories'));
     }
 
     /**

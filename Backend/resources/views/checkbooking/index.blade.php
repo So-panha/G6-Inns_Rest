@@ -1,43 +1,61 @@
 <x-app-layout>
 
+    @if(count($bookings) != 0)
     <div class="container mx-auto mt-12 px-5">
         <!-- History Entries Section -->
         <div>
-            @foreach (['https://i.pinimg.com/564x/68/b4/ab/68b4abdd4302d9422438ee0acca40a4e.jpg', 'https://i.pinimg.com/736x/c0/2e/cb/c02ecb5514f226475c1d996a408df4e0.jpg', 'https://i.pinimg.com/736x/66/96/9b/66969b3c9fcc76dae1cbdbc055a88e62.jpg', 'https://i.pinimg.com/736x/3b/37/98/3b3798e79aed83eb0273aebc6145de4a.jpg'] as $index => $image)
+            @foreach ($bookings as $index => $booking)
                 <div class="bg-white rounded shadow p-4 mb-6">
                     <div class="flex items-center">
                         <div class="flex-shrink-0">
-                            <img class="w-32 h-32 object-cover rounded-lg" src="{{ $image }}" alt="History Image">
+                            <img class="w-32 h-32 object-cover rounded-lg" src="/storage/{{ $booking->user->profile }}" alt="History Image">
                         </div>
                         <div class="flex-1 ml-4">
-                            <h6>Name: Dany</p>
-                                <p>Gmail: dany@gmail.com</p>
-                                <p>House booking name: Homestack Room</p>
+                            <h6>Name: {{ $booking->user->name }}</p>
+                                <p>Gmail: {{ $booking->user->email }}</p>
+                                <p>Phone number: {{ $booking->user->phoneNumber }}</p>
+                                <p>Name Room: {{ $booking->room->name }}</p>
                         </div>
-                        <div>
+                        <div class="flex-wrap mr-2">
+                            <input id="numbersRoom" class="w-fit m-1 rounded-lg" type="text" value="{{ $booking->number_of_rooms }}" disabled>
+                            <input id="departureDate" class="w-fit m-1 rounded-lg" type="text" value="{{ $booking->departure_date }}" disabled>
+                            <input id="arriveDate" class="w-fit m-1 rounded-lg" type="text" value="{{ $booking->arrival_date }}" disabled>
+                        </div>
+                        <div class="flex gap-2">
                             <button type="button"
-                                class="btn bg-gray-500 hover:bg-gray-700 text-white py-2 px-6 rounded ml-auto"
+                                class="bg-gray-500 hover:bg-gray-700 text-white py-2 px-6 rounded ml-auto"
                                 onclick="userDetail(this)">Detail</button>
-                            <button class="bg-red-500 hover:bg-red-700 text-white py-2 px-6 rounded ml-auto"
-                                onclick="changeColor(this)">Confirm</button>
+                            <form action="{{ route('admin.confirm.booking') }}" method="POST" class="bg-red-500 hover:bg-red-700 text-white py-2 px-6 rounded ml-auto">
+                                @csrf
+                                @method("POST")
+                                <input type="text" value="{{ $booking->id }}" name="bookingID" class="hidden">
+                                <button>Confirm</button>
+                            </form>
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
     </div>
+    @else
+        <div class="flex justify-center items-center w-full h-full">
+            <h1 class="text-center text-4xl font-bold">No booking found.</h1>
+        </div>
+    @endif
 
     <!-- Pop-up Detail Modal -->
-    <div class="fixed inset-0 bg-black bg-opacity-60 flex justify-center hidden" id="detailModal">
-        <div class="bg-white rounded-lg p-10 w-3/4">
+    <div class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center hidden" id="detailModal">
+        <div class="bg-white rounded-lg p-10 w-2/4 h-2/4">
             <div class="flex items-center justify-between">
                 <h2 class="text-xl font-bold">User Booking Details</h2>
                 <button type="button" class="text-gray-700 hover:text-gray-900"
                     onclick="closeDetailModal()">&times;</button>
             </div>
             <hr class="my-4">
-            <div id="modalContent">
+            <div class="flex justify-center">
                 <!-- Content will be dynamically inserted here -->
+                <div id="modalContent1"></div>
+                <div id="modalContent2" class="w-2/3 flex flex-col gap-4"></div>
             </div>
         </div>
     </div>
@@ -97,14 +115,25 @@
             const textContent1 = parentDiv.querySelector('h6').innerHTML;
             const textContent2 = parentDiv.querySelector('p').innerHTML;
 
+            const numberRoom = parentDiv.querySelector('#numbersRoom').value;
+            const departureDate = parentDiv.querySelector('#departureDate').value;
+            const arriveDate = parentDiv.querySelector('#arriveDate').value;
+
             // Update modal content
-            const modalContent = `
+            const modalContent1 = `
                 <img class="w-52 h-52 object-cover rounded-lg" src="${image}" alt="History Image">
                 <p class="text-gray-700">${textContent1}</p>
                 <p class="text-gray-700">${textContent2}</p>
-
             `;
-            document.getElementById('modalContent').innerHTML = modalContent;
+
+            const modalContent2 = `
+                <div class="w-full text-gray-700 p-4 rounded-lg border border-red-500">Number Of Booking : ${numberRoom}</div>
+                <div class="w-full text-gray-700 p-4 rounded-lg border border-red-500">The Date Of This User Stay : ${departureDate}</div>
+                <div class="w-full text-gray-700 p-4 rounded-lg border border-red-500">The Date Of This User Leave : ${arriveDate}</div>
+            `;
+
+            document.getElementById('modalContent1').innerHTML = modalContent1;
+            document.getElementById('modalContent2').innerHTML = modalContent2;
 
             // Show the modal
             document.getElementById('detailModal').classList.remove('hidden');

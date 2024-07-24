@@ -131,7 +131,7 @@
     @canany('Dashboard_service access')
         <div class="container mx-auto mt-5 px-5">
             <!-- Rooms
-        Section -->
+                Section -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div class="bg-white rounded-lg shadow">
                     <img class="w-full h-48 object-cover rounded-t-lg"
@@ -421,6 +421,26 @@
                     console.error('Error:', error);
                 }
             });
+        });
+
+        // Get data has confirmed booking
+        $.ajax({
+            type: 'GET',
+            url: '{{ route('admin.list.confirmed.booking') }}', // Use a relative URL instead of a hardcoded one
+            headers: {
+                'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the request headers
+            },
+            success: function(response) {
+
+                // Handle the successful response
+                let allConfirmedBooking = response.data;
+                console.log(allConfirmedBooking);
+
+            },
+            error: function(xhr, status, error) {
+                // Handle the error response
+                console.error('Error:', error);
+            }
         });
     </script>
 </x-app-layout>

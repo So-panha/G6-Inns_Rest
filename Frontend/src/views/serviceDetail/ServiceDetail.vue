@@ -135,13 +135,28 @@ export default {
       return date instanceof Date && !isNaN(date);
     };
 
-    const isValidDateRange = (startDate, endDate) => {
-      return startDate && endDate && new Date(startDate) <= new Date(endDate);
-    };
+    // const isValidDateRange = (startDate, endDate) => {
+    //   return startDate && endDate && new Date(startDate) <= new Date(endDate);
+    // };
 
     const validateDates = () => {
       // Trigger validation logic if needed
     };
+    const isValidDateRange = (startDate, endDate) => {
+      const currentDate = new Date()
+      const year = currentDate.getFullYear()
+      const month = currentDate.getMonth() + 1 // Months are zero-indexed, so we add 1
+      const day = currentDate.getDate()
+      const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`
+      
+      // Example validation logic
+      return (
+        startDate &&
+        endDate &&
+        new Date(startDate) <= new Date(endDate) &&
+        new Date(startDate) >= new Date(formattedDate)
+      )
+};
 
     const submitForm = async () => {
       if (isValidDateRange(startDate.value, endDate.value)) {

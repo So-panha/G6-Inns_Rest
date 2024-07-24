@@ -1,28 +1,66 @@
 <template>
   <div class="container">
-  
-    <div class="card mb-3 m-8" v-for="(listImage, index) in ListImages" :key="listImage.id" style="width: 98%">
+    <div
+      class="card mb-3 m-8"
+      v-for="(listImage, index) in ListImages"
+      :key="listImage.id"
+      style="width: 98%"
+    >
       <div class="row p-5">
         <!-- Image Section -->
         <div class="col-md-4">
           <div class="card h-100 position-relative">
-            <div class="overflow-auto" :id="'scrollContainer-' + listImage.id"
-              style="white-space: nowrap; scroll-behavior: smooth">
-              <div v-for="image in listImage.images" :key="image.url" class="d-inline-block"
-                style="width: 430px; height: 320px; position: relative">
-                <img :src="getImage(image.url)" class="card-img" alt="Room Image"
-                  style="width: 100%; height: 100%; object-fit: cover" />
-                <button class="position-absolute top-20 start-15 translate-middle-y heart-button" :class="{
-                  'btn-outline-light': !listImage.isFavorite,
-                  'btn-danger': listImage.isFavorite
-                }" @click="toggleFavorite(index)"></button>
+            <div
+              class="overflow-auto"
+              :id="'scrollContainer-' + listImage.id"
+              style="white-space: nowrap; scroll-behavior: smooth"
+            >
+              <div
+                v-for="image in listImage.images"
+                :key="image.url"
+                class="d-inline-block"
+                style="width: 430px; height: 320px; object-fit: cover; position: relative"
+              >
+                <img
+                  :src="getImage(image.url)"
+                  class="card-img"
+                  alt="Room Image"
+                  style="width: 100%; height: 100%; object-fit: cover"
+                />
+                <span
+                  class="heart-icon"
+                  @click="toggleFavorite(listImage.id)"
+                  style="
+                    font-size: 24px;
+                    text-align: center;
+                    background-color: white;
+                    color: black;
+                    position: absolute;
+                    top: 12px;
+                    right: 90px;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                  :class="{ favorited: listImage.isFavorite }"
+                >
+                  <span v-if="listImage.isFavorite">❤️</span>
+                  <span v-else>🤍</span>
+                </span>
               </div>
-              <button @click="scrollLeft(listImage.id)"
-                class="position-absolute top-50 start-0 translate-middle-y btn btn-outline-dark border-0">
+              <button
+                @click="scrollLeft(listImage.id)"
+                class="position-absolute top-50 start-0 translate-middle-y btn btn-outline-dark border-0"
+              >
                 <span class="material-symbols-outlined">chevron_left</span>
               </button>
-              <button @click="scrollRight(listImage.id)"
-                class="position-absolute top-50 end-0 translate-middle-y btn btn-outline-dark border-0">
+              <button
+                @click="scrollRight(listImage.id)"
+                class="position-absolute top-50 end-0 translate-middle-y btn btn-outline-dark border-0"
+              >
                 <span class="material-symbols-outlined">chevron_right</span>
               </button>
             </div>
@@ -75,8 +113,11 @@
             <div v-if="bookings.length > 0">
               <div class="d-flex justify-content-end mt-5">
                 <div v-if="bookings[index] !== undefined">
-                  <button v-if="bookings[index].number_rooms > 0" class="btn btn-primary"
-                    @click="openBookingModal(index, listImage)">
+                  <button
+                    v-if="bookings[index].number_rooms > 0"
+                    class="btn btn-primary"
+                    @click="openBookingModal(index, listImage)"
+                  >
                     Booking Rooms
                   </button>
                   <button v-else style="background-color: #bfdbfe" class="btn text-white">
@@ -120,11 +161,10 @@
   </div>
 </template>
 
-
 <script>
 import BookingUserView from '@/views/Web/Booking/BookingUserView.vue'
 import axios from 'axios'
-import ListRoom from './ListRoom.vue';
+import axiosInstance from '@/plugins/axios'
 
 export default {
   name: 'CardDetail',
@@ -150,25 +190,6 @@ export default {
       default: null
     }
   },
-  setup(props) {
-    // Check if selectedImage is defined
-    if (!props.selectedImage) {
-      console.error('selectedImage is not defined');
-    }
-
-    // Safely access properties of selectedImage
-    const selectedImageId = props.selectedImage?.id;
-    if (selectedImageId) {
-      console.log('Selected Image ID:', selectedImageId);
-    } else {
-      console.error('Selected Image ID is not available');
-    }
-
-    return {
-      // Return any reactive variables or methods here
-    };
-  },
-
   components: {
     BookingUserView
   },
@@ -179,18 +200,85 @@ export default {
       selectedImage: null,
       selectedRoomId: null,
       profileImageUrl: '',
-      name: ''
+      name: '',
+      getLike: null
     }
   },
+
   mounted() {
     this.fetchRoomDetails()
     this.getUserProfile()
+    this.fetchGetLikeRoom()
   },
+
   methods: {
+    async fetchGetLikeRoom() {
+      const id = this.$route.params.id
+      try {
+        const response = await axiosInstance.get(`/like/${id}`)
+        this.getLike = response.data
+        console.log('Likes fetched:', this.getLike)
+      } catch (e) {
+        console.error('Error fetching likes:', e)
+      }
+    },
+
+    async fetchPostLikeGuestHouse(roomId) {
+      try {
+        const favorite = {
+          user_id: this.userNormal_id,
+          rooms_id: roomId
+        }
+        const response = await axiosInstance.post('/addLike', favorite)
+        const likeId = response.data.data
+
+        console.log('Like posted:', likeId)
+        return likeId
+      } catch (e) {
+        console.error('Error posting like guesthouse:', e)
+        return null
+      }
+    },
+
+    async removePostLikeGuestHouse(roomId) {
+      try {
+        const likeId = await this.fetchPostLikeGuestHouse(roomId)
+        if (likeId) {
+          const response = await axiosInstance.delete(`/guesthouse/delete/${likeId}`)
+
+          console.log('Like removed:', response.data.data)
+        } else {
+          console.error('Unable to remove like: Like ID not available')
+        }
+      } catch (e) {
+        console.error('Error removing like guesthouse:', e)
+      }
+    },
+
+    toggleFavorite(roomId) {
+      const index = this.ListImages.findIndex((image) => image.id === roomId)
+      if (index !== -1) {
+        this.ListImages[index].isFavorite = !this.ListImages[index].isFavorite
+        if (this.ListImages[index].isFavorite) {
+          this.fetchPostLikeGuestHouse(roomId)
+        } else {
+          this.removePostLikeGuestHouse(roomId)
+        }
+      }
+    },
+
+    toggleUnFavorite(roomId) {
+      const index = this.ListImages.findIndex((image) => image.id === roomId)
+      if (index !== -1) {
+        this.ListImages[index].isFavorite = false
+        this.removePostLikeGuestHouse(roomId)
+      }
+    },
+
     async fetchRoomDetails() {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/api/guest_house/show/1`)
-        if (response.data.meeesager) {
+        if (response.data.message) {
           this.ListImages = response.data.rooms
         } else {
           console.error('No rooms data found in the response')
@@ -199,6 +287,7 @@ export default {
         console.error('Error fetching room details:', error)
       }
     },
+
     async getUserProfile() {
       try {
         const response = await axios.get('http://127.0.0.1:8000/api/user/show/1')
@@ -208,29 +297,32 @@ export default {
         console.error('Error fetching user data:', error)
       }
     },
-    toggleFavorite(index) {
-      this.ListImages[index].isFavorite = !this.ListImages[index].isFavorite
-    },
+
     openBookingModal(index, listImage) {
       this.selectedImage = this.ListImages[index]
       this.selectedRoomId = listImage
       this.showBookingModal = true
       console.log('Opening modal for:', listImage)
     },
+
     closeBookingModal() {
       this.showBookingModal = false
     },
+
     handleFormSubmit(formData) {
       console.log('Form submitted with data:', formData)
       this.closeBookingModal()
     },
+
     getImage(image) {
       return this.urlImage + image.slice(16)
     },
+
     scrollLeft(imageId) {
       const scrollContainer = document.getElementById(`scrollContainer-${imageId}`)
       scrollContainer.scrollBy(-400, 0)
     },
+
     scrollRight(imageId) {
       const scrollContainer = document.getElementById(`scrollContainer-${imageId}`)
       scrollContainer.scrollBy(400, 0)
@@ -272,51 +364,36 @@ export default {
   color: rgb(65, 0, 126);
 }
 
-.heart-button {
-  position: relative;
-  width: 30px;
-  height: 30px;
-  background: transparent;
-  border: none;
+.heart-icon {
+  font-size: 24px;
+  text-align: center;
+  background-color: white;
+  color: black;
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
 }
 
-.heart-button::before,
-.heart-button::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 15px;
-  width: 15px;
-  height: 24px;
-  border-radius: 15px 15px 0 0;
-  background: #ff0000;
-  transform: rotate(-45deg);
-  transform-origin: 0 100%;
+.heart-icon.favorited {
+  color: red;
 }
 
-.heart-button::after {
-  left: 0;
-  transform: rotate(45deg);
-  transform-origin: 100% 100%;
+.text-green-500 {
+  color: green;
 }
 
-.btn-outline-light::before,
-.btn-outline-light::after {
-  background: transparent;
-  border: 2px solid #ffffff;
+.text-red-500 {
+  color: red;
 }
 
-.btn-danger::before,
-.btn-danger::after {
-  background: #ff0000;
-}
-
-.booking {
-  background-color: #06166e;
-}
-
-.bookorganize {
-  background-color: #97004a;
+.text-orange-500 {
+  color: orange;
 }
 </style>
