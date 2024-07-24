@@ -84,6 +84,7 @@ Route::
 
         // Alert when user request account to the admin
         Route::post('start-account', 'RequestAccountServiceController@startAccount')->name('start.account');
+        Route::get('/alert-booking', 'CheckBookingController@alertBooking')->name('alert.booking');
         Route::get('/alert-request', 'ApproveUserController@alertRequest')->name('alert.request');
         Route::post('guestHouses/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');
         Route::post('edit/guestHouses/media', 'GuestHousesController@editStoreMedia')->name('guestHouses.storeMedia.edit');

@@ -47,16 +47,6 @@
         @endcanany
 
 
-        {{-- @canany('Dashboard_service access')
-        <a class="flex items-center mt-4 py-2 px-6 text-color hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.dashboard-room.index') ? 'active' : '' }}" href="{{ route('admin.dashboard-room.index')}}">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13 9V3H21V9H13ZM3 13V3H11V13H3ZM13 21V11H21V21H13ZM3 21V15H11V21H3ZM5 11H9V5H5V11ZM15 19H19V13H15V19ZM15 7H19V5H15V7ZM5 19H9V17H5V19Z" fill="#5F6368" />
-            </svg>
-
-            <span class="mx-3">Dashboard Room</span>
-        </a>
-        @endcanany --}}
-
         @canany('Chat admin')
         <a class="flex items-center mt-4 py-2 px-6 text-color hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('chat.index') ? 'active' : '' }}" href="{{ route('chat.index')}}">
             <span class="inline-flex justify-center items-center">
@@ -81,10 +71,9 @@
         </a>
         @endcanany
 
-        
 
-        
-        
+
+
         @canany('Check_account_request access','Check_account_request add','Check_account_request edit','Check_account_request delete')
         <a class="flex items-center mt-4 py-2 px-6 text-color hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.approve-user.index') ? 'active' : '' }}" href="{{ route('admin.approve-user.index') }}">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

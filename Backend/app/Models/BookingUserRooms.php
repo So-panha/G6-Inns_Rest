@@ -34,12 +34,12 @@ class BookingUserRooms extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(UserNormal::class,'user_id');
     }
 
     public function room()
     {
-        return $this->belongsTo(Room::class);
+        return $this->belongsTo(Room::class,'room_id');
     }
 }
 
