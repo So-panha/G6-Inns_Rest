@@ -11,7 +11,7 @@ use Spatie\MediaLibrary\HasMedia;
 
 class GuestHouse extends Model implements HasMedia
 {
-    use HasFactory,SoftDeletes,InteractsWithMedia;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
 
     public $table = 'guest_houses';
 
@@ -44,8 +44,8 @@ class GuestHouse extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')
-        ->width(1200)
-        ->height(1200);
+            ->width(1200)
+            ->height(1200);
     }
 
 
@@ -71,22 +71,30 @@ class GuestHouse extends Model implements HasMedia
         return $this->getFirstMediaUrl('photos', 'thumb');
     }
 
+
     // --------------------------like-----------------------------
+    public function likeRoom()
+    {
+        return $this->hasMany(LikeGuesthouse::class, 'guestHouse_id');
+    }
+
     public function countLikes()
     {
         return $this->hasMany(Like::class, 'guestHouse_id')->count();
     }
 
-    public function getAllLike(){
+    public function getAllLike()
+    {
         return $this->hasMany(Like::class, 'guestHouse_id');
     }
 
-    public function commentFeedback(){
+    public function commentFeedback()
+    {
         return $this->hasMany(CommentFeedback::class, 'guestHouse_id');
     }
 
-    public function create_by(){
+    public function create_by()
+    {
         return $this->hasMany(User::class, 'created_by_id');
     }
-
 }
