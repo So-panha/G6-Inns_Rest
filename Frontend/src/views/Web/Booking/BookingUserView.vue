@@ -171,4 +171,32 @@ html {
 .image-item img:hover {
   transform: scale(1.1);
 }
+@media screen and (max-width: 767px) {
+  .container {
+    padding-bottom: 20px;
+  }
+
+  .image-gallery {
+    flex-direction: row;
+    padding: 10px;
+  }
+
+  .image-item {
+    margin: 10px 0;
+  }
+
+  .image-item img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .content {
+    width: 90%;
+    padding: 10px;
+  }
+
+  .text-right {
+    text-align: center;
+  }
+}
 </style>

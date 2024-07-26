@@ -3,8 +3,8 @@
   <div>
 
     <div class="container mt-2 mb-10 group_text flex items-center justify-between">
-      <div>
-        <h2 class=" ml-3">Popular Booking</h2>
+      <div class="popular">
+        <h2 class=" ml-3" id="popular">Popular Booking</h2>
         <p class="mb-13 ml-3">Find the Gest House that near your here</p>
       </div>
 
@@ -19,7 +19,7 @@
             </path>
           </svg>
 
-          <input type="text" v-model="searchQuery" placeholder="Search for a house..." @input="searchHouses"
+          <input type="text" id="search" v-model="searchQuery" placeholder="Search for a house..." @input="searchHouses"
             @focus="showSuggestions = true" @blur="hideSuggestions" class="form-control" />
 
           <!-- Auto-complete Suggestions -->
@@ -352,20 +352,45 @@ export default {
   }
 
   .card-item {
-    width: 70%; /* Increased card size */
+    width: 70%;
+    /* Increased card size */
   }
 
   .card-img-top {
-    height: 200px; /* Decreased image height */
+    height: 200px;
+    /* Decreased image height */
     width: 500%;
   }
 
   .card-body {
-    padding: 20px; /* Slightly increased padding for better visual */
+    padding: 20px;
+    /* Slightly increased padding for better visual */
   }
-  img{
+
+  img {
     width: 100%;
     height: 100vh;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .mb-13 {
+    display: none;
+  }
+
+  #popular {
+    display: none;
+  }
+
+  #search {
+    width: 100%;
+    margin-right: 0;
+  }
+  #cards-container {
+    flex-direction: column;
+    height: 80%;
+    width: 145%;
+    justify-items: center;
   }
 }
 </style>

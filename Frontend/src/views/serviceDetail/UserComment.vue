@@ -1,7 +1,7 @@
 <template>
   <div class="container my-6 p-4 ml-2">
     <div class="card" style="width: 100%">
-      <div class="card-body">
+      <div class="card-body" id="card-body">
         <h3 class="card-title text-center">Feedback</h3>
         <p class="card-text text-center">Tell us how we can improve</p>
         <div class="d-flex ml-37">
@@ -13,15 +13,9 @@
         <form class="p-6" @submit.prevent="submitComment">
           <div class="form-group flex">
             <div class="input-group mb-2 ml-32">
-              <input
-                type="text"
-                style="width: 100%; height: 50px; border-radius: 50px"
-                class="form-control bg-white col-10"
-                name="class_name"
-                id="classname"
-                placeholder="Write your message here"
-                v-model="newComment.message"
-              />
+              <input type="text" style="width: 100%; height: 50px; border-radius: 50px"
+                class="form-control bg-white col-8" name="class_name" id="classname"
+                placeholder="Write your message here" v-model="newComment.message" />
               <button type="submit" class="btn text-primary">
                 <span class="material-symbols-outlined fs-1">send</span>
               </button>
@@ -31,51 +25,47 @@
       </div>
     </div>
     <!-- ------------------------------------------------ -->
-  <div class="row mt-10">
-    <div class="col-12 d-flex align-items-start">
-      <button class="btn btn-outline-dark scroll-btn" @click="scrollLeft">
-        <span class="material-symbols-outlined">chevron_left</span>
-      </button>
-      <div class="scroll-container d-flex flex-nowrap  h-40 w-300">
-        <div class="col-md-4" v-for="comment in comments" :key="comment.id">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex align-items-start">
-                <img
-                  :src="comment.profileImageUrl"
-                  class="rounded-circle me-3 h-10 w-10"
-                  :alt="comment.name"
-                />
-                <div>
-                  <div class="d-flex align-items-center">
-                    <h6 class="card-title mb-0 me-2">{{ comment.name }}</h6>
-                    <small>{{ comment.time }}</small>
-                    <div class="dropdown ms-auto " v-if="isCommentOwner(comment)">
-                      <a class="text-dark" id="dropRight" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="material-symbols-outlined ml-20">more_vert</span>
-                      </a>
-                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropRight">
-                        <li>
-                          <a class="dropdown-item" @click="editComment(comment)">Edit</a>
-                        </li>
-                        <li>
-                          <a class="dropdown-item" @click="deleteComment(comment.id)">Delete</a>
-                        </li>
-                      </ul>
+    <div class="row mt-10">
+      <div class="col-12 d-flex align-items-start">
+        <button class="btn btn-outline-dark scroll-btn" @click="scrollLeft">
+          <span class="material-symbols-outlined scroll-left">chevron_left</span>
+        </button>
+        <div class="scroll-container d-flex flex-nowrap  h-40 w-300">
+          <div class="col-md-4" v-for="comment in comments" :key="comment.id" id="card_body">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex align-items-start">
+                  <img :src="comment.profileImageUrl" class="rounded-circle me-3 h-10 w-10" :alt="comment.name" />
+                  <div>
+                    <div class="d-flex align-items-center">
+                      <h6 class="card-title mb-0 me-2">{{ comment.name }}</h6>
+                      <small>{{ comment.time }}</small>
+                      <div class="dropdown ms-auto " v-if="isCommentOwner(comment)">
+                        <a class="text-dark" id="dropRight" data-bs-toggle="dropdown" aria-expanded="false">
+                          <span class="material-symbols-outlined more ml-20">more_vert</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropRight">
+                          <li>
+                            <a class="dropdown-item" @click="editComment(comment)">Edit</a>
+                          </li>
+                          <li>
+                            <a class="dropdown-item" @click="deleteComment(comment.id)">Delete</a>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
+                    <p class="card-text">{{ comment.comment }}</p>
                   </div>
-                  <p class="card-text">{{ comment.comment }}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <button class="btn btn-outline-dark scroll-btn" @click="scrollRight">
+          <span class="material-symbols-outlined scroll-right">chevron_right</span>
+        </button>
       </div>
-      <button class="btn btn-outline-dark scroll-btn" @click="scrollRight">
-        <span class="material-symbols-outlined">chevron_right</span>
-      </button>
     </div>
-  </div>
     <!-- ------------------------------------ -->
   </div>
 </template>
@@ -102,7 +92,7 @@ export default {
     this.fetchComments()
   },
   methods: {
-        scrollLeft() {
+    scrollLeft() {
       const container = this.$el.querySelector('.scroll-container');
       container.scrollBy({ left: -500, behavior: 'smooth' });
     },
@@ -119,9 +109,6 @@ export default {
     deleteComment(commentId) {
       console.log('Delete comment ID:', commentId); // Implement delete comment logic
     },
-  
-
-
 
 
     async getUserProfile() {
@@ -227,8 +214,17 @@ export default {
 }
 </script>
 
-<<<<<<< HEAD
 <style scoped>
+.scroll-container {
+  overflow-x: auto;
+  /* margin: 10%; */
+  width: 100%;
+}
+
+.scroll-btn {
+  white-space: normal;
+}
+
 /* Tablet Styles */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .container {
@@ -236,58 +232,150 @@ export default {
     margin-left: 1rem;
   }
 
+  #card_body {
+    margin-top: -5px;
+    margin-right: 90px;
+  }
+
   .form-control {
-    width: 70%;
-    margin-left: 15%;
+    width: 100%;
   }
 
-  .btn {
-    margin-left: 83%;
-  }
-
-  .profile-img,
-  .comment-img {
+  .rounded-circle {
     height: 50px;
     width: 50px;
   }
-  .card{
+
+  .scroll-container {
+    overflow-x: auto;
+    /* height: 500px; */
     width: 100%;
+  }
+
+  .scroll-btn {
+    white-space: normal;
+  }
+
+  .card {
+    width: 158%;
+  }
+
+  .material-symbols-outlined {
+    margin-left: 10px;
+  }
+
+  .card-text,
+  .card-title,
+  small {
+    font-size: 16px;
+    justify-items: start;
+    align-self: start;
   }
 }
 
 /* Mobile Styles */
 @media screen and (max-width: 767px) {
   .container {
-    padding: 1rem;
-    margin-left: 0;
+    padding: 2rem;
+    margin-left: 1rem;
+  }
+
+  #card_body {
+    margin-top: -5px;
+    margin-right: 90px;
   }
 
   .form-control {
-    width: 90%;
-    margin-left: 5%;
+    width: 100%;
+    height: 500vh;
   }
 
-  .btn {
-    margin-left: 5%;
+  .rounded-circle {
+    height: 30px;
+    width: 30px;
   }
 
-  .profile-img,
-  .comment-img {
-    height: 40px;
-    width: 40px;
+  .scroll-container {
+    overflow-x: auto;
+    height: 90px;
+    width: 400px;
+  }
+
+  .scroll-btn {
+    white-space: normal;
+  }
+
+  .card {
+    width: 158%;
+  }
+
+  .material-symbols-outlined {
+    margin-left: 10px;
+  }
+
+  .card-text,
+  .card-title,
+  small {
+    font-size: 10px;
+    justify-items: start;
+    align-self: start;
+  }
+
+  .ml-37 {
+    margin-left: -0%;
+    margin-left: 15%;
+    justify-items: start;
+  }
+
+  .form-group {
+    display: flex;
+  }
+
+  .input-group {
+    margin-left: 0px;
+  }
+
+  .more {
+    font-size: 14px;
+  }
+
+  .dropdown {
+    width: 10px;
+    height: 30px;
+  }
+
+  ul {
+    height: 60px;
+  }
+
+  .dropdown-item {
+    font-size: 9px;
+  }
+
+  .dropdown {
+    width: 30px;
+  }
+
+  .scroll-btn {
+    height: 30px;
+    width: 30px;
+  }
+
+  .scroll-right {
+    margin-left: -100%;
+    margin-top: -50%;
+  }
+
+  .scroll-left {
+    margin-left: -140%;
+    margin-top: -50%;
+  }
+  #classname{
+    font-size: 10px;
+  }
+  .card,
+  .form-control {
+    border-radius: 15px !important;
   }
 }
 </style>
-=======
-
-<style scoped>
-.scroll-container {
-  overflow-x: auto;
-}
-.scroll-btn {
-  white-space: normal;
-}
-
-/* Add any custom styling here */
-</style>
->>>>>>> d8ea36db03dbaacd9237b411b5c4f6bcd079880e
