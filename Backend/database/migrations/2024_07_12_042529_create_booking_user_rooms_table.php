@@ -16,13 +16,14 @@ return new class extends Migration
             $table->integer('number_of_rooms');
             $table->date('departure_date');
             $table->date('arrival_date');
-            $table->decimal('paymented', 8, 2);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->decimal('paymented', 8, 2);
+            $table->integer('checked')->default(0);
             $table->foreignId('room_id')->constrained()->onDelete('cascade');
             $table->foreignId('create_by_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
-        
+
     }
 
     /**

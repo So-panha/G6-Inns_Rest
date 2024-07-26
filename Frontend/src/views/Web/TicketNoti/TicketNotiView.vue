@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!showTicketView" class="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
+    <div v-if="!showTicketView" class="z-10 fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
       <div class="container mt-5 bg-white p-5 rounded-sm shadow-sm relative w-1/2 max-w-2xl">
         <div class="text-center">
           <h1>Welcome to Inns Rest</h1>
@@ -10,14 +10,14 @@
               <div class="card-body">
                 <div class="flex justify-between items-center">
                   <div>
-                    <p>Home: {{ notification.home }}</p>
-                    <p>Room: {{ notification.room }}</p>
+                    <p>Home: {{ notification.geust_house }}</p>
+                    <p>Room: {{ notification.room_name }}</p>
                   </div>
                   <div class="text-right">
-                    <p>{{ notification.date }}</p>
+                    <p>{{ notification.time }}</p>
                     <button class="btn btn-success mr-3"
                       @click="showTicketView = true; selectedNotification = notification">Detail</button>
-                    <button class="btn btn-danger" @click="deleteNotification(index)">Cancel</button>
+                    <button class="btn btn-danger" @click="deleteNotification(index,notification.id)">Cancel</button>
                   </div>
                 </div>
               </div>
@@ -35,6 +35,10 @@
 
 <script>
 import TicketView from '../Ticket/TicketView.vue';
+import axiosInstance from '@/plugins/axios'
+import { useAuthStore } from '../../../stores/auth-store.ts';
+// Get the auth store to manage user data
+const authStore = useAuthStore();
 
 export default {
   components: {
@@ -42,24 +46,48 @@ export default {
   },
   data() {
     return {
-      notifications: [
-        { home: 'C', room: '160', date: '09-01-2024', Name: 'John Doe', email: 'john.doe@example.com', phone: '123-456-7890', dateFrom: '01-01-2024', dateTo: '01-07-2024', price: '$100' },
-        { home: 'B', room: '210', date: '15-01-2024', Name: 'Jane Doe', email: 'jane.doe@example.com', phone: '098-765-4321', dateFrom: '01-02-2024', dateTo: '01-08-2024', price: '$200' },
-        { home: 'A', room: '230', date: '05-07-2024', Name: 'Sam Smith', email: 'sam.smith@example.com', phone: '111-222-3333', dateFrom: '01-03-2024', dateTo: '01-09-2024', price: '$300' },
-      ],
+      notifications: [],
       showTicketView: false,
       selectedNotification: null,
     };
   },
+  mounted() {
+    this.fetchData()
+  },
   methods: {
-    deleteNotification(index) {
+    deleteNotification(index,ticketId) {
       this.notifications.splice(index, 1);
+      console.log(ticketId);
+      // Delete notification from API or database here
+      axiosInstance.delete(`/cancel-ticket/${ticketId}`)
+       .then(() => {
+          console.log('Notification deleted successfully');
+        })
+       .catch((error) => {
+          console.error('Error deleting notification:', error);
+        });
     },
     closeTicketView() {
       this.showTicketView = false;
       this.selectedNotification = null;
     },
-  },
+    async fetchData() {
+      // Fetch data from API or database here
+      const id = authStore.user.id;
+      try {
+        const response = await axiosInstance.get(`/tickets/${id}`);
+        if (response.status == 200) {
+          this.notifications = response.data.data;
+          console.log(this.notifications);
+        }
+        else {
+          console.error('Error fetching notifications:', response.statusText)
+        }
+      } catch (e) {
+        console.error('Error fetching likes:', e)
+      }
+    },
+  }
 };
 </script>
 

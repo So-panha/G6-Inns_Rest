@@ -3,7 +3,7 @@
 <template>
   <div
     v-show="showProfilePopup"
-    class="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50"
+    class="z-10 fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50"
   >
     <div class="bg-white p-5 rounded-sm shadow-sm relative w-1/2 max-w-2xl">
       <button @click="showEditPopup" class="absolute btn btn-purple top-4 right-2">

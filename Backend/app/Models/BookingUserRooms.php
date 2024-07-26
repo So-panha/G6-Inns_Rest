@@ -26,11 +26,15 @@ class BookingUserRooms extends Model
         return $this->belongsTo(UserNormal::class,'user_id');
     }
 
+    public function userOwner()
+    {
+        return $this->belongsTo(User::class,'create_by_id');
+    }
+
     public function room()
     {
         return $this->belongsTo(Room::class,'room_id');
     }
-
 
     public static function list($params)
     {

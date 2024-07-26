@@ -1,56 +1,56 @@
 <template>
-  <div class="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
+  <div class="z-10 fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
     <div class="container bg-white p-5 rounded-sm shadow-sm relative w-1/2 max-w-2xl">
       <div class="booking-card">
-        <h1 class="text-center">Booking Room</h1>
+        <h1 class="text-center">Room's Ticket</h1>
         <div class="card">
           <div class="card-body">
             <div class="form-group row mb-2" v-if="booking">
-              <label class="col-sm-4 col-form-label">Name:</label>
+              <label class="col-sm-4 col-form-label">Name: </label>
               <div class="col-sm-8">
-                <p class="form-control-plaintext mb-0">{{ booking.Name }}</p>
-              </div>
-            </div>
-            <div class="form-group row mb-2">
-              <label class="col-sm-4 col-form-label">Email:</label>
-              <div class="col-sm-8">
-                <p class="form-control-plaintext mb-0">{{ booking.email }}</p>
-              </div>
-            </div>
-            <div class="form-group row mb-2">
-              <label class="col-sm-4 col-form-label">Phone:</label>
-              <div class="col-sm-8">
-                <p class="form-control-plaintext mb-0">{{ booking.phone }}</p>
+                <p class="form-control-plaintext mb-0">{{ booking.name_user }}</p>
               </div>
             </div>
             <div class="form-group row mb-2">
               <label class="col-sm-4 col-form-label">Home:</label>
               <div class="col-sm-8">
-                <p class="form-control-plaintext mb-0">{{ booking.home }}</p>
+                <p class="form-control-plaintext mb-0">{{ booking.guest_house }}</p>
               </div>
             </div>
             <div class="form-group row mb-2">
               <label class="col-sm-4 col-form-label">Room:</label>
               <div class="col-sm-8">
-                <p class="form-control-plaintext mb-0">{{ booking.room }}</p>
+                <p class="form-control-plaintext mb-0">{{ booking.room_name }}</p>
+              </div>
+            </div>
+            <div class="form-group row mb-2">
+              <label class="col-sm-4 col-form-label">Email Owner:</label>
+              <div class="col-sm-8">
+                <p class="form-control-plaintext mb-0">{{ booking.email_owner }}</p>
+              </div>
+            </div>
+            <div class="form-group row mb-2">
+              <label class="col-sm-4 col-form-label">Phone Owner:</label>
+              <div class="col-sm-8">
+                <p class="form-control-plaintext mb-0">{{ booking.phone_owner }}</p>
               </div>
             </div>
             <div class="form-group row mb-2">
               <label class="col-sm-4 col-form-label">Date From:</label>
               <div class="col-sm-8">
-                <p class="form-control-plaintext mb-0">{{ booking.dateFrom }}</p>
+                <p class="form-control-plaintext mb-0">{{ booking.start_check }}</p>
               </div>
             </div>
             <div class="form-group row mb-2">
               <label class="col-sm-4 col-form-label">Date To:</label>
               <div class="col-sm-8">
-                <p class="form-control-plaintext mb-0">{{ booking.dateTo }}</p>
+                <p class="form-control-plaintext mb-0">{{ booking.check_out }}</p>
               </div>
             </div>
             <div class="form-group row mb-2">
-              <label class="col-sm-4 col-form-label">Price:</label>
+              <label class="col-sm-4 col-form-label">Total:</label>
               <div class="col-sm-8">
-                <p class="form-control-plaintext mb-0">{{ booking.price }}</p>
+                <p class="form-control-plaintext mb-0">{{ booking.Total }}$</p>
               </div>
             </div>
           </div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Api\CommentFeedbackApiController;
+use App\Http\Controllers\api\GetTiketController;
 use App\Http\Controllers\API\GuestHouseApiController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\api\QRCodeController;
@@ -89,3 +90,6 @@ Route::delete('/guesthouse/delete/{id}', [RoomAPIController::class, 'removeLikes
 Route::get('/QR-code/show/{id}', [QRCodeController::class,'show'])->name('showQRCode');
 Route::get('/like/{id}', [GuestHouseApiController::class, 'getlikeRoomFromGuesthouses']);
 Route::get('/isLike/{id}', [GuestHouseApiController::class, 'getLikeUser']);
+
+Route::get('/tickets/{id}', [GetTiketController::class, 'ticketList'])->name('ticketList');
+Route::delete('/cancel-ticket/{id}', [GetTiketController::class, 'cancelTicket'])->name('cancelTicket');

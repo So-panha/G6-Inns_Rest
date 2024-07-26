@@ -20,6 +20,7 @@
         </div>
         <div class="flex items-center space-x-9">
           <div @click="$emit('toggleTicketNotiPopup')">
+            <div  v-if="showTicketNotiPopup" class="w-6 h-6 bg-red-500 relative top-4 left-6 z-10 rounded-full text-center text-white">{{showTicketNotiPopup}}</div>
             <span class="material-symbols-outlined" style="font-size: 35px"> shopping_cart </span>
           </div>
           <div @click="$emit('toggleProfilePopup')">
@@ -33,6 +34,7 @@
 </template>
 <script setup lang="ts">
 import axios from 'axios'
+import axiosInstance from '@/plugins/axios'
 import { defineProps, ref, onMounted } from 'vue'
 import LogoInn from '@/assets/LogoInn.svg'
 import { useAuthStore } from '../../../stores/auth-store.ts'
@@ -45,8 +47,25 @@ interface ProfileData {
 
 const props = defineProps<{
   showProfilePopup: boolean
-  tempInputs: ProfileData
+  tempInputs: ProfileData,
+  showTicketNotiPopup: '',
 }>()
+
+const showTicketNotiPopup = ref(null);
+
+const fetchData = async () => {
+  try {
+    const response = await axiosInstance.get(`/tickets/${authStore.user.id}`);
+    showTicketNotiPopup.value = response.data.data.length;
+    console.log(showTicketNotiPopup.value);
+    
+      
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+  }
+};
+
+fetchData();
 
 const emit = defineEmits<{
   (event: 'toggleEditPopup'): void
