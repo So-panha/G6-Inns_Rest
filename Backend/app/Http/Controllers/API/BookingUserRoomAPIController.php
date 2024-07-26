@@ -18,16 +18,21 @@ class BookingUserRoomAPIController extends Controller
         try {
             $validatedData = $request->validated();
             \Log::info('Validated Data:', $validatedData);
-    
+
             $userExists = \App\Models\UserNormal::find($validatedData['user_id']);
             if (!$userExists) {
                 \Log::error('Invalid user_id:', ['user_id' => $validatedData['user_id']]);
                 return response()->json(['message' => 'The selected user id is invalid.'], 400);
             }
-    
+
             $validatedData['paymented'] = floatval($validatedData['paymented']);
-    
+
             $bookingUserRoom = BookingUserRooms::create($validatedData);
+
+            if($bookingUserRoom){
+                return response()->json(['message' => 1]);
+            }
+            
             \Log::info('Booking User Room Created:', $bookingUserRoom->toArray());
             return response()->json(new GetBookingUserRoomTypeResource($bookingUserRoom), 200);
         } catch (\Exception $e) {
@@ -35,8 +40,8 @@ class BookingUserRoomAPIController extends Controller
             return response()->json(['message' => 'Failed to create booking.'], 500);
         }
     }
-    
-    
+
+
 
     // Search range date
     public function search(Request $request)
@@ -46,10 +51,10 @@ class BookingUserRoomAPIController extends Controller
             'departure_date' => 'required|date',
             'arrival_date' => 'required|date|after_or_equal:departure_date',
         ]);
-    
+
         $startDate = $request->departure_date;
         $endDate = $request->arrival_date;
-    
+
         // Get the bookings and count them grouped by room_id
         $bookings = BookingUserRooms::select(
                 'room_id',
@@ -59,7 +64,7 @@ class BookingUserRoomAPIController extends Controller
             ->whereDate('departure_date', '>=', $startDate)
             ->groupBy('room_id')
             ->get();
-    
+
 
         // // Find rooms that free for booking base on the date that provided by clients
         $roomsCanBooking = [];
@@ -71,27 +76,27 @@ class BookingUserRoomAPIController extends Controller
                     array_push($roomsCanBooking,$roomsRest);
                 }
             };
-    
+
             // // Set data of rooms that can booking base on the research
             foreach($roomsCanBooking as $index => $roomCanBooking){
                 $bookings[$index]->number_rooms = $roomsCanBooking[$index];
             };
-    
+
             return response()->json($bookings);
         }else{
             return response()->json(['success' => false]);
         }
     }
 
-    
+
     public function getAllUser()
     {
 
-        $data = BookingUserRooms::all();    
+        $data = BookingUserRooms::all();
         return $data;
 
     }
-    
+
     /**
      * Display the specified resource.
      */

@@ -90,51 +90,62 @@ class GuestHouseApiController extends Controller
         $comment_feedback = CommentFeedback::where('guestHouse_id', $guestHouse_id)->with('userNormal')->get();
         $comment_feedback = ShowCommentFeedbackResource::collection($comment_feedback);
 
-        return response()->json(['guest_house' => $guestHouse, 'comment_feedback' =>  $comment_feedback], 200);
+        return response()->json(['guest_house' => $guestHouse, 'comment_feedback' => $comment_feedback], 200);
     }
 
     // -----------------like GuestHouse and Room------------------------------
 
-      // -----------------like-------------------------------
+    // -----------------like-------------------------------
 
-      public function getLikeRoomFromGuesthouses($id)
-      {
-          // Fetch all rooms for the given guest house
-          $rooms = Room::where('guest_house_id', $id)->get();
-  
-          // Transform rooms using resource (assuming you have a resource defined)
-          $rooms = GetAllRoomsResoure::collection($rooms);
-  
-          // Fetch likes for these rooms
-          $likes = LikeGuesthouse::whereIn('rooms_id', $rooms->pluck('id'))->get();
-  
-          $countLikes = $likes->count();
-  
-          // Return JSON response with likes and count
-          return response()->json([
-              'likes' => $rooms,
-              'count_likes' => $countLikes
-          ]);
-      }
-  
-      public function countLikesByGuesthouse($guesthouseId)
-      {
-          try {
-              // Retrieve likes count for rooms that belong to a specific guesthouse
-              $likesCount = LikeGuesthouse::whereHas('room', function ($query) use ($guesthouseId) {
-                  $query->where('guesthouse_id', $guesthouseId);
-              })
-                  ->count();
-  
-              return response()->json([
-                  'guesthouse_id' => $guesthouseId,
-                  'likes_count' => $likesCount,
-              ]);
-          } catch (\Exception $e) {
-              return response()->json([
-                  'error' => $e->getMessage()
-              ], 500);
-          }
-      }
- 
+    public function getLikeRoomFromGuesthouses($id)
+    {
+        // Fetch all rooms for the given guest house
+        $rooms = Room::where('guest_house_id', $id)->get();
+
+        // Transform rooms using resource (assuming you have a resource defined)
+        $rooms = GetAllRoomsResoure::collection($rooms);
+
+        // Fetch likes for these rooms
+        $likes = LikeGuesthouse::whereIn('rooms_id', $rooms->pluck('id'))->get();
+
+        $countLikes = $likes->count();
+
+        // Return JSON response with likes and count
+        return response()->json([
+            'likes' => $rooms,
+            'count_likes' => $countLikes
+        ]);
+    }
+
+    public function countLikesByGuesthouse($guesthouseId)
+    {
+        try {
+            // Retrieve likes count for rooms that belong to a specific guesthouse
+            $likesCount = LikeGuesthouse::whereHas('room', function ($query) use ($guesthouseId) {
+                $query->where('guesthouse_id', $guesthouseId);
+            })
+                ->count();
+
+            return response()->json([
+                'guesthouse_id' => $guesthouseId,
+                'likes_count' => $likesCount,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function getLikeUser(string $id)
+    {
+        //
+        $isUserLike = LikeGuesthouse::all()->where('userNormal_id', 1);
+        return response()->json(['meeesager' => true, 'data' => 1]);
+    }
+
+
 }

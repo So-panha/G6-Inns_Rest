@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\GuestHouse;
+use App\Models\QRCode;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -16,12 +17,16 @@ class GuestHousesController extends Controller
     {
         // Get id user
         $user_id = Auth()->user()->id;
+
+        // Check if user has QR Code
+        $QRCode = QRCode::all()->where('user_id', $user_id);
+
         // Get all guesthouses of the user by user_id
         $guestHouses = GuestHouse::all()->where('created_by_id', $user_id);
         $mapGuestHouses = $guestHouses->makeHidden(['active', 'created_at', 'updated_at', 'deleted_at', 'created_by_id', 'photos', 'media']);
         $latitude = $guestHouses->average('latitude');
         $longitude = $guestHouses->average('longitude');
-        return view('guesthouse.index', compact('guestHouses', 'mapGuestHouses', 'latitude', 'longitude'));
+        return view('guesthouse.index', compact('guestHouses', 'mapGuestHouses', 'latitude', 'longitude','QRCode'));
     }
 
     // Store multiple images in file

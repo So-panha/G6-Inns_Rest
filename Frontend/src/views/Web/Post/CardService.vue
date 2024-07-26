@@ -96,7 +96,7 @@
                   <div class="stars-container">
                     <span
                       class="material-symbols-outlined star"
-                      :class="{ 'text-yellow-500': house.likesCount >= 10 }"
+                      :class="{ 'text-yellow-500': house.likesCount >= 1 }"
                     >
                       star
                     </span>
@@ -241,6 +241,7 @@ export default {
       try {
         const response = await axiosInstance.get(`/like/${guesthouseId}`)
         const countLikes = response.data.count_likes
+        console.log(countLikes);
 
         const houseToUpdate = this.houses.find((house) => house.id === guesthouseId)
         if (houseToUpdate) {

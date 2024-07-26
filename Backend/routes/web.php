@@ -68,7 +68,7 @@ require __DIR__ . '/auth.php';
 Route::
         namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
     ->group(function () {
-        
+
         Route::resource('roles', 'RoleController');
         Route::resource('permissions', 'PermissionController');
         Route::resource('users', 'UserController');
@@ -89,6 +89,8 @@ Route::
         Route::get('/list-confirmed-booking', 'CheckBookingController@listConfirmedBooking')->name('list.confirmed.booking');
         Route::post('/leave', 'CheckingRoomController@leaveConfirmed')->name('leave.confirmed.booking');
 
+        // QR Code
+        Route::post('/upload-QR', 'QRCodeController@createQR')->name('upload.QR');
         Route::post('/start-account', 'RequestAccountServiceController@startAccount')->name('start.account');
         Route::get('/alert-request', 'ApproveUserController@alertRequest')->name('alert.request');
         Route::post('guestHouses/media', 'GuestHousesController@storeMedia')->name('guestHouses.storeMedia');

@@ -11,51 +11,26 @@
       <div class="row">
         <div class="col-md-6 mb-3 mt-3">
           <label for="numRooms">Number of rooms user booking</label>
-          <input
-            type="number"
-            class="form-control"
-            id="numRooms"
-            v-model.number="form.numRooms"
-            placeholder="Number Of Rooms"
-          />
+          <input type="number" class="form-control" id="numRooms" v-model.number="form.numRooms"
+            placeholder="Number Of Rooms" />
           <span v-if="errors.numRooms" class="error">{{ errors.numRooms }}</span>
         </div>
         <div class="col-md-6 mb-3 mt-3">
           <label for="price_per_room">Price per Room</label>
-          <input
-            type="number"
-            class="form-control"
-            id="price_per_room"
-            v-model.number="form.price"
-            placeholder="Price"
-            readonly
-          />
+          <input type="number" class="form-control" id="price_per_room" v-model.number="form.price" placeholder="Price"
+            readonly />
           <span v-if="errors.price" class="error">{{ errors.price }}</span>
         </div>
       </div>
       <div class="row">
         <div class="col-md-6 mb-3 mt-3">
           <label for="user">User Name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="user"
-            v-model="form.user_name"
-            placeholder="User Name"
-            readonly
-          />
+          <input type="text" class="form-control" id="user" v-model="form.user_name" placeholder="User Name" readonly />
           <span v-if="errors.user_name" class="error">{{ errors.user_name }}</span>
         </div>
         <div class="col-md-6 mb-3 mt-3">
           <label for="room">Room Name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="room"
-            v-model="form.room_name"
-            placeholder="Room Name"
-            readonly
-          />
+          <input type="text" class="form-control" id="room" v-model="form.room_name" placeholder="Room Name" readonly />
           <span v-if="errors.room_name" class="error">{{ errors.room_name }}</span>
         </div>
       </div>
@@ -189,14 +164,7 @@ const PostBooking = async () => {
 
       if (response.status === 200) {
         console.log('Booking successful:', response.data)
-        router.push({
-          name: 'qrCode',
-          params: {
-            numRooms: form.value.numRooms,
-            departuredate: form.value.departuredate,
-            arrivaldate: form.value.arrivaldate
-          }
-        })
+        router.push({ name: 'qrCode', params: { id: form.value.create_by_id, roomId: form.value.room_id } })
       } else {
         throw new Error('Failed to submit the form')
       }

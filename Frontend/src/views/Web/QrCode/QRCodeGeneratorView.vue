@@ -2,22 +2,15 @@
   <div id="app" class="container mt-5">
     <div class="card shadow-sm">
       <div class="alert alert-success alert-dismissible fade show" role="alert">
-  <strong>Holy guacamole!</strong> You have success with booking .
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
+        <strong>Holy guacamole!</strong> You have success with booking .
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
       <div class="card-body">
-        <h1 class="text-center mb-4">QR Code Generator</h1>
-        <div class="form-group">
-          <label for="qr-data">Enter data for QR code:</label>
-          <input id="qr-data" v-model="data" class="form-control" placeholder="QR" />
-        </div>
-        <div class="text-center">
-          <button @click="generateQRCode" class="btn btn-primary">Generate QR Code</button>
-        </div>
-        <div v-if="qrCodeSrc" class="qr-code-container text-center mt-4">
-          <qrcode-vue :value="qrCodeSrc" :size="200" level="H" />
+        <h1 class="text-center mb-4">Scan To Paid</h1>
+        <div class="qr-code-container text-center mt-4">
+          <img :src="qrCodeUrl" alt="" class="w-full h-full">
           <div class="text-center mt-3">
-            <span>Please, click on button ok to motify you already pay</span><br>
+            <span>Please, click on button ok to motify you already pay</span><br />
             <button @click="showSuccessAlert" class="btn btn-success mt-3">Ok</button>
           </div>
         </div>
@@ -26,44 +19,41 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
-import QrcodeVue from 'qrcode.vue'
-import { useRouter, useRoute } from 'vue-router'
-import Swal from 'sweetalert2'
+<script>
+import axios from 'axios'
 
-export default defineComponent({
-  name: 'qrCode',
-  components: {
-    QrcodeVue
-  },
-  setup() {
-    const data = ref('')
-    const qrCodeSrc = ref('')
-    const router = useRouter()
-    const route = useRoute()
-    const generateQRCode = () => {
-      qrCodeSrc.value = data.value
-    }
-
-    const showSuccessAlert = () => {
-      Swal.fire({
-        icon: 'success',
-        title: 'QR Code Generated Successfully!',
-        text: 'You can now proceed with your payment.'
-      }).then(() => {
-        router.push('/qrCode')
-      })
-    }
-
+export default {
+  data() {
     return {
-      data,
-      qrCodeSrc,
-      generateQRCode,
-      showSuccessAlert
+      qrCodeUrl: ''
+    }
+  },
+  mounted() {
+    this.fetchQRCode()
+  },
+  methods: {
+    fetchQRCode() {
+      axios
+        .get(`http://127.0.0.1:8000/api/QR-code/show/3`)
+        .then((response) => {
+          if (response.data && response.data.QR_code) {
+            console.log(1);
+            let url = response.data.QR_code.qr_codes
+            this.qrCodeUrl = `http://127.0.0.1:8000${url}`;
+          } else {
+            console.error('Error: Invalid response data format')
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching QR code:', error)
+          // Display an error message to the user or take other appropriate action
+        })
+    },
+    showSuccessAlert() {
+      this.$router.push(`/service-detail/${this.$route.params.roomId}`)
     }
   }
-})
+}
 </script>
 
 <style scoped>

@@ -6,9 +6,37 @@
             data-modal-target="open-popup-btn" data-modal-toggle="open-popup-btn">Create
             Branch</button>
     </div>
+
     @include('guestHouse.card')
     @include('guestHouse.create')
     @include('payment.payment_guestHouse')
+
+    <!-- Pop-up QR Modal -->
+    <div class="z-10 fixed inset-0 bg-black bg-opacity-60 hidden flex justify-center items-center" id="detailModal">
+        <div class="bg-white rounded-lg p-10 w-1/5 h-1/2">
+            <div class="flex items-center justify-center">
+                <h2 class="text-xl font-bold">Upload Your QR Code</h2>
+            </div>
+            <form action="{{ route('admin.upload.QR') }}" method="POST" class="h-full" enctype="multipart/form-data">
+                @csrf
+                @method('POST')
+                <div class="w-full h-4/5 mt-2">
+                    <label for="dropzone-file1"
+                        class="flex flex-col justify-center items-center w-full h-72 text-center bg-white border-2 border-gray-300 border-dashed cursor-pointer dark:bg-gray-900 dark:border-gray-700 rounded-xl">
+                        <h2 id="dropzone-text1"
+                            class="absolute font-medium tracking-wide text-gray-700 dark:text-gray-200">
+                            Upload Image Here</h2>
+                        <input id="dropzone-file1" type="file" name="QRCode" class="hidden" required />
+                        <div id="file-preview1" class="w-full h-full"></div>
+                    </label>
+                </div>
+                <div class="w-full flex justify-end mt-4">
+                    <button onclick="closeDetailModal()"
+                        class="px-4 py-2 bg-blue-400 rounded-lg text-end">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script type='text/javascript'
         src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initialize">
@@ -75,7 +103,6 @@
             }
 
         }
-
 
         // Assuming you have a collection of elements with the class 'dateNeedToPaid'
         const dateNeedToPaid = document.querySelectorAll('.dateNeedToPaid');
@@ -186,8 +213,6 @@
             window.location.reload();
         }
 
-
-
         // Script slide
         var swiper = new Swiper(".progress-slide-carousel", {
             loop: true,
@@ -201,7 +226,43 @@
                 type: "progressbar",
             },
         });
+
+
+        // QR Code
+        document.getElementById('dropzone-file1').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/webp'];
+
+            if (file && allowedTypes.includes(file.type)) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewContainer = document.getElementById('file-preview1');
+                    const dropzoneText = document.getElementById('dropzone-text1');
+                    previewContainer.innerHTML =
+                        `<img src="${e.target.result}" alt="File preview" class="w-full h-full border border-gray-300 rounded-lg" style="max-height: 380px; object-fit: cover;" />`;
+                    dropzoneText.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // Display an error message or handle the case where the file is not an image
+                console.error('The selected file is not an image.');
+            }
+        });
+
+        // modal QR
+        const modalQR = document.getElementById('detailModal');
+
+        function closeDetailModal() {
+            console.log(1);
+            modalQR.classList.add('hidden');
+        }
     </script>
+
+    @if ($guestHouses->all() != [] && $QRCode->all() == [])
+    <script>
+        document.getElementById('detailModal').classList.remove('hidden');
+    </script>
+    @endif
 
     {{-- alert when delete branch --}}
     @if (Session::has('message'))
@@ -213,7 +274,7 @@
                 showConfirmButton: false,
                 timer: 1500
             });
-        </script>
+        </>
     @elseif (Session::has('error'))
         <script>
             Swal.fire({
@@ -226,63 +287,3 @@
         </script>
     @endif
 </x-app-layout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-    // Script slide
-    // var swiper = new Swiper(".progress-slide-carousel", {
-    //     loop: true,
-    //     fraction: true,
-    //     autoplay: {
-    //         delay: 4000,
-    //         disableOnInteraction: false,
-    //     },
-    //     pagination: {
-    //         el: ".progress-slide-carousel .swiper-pagination",
-    //         type: "progressbar",
-    //     },
-    // });
-
-    // // Get the popup element
-    // var popup = document.getElementById("popup");
-    // // Get the button that opens the popup
-    // var popupTrigger = document.getElementById("openPopup");
-
-    // // Get the elements that close the popup
-    // var closeButtons = document.getElementsByClassName("close-button");
-    // // When the user clicks the button, open the popup
-    // popupTrigger.onclick = function() {
-    //     popup.style.display = "flex";
-    // };
-    // // When the user clicks on the close button, close the popup
-    // for (var i = 0; i < closeButtons.length; i++) {
-    //     closeButtons[i].onclick = function() {
-    //         popup.style.display = "none";
-    //     };
-    // }
-    // // When the user clicks anywhere outside of the popup, close it
-    // window.onclick = function(event) {
-    //     if (event.target == popup) {
-    //         popup.style.display = "none";
-    //     }
-    // };
-</script>

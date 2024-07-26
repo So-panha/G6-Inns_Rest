@@ -27,7 +27,7 @@ const router = createRouter({
       component: () => import('../views/Admin/Auth/RigisterView.vue')
     },
     {
-      path: '/qrCode',
+      path: '/qrCode/:id/:roomId',
       name: 'qrCode',
       component: () => import('../views/Web/QrCode/QRCodeGeneratorView.vue')
     },

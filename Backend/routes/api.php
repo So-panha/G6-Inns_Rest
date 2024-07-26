@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Api\CommentFeedbackApiController;
 use App\Http\Controllers\API\GuestHouseApiController;
 use App\Http\Controllers\API\PostController;
+use App\Http\Controllers\api\QRCodeController;
 use App\Http\Controllers\API\UserController as APIUserController;
 use App\Http\Controllers\API\RoomAPIController;
 use App\Http\Controllers\API\BookingUserRoomAPIController;
@@ -84,4 +85,7 @@ Route::get('/comment/show/{id}', [CommentFeedbackApiController::class, 'showComm
 // -----------------route add like-------------------------------
 Route::post('/addLike', [RoomAPIController::class, 'addLike']);
 Route::delete('/guesthouse/delete/{id}', [RoomAPIController::class, 'removeLikes']);
+
+Route::get('/QR-code/show/{id}', [QRCodeController::class,'show'])->name('showQRCode');
 Route::get('/like/{id}', [GuestHouseApiController::class, 'getlikeRoomFromGuesthouses']);
+Route::get('/isLike/{id}', [GuestHouseApiController::class, 'getLikeUser']);
