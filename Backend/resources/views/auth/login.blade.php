@@ -22,7 +22,7 @@
               <div class="flex flex-col-reverse sm:flex-row sm:justify-between items-center">
                 <button type="submit" class="bg-blue-500 text-white font-bold px-5 py-2 rounded focus:outline-none shadow hover:bg-blue-700 transition-colors m-auto">Log In</button>
               </div>
-              <a class="text-center" href="{{ route('auth.register.index') }}">Register account</a>
+              <a class="text-center" href="{{ route('auth.register-account.index') }}">Register account</a>
             </div>
           </form>
           <div class="flex justify-center text-gray-500 text-sm">

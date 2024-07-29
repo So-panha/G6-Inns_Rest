@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Http\Livewire\Users;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Mailsetting;
 
+use Livewire\Livewire;
 use Config;
 
 class AppServiceProvider extends ServiceProvider
@@ -42,7 +44,15 @@ class AppServiceProvider extends ServiceProvider
                     ]
                 ];
                 Config::set('mail',$data);
+                Livewire::component('chat.chat-list', \App\Http\Livewire\Chat\ChatList::class);
+                Livewire::component('chat.chat-box', \App\Http\Livewire\Chat\ChatBox::class);
+                Livewire::component('app.http.livewire.users', Users::class);
+
             }
         }
     }
+
+    // app/Providers/AppServiceProvider.php
+
+
 }

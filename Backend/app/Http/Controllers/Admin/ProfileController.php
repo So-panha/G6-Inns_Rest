@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -7,6 +6,7 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Traits\UploadImage;
+use Illuminate\Support\Facades\Storage;
 
 
 class ProfileController extends Controller
@@ -18,7 +18,10 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    function __construct()
+
+
+
+     function __construct()
     {
 
     }
@@ -34,7 +37,6 @@ class ProfileController extends Controller
         return view('setting.profile',['user'=>$user]);
     }
 
-
     public function update(Request $request)
     {
         $user = auth()->user();
@@ -42,20 +44,20 @@ class ProfileController extends Controller
         $validated = $request->validate([
             'name'=>'required',
             'email' => 'required|email|unique:users,email,'.$user->id.',id',
+            'phone_number' => 'required|string|unique:users,phone_number,'.$user->id.',id',
         ]);
-
 
 
         if($request->password != null){
             $request->validate([
-                'password' => 'required|confirmed'
+                'passwo``rd' => 'required|confirmed'
             ]);
             $validated['password'] = bcrypt($request->password);
         }
 
         if($request->hasFile('profile')){
             if($name = $this->saveImage($request->profile)){
-                $validated['profile'] = $name;
+                $validated['profile'] = '/images/' .$name;
             }
         }
 

@@ -72,8 +72,8 @@
 
                                 <div class="flex flex-col space-y-2 mt-3">
                                     <label for="email" class="text-gray-700 select-none font-medium">Phone</label>
-                                    <input id="email" type="text" name="email"
-                                        value="{{ old('email', $user->email) }}" placeholder="Enter email"
+                                    <input id="email" type="text" name="phone_number"
+                                        value="{{ old('phone_number', $user->phone_number) }}" placeholder="Enter Phone Number"
                                         class="bg-input px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-200" />
                                 </div>
 
@@ -97,7 +97,7 @@
         function imageData() {
             var files = document.getElementById("thumbnailprev").files;
             if (files.length == 0) {
-                var url = '/images/' + {!! json_encode($user->profile) !!};
+                var url =  {!! json_encode($user->profile) !!};
             } else {
                 url = '';
             }

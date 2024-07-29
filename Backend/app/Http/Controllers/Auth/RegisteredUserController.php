@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
+use App\Models\UserNormal;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Spatie\Permission\Models\Role;
+
 
 class RegisteredUserController extends Controller
 {
@@ -32,35 +29,24 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+
+    public function registerUser(Request $request): JsonResponse
     {
-        try {
-            $request->validate([
-                'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'confirmed'],
-            ]);
+        // Validation code...
 
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'profile' => $request->profile,
-                'password' => Hash::make($request->password),
-            ]);
+        $user = UserNormal::create([
+            'name'      => $request->name,
+            'email'     => $request->email,
+            'password'  => Hash::make($request->password),
+            'phoneNumber' => $request->phoneNumber,
+        ]);
 
-            // Set role user
-            $roles = Role::all();
-            $user->syncRoles($roles[1]->id);
+        $token = $user->createToken('auth_token')->plainTextToken;
 
-            // Set specific permissions to the user
-            $user->givePermissionTo(['Role access', 'Role edit', 'Role create', 'Role delete']);
-
-            // Switch to the account auto
-            event(new Registered($user));
-            Auth::login($user);
-            return redirect(RouteServiceProvider::ADMIN_HOME);
-        } catch (\Throwable $th) {
-            return back()->with('message', 'Your password is not match please try again');
-        }
+        return response()->json([
+            'message'       => 'Register success',
+            'access_token'  => $token,
+            'token_type'    => 'Bearer'
+        ]);
     }
 }
